@@ -136,7 +136,7 @@ $(document).ready(function() {
 		// callbacks for click events for buttons Add, Show, Edit, Reset, and Delete have to be loaded
 		// once we click on tab buttons because Add, Show, Edit, Reset, and Delete buttons are dynamically
 		// loaded
-		$("#cplusplus_tab,#linux_tab,#dockers_tab,#nodejs_tab").on('click', (event) => {
+		$("#cplusplus_tab,#linux_tab,#dockers_tab,#nodejs_tab,#nosql_tab,#rest_tab,#rabbitmq_tab,#aws_tab").on('click', (event) => {
 		
 			console.log(event.target.id);
 
@@ -149,7 +149,9 @@ $(document).ready(function() {
 						url: '/getPage',
 						type: 'GET',
 						data: 'subject=' + subject[0],
-						success: technology_info_display_cb
+						success: (topic_description_table) => {
+							technology_info_display_cb(topic_description_table, subject[0])
+						}
 		
 					});
 			

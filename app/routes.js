@@ -80,42 +80,23 @@ module.exports = function(app, passport) {
 	// for getting topic's description search mongo's db database
 	app.get('/description', (request, response) => {
     	response.set({'Content-Type' : 'text/html'})
-    	//response.end('Tech Reference for you')
 
 	    console.log('get description')
     	var jobj = JSON.parse(request.query.data);
 	    var topic = decodeURIComponent(jobj.topic);
 
-	    console.log('topic: ' + topic)
+	    //console.log('topic: ' + topic)
     	MongoClient.connect(dburl, function(err, db) {
 	    if(err) { throw err;  }
     	var collection = db.collection('cplusplus');
 
-	    db.collection("cplusplus").find({}, { _id: false, topic: true, description: true }).toArray(function(err, result) {
-
-    	    if (err) throw err;
-
-        	var recordFound = false;
-	        var description;
-    	    result.forEach(function(table) {
-        	    var tableName = table.topic;
-            	console.log(tableName);
-	            if(tableName == topic) {
-    	            description = table.description;
-        	        recordFound = true;
-            	    return false;
-	            }
-    	    });
-
-        	if(recordFound == true) {
-            	response.end(description);
-	        }
-
-    	});
+		collection.findOne({'topic': topic}, function(err, item) {
+			//console.log(item.description)
+            response.end(item.description);
+    	})
 
     	});
 	});
-
 
 	// for getting topic's description search mongo's db database
 	// search specifically in collection whose name is given by topic param
@@ -132,9 +113,7 @@ module.exports = function(app, passport) {
     	// connect to mongo database with name 'db'
 	    MongoClient.connect(dburl, function(err, db) {
     	    if(err) { throw err;  }
-        	console.log('before');
 	        var collection = db.collection(subject);
-    	    console.log('after');
 
         	db.listCollections({name: subject})
             	        .next(function(err, collection_info) {
@@ -195,7 +174,7 @@ module.exports = function(app, passport) {
             	var recordFound = false;
 	            result.forEach(function(table) {
     	            var tableName = table.topic;
-        	        //console.log(tableName);
+        	        console.log(tableName);
             	    if(tableName == topic) {
                 	    console.log('will delete ' + tableName);
                     	db.collection("cplusplus").deleteOne({"topic" : tableName}, function(err, obj) {
@@ -266,14 +245,19 @@ module.exports = function(app, passport) {
         	    if(recordFound == true) {
             	    if(overwrite == "true")
                 	{
-	                    console.log('overwriting');
-    	                console.log('idRecordFound : ' + idRecordFound + ' topic: ' + jobj.topic + ' description: ' + jobj.description);
-        	            if(idRecordFound == '')
-            	        return false;
-                	    var objOverwrite = {_id:idRecordFound, topic:jobj.topic, description:jobj.description};
-                    	console.log('creating record');
-	                    //collection.save({_id:idRecordFound}, objOverwrite);
-    	                collection.update({'_id':idRecordFound},{$set:{topic:jobj.topic, description:jobj.description}},{upsert:true})
+						try {
+	                    	console.log('overwriting');
+	    	                console.log('idRecordFound : ' + idRecordFound + ' topic: ' + jobj.topic + ' description: ' + jobj.description);
+    	    	            if(idRecordFound == '')
+        		    	        return false;
+                		    var objOverwrite = {_id:idRecordFound, topic:jobj.topic, description:jobj.description};
+                    		console.log('creating record');
+	                    	//collection.save({_id:idRecordFound}, objOverwrite);
+	    	                collection.update({'_id':idRecordFound},{$set:{topic:jobj.topic, description:jobj.description}},{upsert:true})
+						}
+						catch(excep) {
+							console.log(excep)
+						}
             	    	response.end('overwritten')
         	        }
             	    else

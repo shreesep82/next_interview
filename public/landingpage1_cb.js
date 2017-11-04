@@ -1,5 +1,5 @@
 
-
+/*
 function reset_cb()
 {			   
 	console.log('reset');
@@ -12,11 +12,13 @@ function reset_cb()
 	
 }
 
+
 function edit_cb()
 {
 	$("#topic").prop('readonly', false)
 	$("#description_box").prop('readonly', false)
 }
+*/
 
 function add_new_topic_cb(add_result, description_box_id) {
 	
@@ -47,6 +49,7 @@ function add_new_topic_cb(add_result, description_box_id) {
 	}
 
 }
+
 
 function Add_cb()
 {
@@ -84,6 +87,8 @@ function Add_cb()
 			);
 }
 
+
+
 function show_description_cb(result, description_box_id) {
 
 	result = result.replace(/\<br>/g, "\r\n");
@@ -94,6 +99,7 @@ function show_description_cb(result, description_box_id) {
 	
 }
 
+/*
 function convert_topic_to_db_format(selected_topic) {
 	selected_topic = selected_topic.replace(/\_/g, ' ')
 	return selected_topic;
@@ -109,54 +115,28 @@ function get_selected_topic() {
 	return selected_topic;
 	
 }
+*/
 
 function show_cb()
-{
-	//input[type=radio][name=baz]:checked
-	var selected_topic = $(this).attr("id");
-	//console.log(selected_topic)
-	
-	// show selected topic on topic field
-	var tmp_selected_topic = selected_topic;
-	tmp_selected_topic = tmp_selected_topic.split('_');
-	
-	selected_topic = ""
-	tmp_selected_topic.forEach(function(elem, index) {
-		if(index != tmp_selected_topic.length - 1) {
-			if(index == 0) {
-				selected_topic = tmp_selected_topic[0]
-			}
-			else {
-				selected_topic = selected_topic + " " + tmp_selected_topic[index]
-			}
-		}
-	});
+{	
+	var selected_topic = getTopicName($(this).attr("id"))
+	// getTopicName gives value with underscores. Replace that with empty space now
+	selected_topic = selected_topic.replace(/_/g, " ")
 	
 	console.log(selected_topic)
 		
-
-	var description_box_id = $(this).attr("id")
-	var tmp_description_box_id = description_box_id.split('_');
-	
-	description_box_id = ""
-	tmp_description_box_id.forEach(function(elem, index) {
-		if(index != tmp_description_box_id.length - 1) {
-			if(index == 0) {
-				description_box_id = tmp_description_box_id[0]
-			}
-			else {
-				description_box_id = description_box_id + "_" + tmp_description_box_id[index]
-			}
-		}
-	});
-	
-	var description_tr_id = description_box_id + "_tr"
+	var description_tr_id = getTopicName($(this).attr("id")) + "_tr"
 	console.log(description_tr_id)
 	$('#' + description_tr_id).show()
 	
-	description_box_id = description_box_id + "_text"
+	
+    
+
+	var description_box_id = getTopicName($(this).attr("id")) + "_text"
 	console.log(description_box_id)
-	//$("#" + description_tr_id).css("display", "");
+	
+	//$('#' + description_box_id).scrollTop($('#' + description_box_id)[0].scrollHeight);
+	$('#' + description_box_id).scrollTop(0);
 	
 	var data=encodeURI('data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"}')
 	console.log(data)
@@ -172,87 +152,65 @@ function show_cb()
 
 }
 
+/*
 function convert_from_db_to_display_format(selected_topic) {
 	selected_topic = selected_topic.replace(" ", "_");
 	return selected_topic; 
 }
+*/
 
-function delete_topic_cb(result) {
-	
-	//console.log(result)
-	var rowid = get_selected_topic();
+function delete_topic_cb(id) {
+
+	var rowid = getTopicName(id) + "_tr";
 	rowid = convert_from_db_to_display_format(rowid)
 	console.log(rowid)
-	$('#' + rowid).remove();
+	$('#inheritance_with_different_access_specifiers_editsave_tr').remove();
 	
 	$("#topic").val("");
 	$("#description_box").val("");
 }
 
+
 function del_cb()
 {
-	var selected_topic = get_selected_topic();
-	
-	selected_topic = convert_topic_to_db_format(selected_topic);
-	//console.log(selected_topic)
+	var selected_topic = getTopicName($(this).attr("id"));
+	selected_topic = selected_topic.replace(/_/g, " ")
 	
 	var data=encodeURI('data={"topic": ' + '"' + encodeURIComponent(selected_topic) + '"' + '}')
 	$.ajax({
 		url: '/delete',
 		type: 'DELETE',
 		data: data,
-		success: delete_topic_cb
+		success: () => {
+			delete_topic_cb($(this).attr("id"))
+		}
 	});
 
 }
+
 
 function hide_cb()
 {
-	var selected_topic = $(this).attr("id")
-	var tmp_tr_id = selected_topic.split('_');
+	var topic_name = getTopicName($(this).attr("id"))
+	var description_box_id = topic_name + "_text"
+	$("#" + description_box_id).prop("readonly", true)
 	
-	var tr_id = ""
-	tmp_tr_id.forEach(function(elem, index) {
-		if(index != tmp_tr_id.length - 1) {
-			if(index == 0) {
-				tr_id = tmp_tr_id[0]
-			}
-			else {
-				tr_id = tr_id + "_" + tmp_tr_id[index]
-			}
-		}
-	});
-
-	tr_id = tr_id + "_tr"
+	var tr_id = topic_name + "_tr" 
 	console.log(tr_id)
 	$('#' + tr_id).hide()
-	
 }
 
 function save_description(selected_topic)
-{
-	var tmp_selected_topic = selected_topic.split('_');
+{	
+	description_id = getTopicName(selected_topic) + "_text"
+	console.log(description_id)
 	
-	var topic = ""
-	var description_id = ""
-	tmp_selected_topic.forEach(function(elem, index) {
-		if(index != tmp_selected_topic.length - 1) {
-			if(index == 0) {
-				topic = tmp_selected_topic[0]
-				description_id = tmp_selected_topic[0]
-			}
-			else {
-				topic = topic + " " + tmp_selected_topic[index]
-				description_id = description_id + "_" + tmp_selected_topic[index]
-			}
-		}
-	});
-	
-	description_id = description_id + "_text"
 	var description = $("#" + description_id).val()
+	console.log('description: ' + description)
 	
+	var tmp_topic = getTopicName(selected_topic);
+	tmp_topic = tmp_topic.replace(/_/g, " ")
 	
-	var tmp_topic = topic;
 	var tmp_description = description
 
 	if((tmp_topic.indexOf('\'') > -1))
@@ -260,7 +218,7 @@ function save_description(selected_topic)
 		return;
 	}
 
-	topic = tmp_topic.replace(/"/g, '\\"');
+	var topic = tmp_topic.replace(/"/g, '\\"');
 	description = tmp_description.replace(/"/g, '\\"');
 
 	topic = topic.replace(/(?:\r\n|\r|\n)/g, '<br>');
@@ -280,41 +238,46 @@ function save_description(selected_topic)
 
 }
 
-function edit_save_cb()
-{	
-	var selected_topic = $(this).attr("id")
-	var tmp_description_id = selected_topic.split('_');
+function getTopicName(selected_topic) {
+
+	var tmp_id = selected_topic.split('_');
 	
-	var description_id = ""
-	tmp_description_id.forEach(function(elem, index) {
-		if(index != tmp_description_id.length - 1) {
+	var id = ""
+	tmp_id.forEach(function(elem, index) {
+		if(index != tmp_id.length - 1) {
 			if(index == 0) {
-				description_id = tmp_description_id[0]
+				id = tmp_id[0]
 			}
 			else {
-				description_id = description_id + "_" + tmp_description_id[index]
+				id = id + "_" + tmp_id[index]
 			}
 		}
 	});
+	
+	return id;
+}
 
-	description_id = description_id + "_text"
+function edit_save_cb()
+{
+	var description_id = getTopicName($(this).attr("id")) + "_text"
+	//description_id = description_id + "_text"
 	console.log(description_id)
 
 	console.log($("#" + description_id).prop('readonly'))
 	
 	if(! $("#" + description_id).prop('readonly')) {
 		console.log('not readonly. Can save now')
-		save_description(selected_topic, description_id)
+		save_description($(this).attr("id"), description_id)
 	}
 	
 	$("#" + description_id).prop('readonly', false)
 }
 
-function technology_info_display_cb(topic_description_table) {
+function technology_info_display_cb(topic_description_table, subject) {
 							
 	if(topic_description_table == "no_collection")
 	{
-		$("#subject_topic").html('<font color="c0c0c0">Collection ' + 'does not exist in mongo');
+		$("#subject_topic").html('<font color="c0c0c0">Collection ' + subject + ' does not exist in mongo');
 		return;
 	}
 						
@@ -397,6 +360,13 @@ function technology_info_display_cb(topic_description_table) {
 		topic_column += edit_save_id
 		topic_column += '\''
 		topic_column += '>Edit/Save</button>'
+		
+		topic_column += '				<button type="button" class="btn btn-outline-primary btn-transparent" id='
+		topic_column += '\''
+		var delete_id = tmptopic + "_delete"
+		topic_column += delete_id
+		topic_column += '\''
+		topic_column += '>Delete</button>'
 		topic_column += '</div>'
 		
 		
@@ -453,19 +423,27 @@ function technology_info_display_cb(topic_description_table) {
 			console.log(edit_save);
 			$("#" + edit_save).on('click', edit_save_cb);
 			
+			/*
+			var del = row.topic;
+			del = del.replace(/ /g,'_');
+			del = del + "_delete"
+			console.log(del);
+			$("#" + del).on('click', del_cb);
+			*/
+			
 		}
 		catch(except) {
 							
 		}
 	});
-						
+				
 	// now that we have a new html content from server,
 	// let's add some event handlers corresponding to that content
-	$("#edit").on('click', edit_cb);
-	$("#Add").on('click', Add_cb);
+	//$("#edit").on('click', edit_cb);
+	//$("#Add").on('click', Add_cb);
 	//$("#show").on('click', show_cb);
-	$("#Reset").on('click', reset_cb);
-	$("#del").on('click', del_cb);
+	//$("#Reset").on('click', reset_cb);
+	//$("#del").on('click', del_cb);
 						
 }
 
