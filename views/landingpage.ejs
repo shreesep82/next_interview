@@ -1,0 +1,162 @@
+<html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="landingpage1_cb.js"></script>
+	
+	
+<head>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audimat">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">	  
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fontin-Sans">
+	
+
+	
+</head>
+
+	<style>
+		#draggable { width: 750px; height: 750px; padding: 0.5em; }
+		textarea { background-color: c0c0f0 }
+		
+		h1 {
+		     font-family: 'Josefin', slab;
+		     font-size: 48px;
+		     text-shadow: 2px 2px 2px #aaa;
+		}
+		
+		h5 {
+		     font-family: 'Josefin', slab;
+		     font-size: 14px;
+		     
+		}
+		
+		.a1 {
+			  font-family: 'Anivers';
+		     font-size: 18px;
+		     text-shadow: 2px 2px 2px #aaa;
+			 color: c0c0f0
+			  
+		}
+		
+		.a_topic {
+			  font-family: 'Anivers';
+		     font-size: 16px;
+		     text-shadow: 1px 1px 1px #aaa;
+			 color: FFD700
+			  
+		}
+		
+		tr.spaceUnder>td {
+			padding-bottom: 2em;
+		}
+		
+		tr.spaceUnder1>td {
+			padding-bottom: 0.4em;
+		}
+		
+		.textarea_nodrag {
+			resize: none;
+		}
+		
+		.btn-transparent {
+			background: transparent;
+		    color: #c0c0c0;
+		    -webkit-transition: background .2s ease-in-out, border .2s ease-in-out;
+		    -moz-transition: background .2s ease-in-out, border .2s ease-in-out;
+		    -o-transition: background .2s ease-in-out, border .2s ease-in-out;
+			transition: background .2s ease-in-out, border .2s ease-in-out;
+			border: 1px solid #c0c0f0;
+		}
+
+	    .btn-transparent:hover {
+	        color: black;
+	        background-color: c0c0e0;
+		}
+		
+	</style>
+  
+<body style="background-color:#1F1F1F">
+		
+		
+<div class="container">
+	<table class="table">
+	<tr>
+    <h1 id=techr><font color="#c0c0c0">Tech Reference for next interview</font></h1>
+	<tr>
+	 <h5 class="text-warning"><i>&nbsp;&nbsp;Attending tens of interviews makes us gain experience. But, also we can refer these topics before
+	 we head to interviews</i></h5>
+	</table>
+
+
+  <ul class="nav nav-pills">
+	<li><a class="a1" data-toggle="tab" href="#cplusplus" id=cplusplus_tab>
+		&nbsp;C++</a></li>
+    <li><a class="a1" data-toggle="tab" href="#linux" id=linux_tab>Linux</a></li>
+    <li><a class="a1"data-toggle="tab" href="#dockers" id=dockers_tab>Dockers</a></li>
+    <li><a class="a1" data-toggle="tab" href="#nodejs" id=nodejs_tab>Nodejs</a></li>
+	<li><a class="a1" data-toggle="tab" href="#nosql" id=nosql_tab>NoSql DB</a></li>
+    <li><a class="a1" data-toggle="tab" href="#rest" id=rest_tab>Rest Service</a></li>
+    <li><a class="a1" data-toggle="tab" href="#rabbitmq" id=rabbitmq_tab>RabbitMQ</a></li>
+    <li><a class="a1" data-toggle="tab" href="#aws" id=aws_tab>AWS</a></li>
+  </ul>
+
+  <div class="tab-content">
+	<br>
+	<div>
+		
+    <div id="subject_topic" class="tab-pane fade in active">
+      
+    </div>
+	</di>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+
+<script>
+	
+
+$(document).ready(function() {
+		console.log('hello')
+		  
+		// callbacks for click events for buttons Add, Show, Edit, Reset, and Delete have to be loaded
+		// once we click on tab buttons because Add, Show, Edit, Reset, and Delete buttons are dynamically
+		// loaded
+		$("#cplusplus_tab,#linux_tab,#dockers_tab,#nodejs_tab").on('click', (event) => {
+		
+			console.log(event.target.id);
+
+			var subject = event.target.id;
+			subject = subject.split('_');
+			console.log(subject[0]);
+			
+
+			$.ajax({
+						url: '/getPage',
+						type: 'GET',
+						data: 'subject=' + subject[0],
+						success: technology_info_display_cb
+		
+					});
+			
+			});	 
+
+});
+
+</script>
+
+ 
