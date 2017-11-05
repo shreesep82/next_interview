@@ -165,32 +165,36 @@ module.exports = function(app, passport) {
 
 			var topic = decodeURIComponent(jobj.topic);
         	console.log('topic: ' + topic);
-	        db.collection("cplusplus").find({}, { _id: false, topic: true, description: true }).toArray(function(err, result) {
+	        db.collection("cplusplus").find({}, { _id: false, topic: true }).toArray(function(err, result) {
 
     	        if (err) throw err;
 
         	    //console.log('find result: ' + JSON.stringify(result));
 
-            	var recordFound = false;
 	            result.forEach(function(table) {
     	            var tableName = table.topic;
         	        console.log(tableName);
             	    if(tableName == topic) {
                 	    console.log('will delete ' + tableName);
-                    	db.collection("cplusplus").deleteOne({"topic" : tableName}, function(err, obj) {
-	                        if (err) throw err;
-    	                });
-                    	recordFound = true;
-                	    console.log('deletion succeeded');
-	                    return false; 
+							try {
+    	                		db.collection('cplusplus').remove({"topic" : tableName}, function(err, obj) {
+			                        if (err) {
+										console.log('deleteOne error: ' + err)
+										return;
+									}
+
+			                	    console.log('deletion succeeded');
+    	            				response.end('deleted');
+
+								});
+							}
+							catch(excep) {
+								console.log('deleteOne: ' + excep)
+							}
     	            }
         	    });
 
 
-	            if(recordFound == true) {
-                	console.log('deleted');
-    	            response.end('deleted');
-        	    }
         	});
 
     	});
