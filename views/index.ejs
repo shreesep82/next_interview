@@ -1,34 +1,232 @@
+
 <!-- views/index.ejs -->
 <!doctype html>
 <html>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <head>
     <title>Node Authentication</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <style>
-        body        { padding-top:80px; }
+        h1 {
+		     font-family: 'Josefin', slab;
+		     font-size: 48px;
+		     text-shadow: 2px 2px 2px #aaa;
+		}
+		
+		h5 {
+		     font-family: 'Josefin', slab;
+		     font-size: 14px;
+		     
+		}
+		
+		tr.spaceUnder1>td {
+			padding-bottom: 1.2em
+		}
+		
+		.column {
+
+			padding-bottom: 56.0em
+		}
+		
+		.column1 {
+
+			padding-top: 1.0em
+		}
+		
+		.logo {
+		     font-family: 'Josefin', slab;
+		     font-size: 24px;
+			 font-color: FFD700
+		     text-shadow: 2px 2px 2px #aaa;
+			 color: #93DC69
+		}
+		
+		.logo1 {
+		     font-family: 'Josefin', slab;
+		     font-size: 24px;
+			 font-color: FFD700
+		     text-shadow: 2px 2px 2px #aaa;
+			 color: #93DC69
+		}
+		
     </style>
+	
+	
 </head>
 <body style="background-color:#1F1F1F">
 <div class="container">
 
-	<table class="table">
-	<tr>
-    <h1 id=techr><font color="#c0c0c0">Tech Reference for next interview</font></h1>
-	<tr>
-	 <h5 class="text-warning"><i>&nbsp;&nbsp;Attending tens of interviews makes us gain experience. But, also we can refer these topics before
-	 we head to interviews</i></h5>
+	<table class="" height=20% width=100%>
+		<tr class="" >
+			
+			<td width=80%>
+				<table class="" width=90%>
+					<tr>
+						<td>
+							<h1 id=techr><font color="#c0c0c0">Tech Reference for next interview</font></h1>
+						</td>
+						<td>
+						<table class="table-bordered" width=100%>
+						<td bgcolor= #fcffe1  >
+							<font class=logo1>&nbsp;&#9805;&nbsp;</font>
+						</td>
+
+						</tr>
+						</table>
+						</td>
+					</tr>
+				
+					<tr >
+						<td >
+							<h5 class="text-warning">
+								<i>&nbsp;&nbsp;Attending tens of interviews makes us gain experience. But, also we can refer these topics before
+									we head to interviews
+								</i>
+							</h5>		
+						</td>
+						
+					</tr>
+				</table>
+			</td>
+
+			<td valign=top rowspan=2>
+
+				<table id=login_signup_table class="table-condensed" >
+					<tr class="spaceUnder1">
+						<td align=center>
+							<a  class="btn btn-link" id=login_tab><span class="fa fa-user "></span> Login</a>
+							<a  class="btn btn-primary btn-link" id=signup_tab><span class="fa fa-user"></span> Signup</a>					
+						</td>
+					</tr>					
+					<tr class="spaceUnder1">
+						<td>
+							    <% if (message.length > 0) { %>
+									<div class="alert alert-success"><%= message %>
+										
+									</div>
+								<% } %>
+								
+							<form action="/login" method="post">
+							<table id=login_table style="background-color:#000000;" class="table table-bordered">
+								<tr class="spaceUnder1">
+									<td>
+										<input type=text class="form-control col-lg-3" size=40 placeholder=Email id=login_email name=login_email>			
+									</td>
+								</tr>
+					
+								<tr class="spaceUnder1">
+									<td>
+										<input type=password class="form-control col-lg-3" size=40 placeholder=Password id=login_password name=login_password>			
+									</td>
+								</tr>
+							
+								<tr class="spaceUnder1">
+									<td align=right>
+										<!--a class="btn btn-warning" id=login>Login</a-->
+										<button type=submit class="button">Login</button>
+									</td>
+								</tr>
+							</table>
+							</form>
+							
+							<form action="/signup" method="post">
+							<table id=signup_table style="display:none;background-color:#000000;" class="table table-bordered">
+								<tr class="spaceUnder1">
+									<td>
+										<input type=text class="form-control col-lg-3" size=40 placeholder=Email id=signup_email name=signup_email>			
+									</td>
+								</tr>
+					
+								<tr class="spaceUnder1">
+									<td>
+										<input type=password class="form-control col-lg-3" size=40 placeholder=Password id=signup_password name=signup_password>			
+									</td>
+								</tr>
+							
+								<tr class="spaceUnder1">
+									<td>
+										<input type=text class="form-control col-lg-3" size=40 placeholder=Mobile id=signup_mobile name=signup_mobile>			
+									</td>
+								</tr>
+								
+								<tr class="spaceUnder1">
+									<td align=right>
+										<!--a class="btn btn-warning" id=login>Login</a-->
+										<button type=submit class="button">Signup</button>
+									</td>
+								</tr>
+							</table>
+							</form>
+							
+						</td>
+					</tr>
+				</table>
+				
+			</td>
+		</tr>
+		<tr>
+			<td class="text-justify" >
+				<table width=80% >
+					<tr>
+						<td valign=top class=>
+							<p class="text-top text-primary ">
+								Interview A vampire named Louis tells his 200-year-long life story to a reporter referred to simply as "the boy" (the character's name is revealed to be Daniel Molloy in The Queen of the Damned). In 1791, Louis is a young indigo plantation owner living south of New Orleans. Distraught by the death of his pious brother, he seeks death in any way possible. Louis is approached by a vampire named Lestat de Lioncourt, who desires Louis' company. Lestat turns Louis into a vampire and the two become immortal companions. Lestat spends time feeding off the local plantation slaves while Louis, who finds it morally repugnant to murder humans to survive, feeds from animals. Louis and Lestat are forced to leave when Louis' slaves begin to fear the monsters with which they live and instigate an uprising. Louis sets his own plantation aflame; he and Lestat exterminate the plantation slaves to keep word from spreading about vampires living in Louisiana. Gradually, Louis bends under Lestat's influence and begins feeding from humans. He slowly comes to terms with his vampire nature, but also becomes increasingly repulsed by what he perceives as Lestat's total lack of compassion for the humans he preys upon.
+							</p>
+							<p class="text-top text-primary ">
+								Escaping to New Orleans, Louis feeds off a plague-ridden, 5-year-old girl, whom he finds next to the corpse of her mother. Louis begins to think of leaving Lestat and going his own way. Fearing this, Lestat then turns the girl into a vampire "daughter" for them, to give Louis a reason to stay. She is then given the name Claudia. Louis is initially horrified that Lestat has turned a child into a vampire, but soon begins to care for Claudia. Claudia takes to killing easily, but she begins to realize over time she can never grow up; her mind matures into that of an intelligent, assertive woman, but her body remains that of a young girl. Claudia blames Lestat for her condition and, after 60 years of living with him, she hatches a plot to kill Lestat by poisoning him and cutting his throat. Claudia and Louis then dump his body into a nearby swamp. As Louis and Claudia prepare to flee to Europe, Lestat appears, having recovered from Claudia's attack, and attacks them in turn. Louis sets fire to their home and barely escapes with Claudia, leaving a furious Lestat to be consumed by the flames.
+							</p>
+							<p class="text-top text-primary ">
+								Arriving in Europe, Louis and Claudia seek out more of their kind. They travel throughout eastern Europe first and do indeed encounter vampires, but these vampires appear to be nothing more than mindless animated corpses. It is only when they reach Paris that they encounter vampires like themselves – specifically, the 400-year-old vampire Armand and his coven at the Théâtre des Vampires. Inhabiting an ancient theater, Armand and his vampire coven disguise themselves as humans and feed on live, terrified humans in mock-plays before a live human audience (who think the killings are merely a very realistic performance). Claudia is repulsed by these vampires and what she considers to be their cheap theatrics, but Louis and Armand are drawn to each other.
+							</p>
+							<p class="text-top text-primary ">
+								Convinced that Louis will leave her for Armand, Claudia convinces Louis to turn a Parisian doll maker, Madeleine, into a vampire to serve as a replacement companion. Louis, Madeleine and Claudia live together for a brief time, but all three are abducted one night by the Theatre vampires. Lestat has arrived, having survived the fire in New Orleans. His accusations against Louis and Claudia result in Louis being locked in a coffin to starve, while Claudia and Madeleine are locked in an open courtyard. Armand arrives and releases Louis from the coffin, but Madeleine and Claudia are burned to death by the rising sun. A devastated Louis finds the ashen remains of Claudia and Madeleine. He returns to the Theatre late the following night, burning it to the ground and killing all the vampires inside, leaving with Armand. Together, the two travel across Europe for several years, but Louis never fully recovers from Claudia's death, and the emotional connection between himself and Armand quickly dissolves. Tired of the Old World, Louis returns to New Orleans in the early 20th century. Living as a loner, he feeds off any humans who cross his path, but lives in the shadows, never creating another companion for himself.
+							</p>
+							<p class="text-top text-primary ">
+								Telling the boy of one last encounter with Lestat in New Orleans in the 1920s, Louis ends his tale; after 200 years, he is weary of immortality and of all the pain and suffering to which he has had to bear witness. The boy, however, seeing only the great powers granted to a vampire, begs to be made into a vampire himself. Angry that his interviewer learned nothing from his story, Louis refuses, attacking the boy and vanishing without a trace. The boy then leaves to track down Lestat in the hopes that he can give him immortality.    
+							</p>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 	</table>
-    <div class="jumbotron text-center container">
-        <!--h1><span class="fa fa-lock"></span> Node Authentication</h1-->
 
-        <!--p>Login or Register with:</p-->
-
-        <a href="/login" class="btn btn-primary"><span class="fa fa-user"></span> Login</a>
-        <a href="/signup" class="btn btn-primary"><span class="fa fa-user"></span> Signup</a>
-    </div>
 
 </div>
 </body>
 </html>
 
+<script>
+	$(document).ready(function() {
+		$("#login_tab").on('click', () => {
+			$("#signup_table").hide()
+			$("#login_table").fadeIn()
+		});
+
+		$("#signup_tab").on('click', () => {
+			$("#login_table").hide()
+			$("#signup_table").fadeIn()
+		});
+		
+		/*
+		$("#login").on('click', () => {
+			
+			var login_email = $("#login_email").val();
+			var login_password = $("#login_password").val();
+			
+			var data = '{"email" : ' + '"' + encodeURIComponent(login_email) + '",' + "password : " + '"' + encodeURIComponent(login_password) + '"}'
+			
+			$.post('/login',
+				'data=' + data,
+				() => {
+					
+				}
+			);
+		});
+		*/
+		
+	});
+</script>

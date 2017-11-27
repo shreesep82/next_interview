@@ -1,4 +1,4 @@
-
+en
 
 function reset_cb()
 {			   
@@ -235,8 +235,9 @@ function add_cb()
 	//console.log(description);
 
 	var overwrite = "true"
-	$.post('/create',
-			'data={"overwrite" : ' + '"' + overwrite + '"' + ',"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + '}',
+	var technology = $("#tech_hid").val()
+	$.post('/add_topic',
+			'data={"overwrite" : ' + '"' + overwrite + '"' + ',"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}',
 			add_new_topic_cb
 			);
 }
@@ -294,8 +295,12 @@ function show_cb()
 	//$('#' + description_box_id).scrollTop($('#' + description_box_id)[0].scrollHeight);
 	$('#' + description_box_id).scrollTop(0);
 	
-	var data=encodeURI('data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"}')
+	var technology = $("#tech_hid").val()
+	
+	//var data=encodeURI('data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + encodeURIComponent(technology) + '}')
+	var data='data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}'
 	console.log(data)
+	
 	$.ajax({
 		url: '/description',
 		type: 'GET',
@@ -395,9 +400,10 @@ function save_description(selected_topic)
 	console.log(topic)
 	console.log(description);
 	
-	
-	$.post('/create',
-			'data={"overwrite" : "true", "topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + '}',
+	var technology = $("#tech_hid").val()
+	$.post('/add_topic',
+			//'data={"overwrite" : "true", "topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + '}',
+			'data={"overwrite" : "true", "topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}',
 			(save_result) => {
 				save_topic_cb(save_result, description_id)
 			}
@@ -452,6 +458,7 @@ function technology_info_display_cb(topic_description_table, subject) {
 						
 	// topic_description_table.file indicates html content to be loaded in subject_topic <div>
 	var subject_topic = '<div id=add_topic>'
+	subject_topic += '<input type=hidden value=hid id=tech_hid>'
 	subject_topic += '		<table class="table-bordered table-condensed" style="background-color: #696969">'
 	subject_topic += '			<tr><td>'
 	subject_topic += '				<table>'
@@ -470,6 +477,9 @@ function technology_info_display_cb(topic_description_table, subject) {
 	subject_topic += '<table id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
 	
 	$("#subject_topic").html(subject_topic)
+	
+	$("#tech_hid").val(subject)
+	console.log($("#tech_hid").val())
 						
 	// below variable indicates the description of selected topic
 	// to be loaded into 'show' textarea upon clicking of 'show Description' button
@@ -638,3 +648,28 @@ function technology_info_display_cb(topic_description_table, subject) {
 						
 }
 
+function get_technology_topics()
+{
+		// callbacks for click events for buttons Add, Show, Edit, Reset, and Delete have to be loaded
+		// once we click on tab buttons because Add, Show, Edit, Reset, and Delete buttons are dynamically
+		// loaded
+		$("#cplusplus_tab,#linux_tab,#dockers_tab,#nodejs_tab,#nosql_tab,#rest_tab,#rabbitmq_tab,#aws_tab").on('click', (event) => {
+		
+			console.log(event.target.id);
+
+			var subject = event.target.id;
+			subject = subject.split('_');
+			console.log(subject[0]);
+
+			$.ajax({
+						url: '/getPage',
+						type: 'GET',
+						data: 'subject=' + subject[0],
+						success: (topic_description_table) => {
+							technology_info_display_cb(topic_description_table, subject[0])
+						}
+		
+					});
+			
+		});
+}

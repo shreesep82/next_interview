@@ -4,8 +4,13 @@ module.exports = function(app, passport) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-        //res.render('index.ejs'); // load the index.ejs file
-        res.render('landingpage.ejs'); // load the index.ejs file
+    	if (req.isAuthenticated()) {
+			render_landing_page(req, res)
+	        //res.render('landingpage.ejs', { user: req.user }); // load the landing page
+		}
+		else {
+	        res.render('index.ejs', { message: req.flash('loginMessage') }); // load the index.ejs file
+		}
     });
 
     // =====================================
@@ -31,6 +36,35 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
+function render_landing_page(req, res) {
+        MongoClient.connect(dburl, function(err, db) {
+            if(err) { throw err;  }
+
+			//console.log(db.listCollections())
+            db.listCollections().toArray(function(err, collInfos) {
+                // collInfos is an array of collection info objects that look like:
+                // { name: 'test', options: {} }
+
+                var collections_jobj = {}
+                var coll_key = 'collections'
+                collections_jobj[coll_key] = []
+                collInfos.forEach(function(col) {
+                    //console.log(col.name);
+                    collections_jobj[coll_key].push(col.name)
+                });
+
+                //console.log(JSON.stringify(collections_jobj))
+                db.close();
+
+		        res.render('landingpage.ejs', {
+        		    user : req.user, // get the user out of session and pass to template
+					collection : collections_jobj
+        		});
+            });
+		});
+}
+
+
     // process the signup form
     // app.post('/signup', do all our passport stuff here);
 
@@ -40,9 +74,35 @@ module.exports = function(app, passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/landingpage', isLoggedIn, function(req, res) {
-        res.render('landingpage.ejs', {
-            user : req.user // get the user out of session and pass to template
-        });
+	
+		render_landing_page(req, res)
+/*
+        MongoClient.connect(dburl, function(err, db) {
+            if(err) { throw err;  }
+
+			//console.log(db.listCollections())
+            db.listCollections().toArray(function(err, collInfos) {
+                // collInfos is an array of collection info objects that look like:
+                // { name: 'test', options: {} }
+
+                var collections_jobj = {}
+                var coll_key = 'collections'
+                collections_jobj[coll_key] = []
+                collInfos.forEach(function(col) {
+                    //console.log(col.name);
+                    collections_jobj[coll_key].push(col.name)
+                });
+
+                //console.log(JSON.stringify(collections_jobj))
+                db.close();
+
+		        res.render('landingpage.ejs', {
+        		    user : req.user, // get the user out of session and pass to template
+					collection : collections_jobj
+        		});
+            });
+		});
+*/
     });
 
     // =====================================
@@ -55,17 +115,18 @@ module.exports = function(app, passport) {
 
 // process the signup form
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/landingpage', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        successRedirect : '/landingpage', // redirect to the landing page which lists various technologies
+        failureRedirect : '/', // redirect back to the home page if there is an error
         failureFlash : true // allow flash messages
     }));
 
  // process the login form
     app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/landingpage', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
+       successRedirect : '/landingpage', // redirect to the landing page which lists various technologies
+       failureRedirect : '/', // redirect back to the home page if there is an error
+       failureFlash : true // allow flash messages
     }));
+
 
 
 
@@ -84,11 +145,13 @@ module.exports = function(app, passport) {
 	    console.log('get description')
     	var jobj = JSON.parse(request.query.data);
 	    var topic = decodeURIComponent(jobj.topic);
+	    var technology = decodeURIComponent(jobj.technology);
+	    console.log(technology)
 
 	    //console.log('topic: ' + topic)
     	MongoClient.connect(dburl, function(err, db) {
 	    if(err) { throw err;  }
-    	var collection = db.collection('cplusplus');
+    	var collection = db.collection(technology);
 
 		collection.findOne({'topic': topic}, function(err, item) {
 			//console.log(item.description)
@@ -200,7 +263,7 @@ module.exports = function(app, passport) {
     	});
 	});
 
-	app.post('/create', (request, response) => {
+	app.post('/add_topic', (request, response) => {
     	response.set({'Content-Type' : 'text/html'})
 
 	    console.log(request.body.data)
@@ -208,12 +271,13 @@ module.exports = function(app, passport) {
 
 	    MongoClient.connect(dburl, function(err, db) {
     	    if(err) { throw err;  }
-        	var collection = db.collection('cplusplus');
 	        var product = { topic: jobj.topic,  description: jobj.description };
     	    var overwrite = jobj.overwrite;
+			var technology = jobj.technology
+        	var collection = db.collection(technology);
 
 	        console.log('topic: ' + jobj.topic);
-    	    db.collection("cplusplus").find({}, { _id: true, topic: true, description: true }).toArray(function(err, result) {
+    	    db.collection(technology).find({}, { _id: true, topic: true, description: true }).toArray(function(err, result) {
 
         	    if (err) throw err;
 
@@ -280,10 +344,35 @@ module.exports = function(app, passport) {
 
 	    });
 
-	})
+	});
 
 
-	};
+	app.get('/tech_collections', (request, response) => {
+
+        MongoClient.connect(dburl, function(err, db) {
+            if(err) { throw err;  }
+
+			//console.log(db.listCollections())
+            db.listCollections().toArray(function(err, collInfos) {
+                // collInfos is an array of collection info objects that look like:
+                // { name: 'test', options: {} }
+
+                var collections_jobj = {}
+                var coll_key = 'collections'
+                collections_jobj[coll_key] = []
+                collInfos.forEach(function(col) {
+                    //console.log(col.name);
+                    collections_jobj[coll_key].push(col.name)
+                });
+
+                //console.log(JSON.stringify(collections_jobj))
+                db.close();
+				response.json(collections_jobj);
+            });
+		});
+	});
+
+	}
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {

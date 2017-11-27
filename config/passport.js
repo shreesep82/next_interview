@@ -35,12 +35,15 @@ module.exports = function(passport) {
 
     passport.use('local-signup', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
-        passwordField : 'password',
+        usernameField : 'signup_email',
+        passwordField : 'signup_password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) {
 
+		console.log(email)
+		console.log(password)
+		console.log(req.body.signup_mobile)
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
@@ -54,7 +57,8 @@ module.exports = function(passport) {
 
             // check to see if theres already a user with that email
             if (user) {
-                return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                //return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                return done(null, false, req.flash('loginMessage', 'That email is already taken.'));
             } else {
 
                 // if there is no user with that email
@@ -64,6 +68,7 @@ module.exports = function(passport) {
                 // set the user's local credentials
                 newUser.local.email    = email;
                 newUser.local.password = newUser.generateHash(password);
+                newUser.local.mobile   = req.body.signup_mobile;
 
                 // save the user
                 newUser.save(function(err) {
@@ -100,12 +105,14 @@ module.exports = function(passport) {
 
     passport.use('local-login', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
-        passwordField : 'password',
+        usernameField : 'login_email',
+        passwordField : 'login_password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) { // callback with email and password from our form
 
+		console.log(email)
+		console.log(password)
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
         User.findOne({ 'local.email' :  email }, function(err, user) {

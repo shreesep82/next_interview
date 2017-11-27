@@ -28,6 +28,9 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fontin-Sans">
 	
 
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
 </head>
 
@@ -63,6 +66,22 @@
 			  
 		}
 		
+		.login_name {
+			  font-family: 'Anivers';
+		     font-size: 16px;
+		     text-shadow: 1px 1px 1px #aaa;
+			 color: c0c0c0
+			  
+		}
+		
+		.topics_des {
+			  font-family: 'Anivers';
+		     font-size: 16px;
+		     text-shadow: 0px 0px 0px #aaa;
+			 color: c0c0c0
+			  
+		}
+		
 		tr.spaceUnder>td {
 			padding-bottom: 2em;
 		}
@@ -94,43 +113,92 @@
 	        background-color: c0c0e0;
 		}
 		
+		.login-space {
+			padding-top: 0px;
+			padding-bottom: 60px;
+		}
+		
+		.techs-div {
+			
+			padding-left: 600px;
+		}
+		
+		.logo {
+		     font-family: 'Josefin', slab;
+		     font-size: 24px;
+			 font-color: FFD700
+		     text-shadow: 2px 2px 2px #aaa;
+			 color: #93DC69
+		}
+		
+		.logo1 {
+		     font-family: 'Josefin', slab;
+		     font-size: 24px;
+			 font-color: FFD700
+		     text-shadow: 2px 2px 2px #aaa;
+			 color: #93DC69
+		}
+		
 	</style>
   
 <body style="background-color:#1F1F1F">
 		
 		
 <div class="container">
-	<table class="table">
-	<tr>
-    <h1 id=techr><font color="#c0c0c0">Tech Reference for next interview</font></h1>
-	<tr>
-	 <h5 class="text-warning"><i>&nbsp;&nbsp;Attending tens of interviews makes us gain experience. But, also we can refer these topics before
-	 we head to interviews</i></h5>
-	</table>
-
-
-  <ul class="nav nav-pills">
-	<li><a class="a1" data-toggle="tab" href="#cplusplus" id=cplusplus_tab>
-		&nbsp;C++</a></li>
-    <li><a class="a1" data-toggle="tab" href="#linux" id=linux_tab>Linux</a></li>
-    <li><a class="a1"data-toggle="tab" href="#dockers" id=dockers_tab>Dockers</a></li>
-    <li><a class="a1" data-toggle="tab" href="#nodejs" id=nodejs_tab>Nodejs</a></li>
-	<li><a class="a1" data-toggle="tab" href="#nosql" id=nosql_tab>NoSql DB</a></li>
-    <li><a class="a1" data-toggle="tab" href="#rest" id=rest_tab>Rest Service</a></li>
-    <li><a class="a1" data-toggle="tab" href="#rabbitmq" id=rabbitmq_tab>RabbitMQ</a></li>
-    <li><a class="a1" data-toggle="tab" href="#aws" id=aws_tab>AWS</a></li>
-  </ul>
-
-  <div class="tab-content">
+	
+	<% include landingpage_header %>
+	
 	<br>
-	<div>
+
+	<div id=tech_tabs>
+	<ul class="nav nav-pills">
+		<!--li><a class="a1" data-toggle="tab" href="#cplusplus" id=cplusplus_tab>C++</a></li>
+	    <li><a class="a1" data-toggle="tab" href="#linux" id=linux_tab>Linux</a></li>
+	    <li><a class="a1"data-toggle="tab" href="#dockers" id=dockers_tab>Dockers</a></li>
+	    <li><a class="a1" data-toggle="tab" href="#nodejs" id=nodejs_tab>Nodejs</a></li>
+		<li><a class="a1" data-toggle="tab" href="#nosql" id=nosql_tab>NoSql DB</a></li>
+	    <li><a class="a1" data-toggle="tab" href="#rest" id=rest_tab>Rest Service</a></li>
+	    <li><a class="a1" data-toggle="tab" href="#rabbitmq" id=rabbitmq_tab>RabbitMQ</a></li>
+	    <li><a class="a1" data-toggle="tab" href="#aws" id=aws_tab>AWS</a></li-->
 		
-    <div id="subject_topic" class="tab-pane fade in active">
-      
-    </div>
-	</di>
-  </div>
-</div>
+		
+		<% collection.collections.forEach(function(col)  {%>
+			<% var display_name %>
+			<% var href = "#" + col %>
+			<% var id = col + "_tab" %>
+			<% if(col == 'cplusplus') { %>
+				<%	display_name = 'C++' %>
+			<% } else { %>
+				<% display_name = col %>
+			<% } %>
+			<li><a class="a1" data-toggle="tab" href=<%= href %> id=<%= id %> ><%= display_name %></a></li>
+		<% }) %>
+		
+	</ul>
+	</div>
+
+	<br>
+	
+    <p  id="subject_topic" class="tab-pane fade in active">
+		<table width=70%>
+			<tr>
+				<td>
+					<font class=topics_des>
+						<p>
+							C++ is a middle-level programming language developed by Bjarne Stroustrup starting in 1979 at Bell Labs. C++ runs on a variety of platforms, such as Windows, Mac OS, and the various versions of UNIX.
+							This tutorial adopts a simple and practical approach to describe the concepts of C++.
+							The main purpose of C++ programming is to add object orientation to the C programming language and classes are the central feature of C++ that supports object-oriented programming and are often called user-defined types.
+
+							A class is used to specify the form of an object and it combines data representation and methods for manipulating that data into one neat package. The data and functions within a class are called members of the class.
+						</p>
+						<p>
+							Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
+						</p>
+					</font>
+				</td>
+			</tr>
+		</table>
+	</p>
 
 
 </body>
@@ -142,30 +210,35 @@
 
 $(document).ready(function() {
 		console.log('hello')
-		  
-		// callbacks for click events for buttons Add, Show, Edit, Reset, and Delete have to be loaded
-		// once we click on tab buttons because Add, Show, Edit, Reset, and Delete buttons are dynamically
-		// loaded
-		$("#cplusplus_tab,#linux_tab,#dockers_tab,#nodejs_tab,#nosql_tab,#rest_tab,#rabbitmq_tab,#aws_tab").on('click', (event) => {
-		
-			console.log(event.target.id);
+		get_technology_topics();
+		/*
+		$.ajax({
+			url: '/tech_collections',
+			type: 'GET',
+			data: '',
+			success: (collection) => {
+				//document.write('<li><a class="a1" data-toggle="tab" href="#aws" id=aws_tab>' + JSON.stringify(collection) + '</a></li>')
+				var col_array = collection.collections;
+				col_array.forEach(function(col) {
+					console.log(col)
+					var display_name
 
-			var subject = event.target.id;
-			subject = subject.split('_');
-			console.log(subject[0]);
-			
+					if(col == 'cplusplus') {
+						display_name = 'C++'
+					}
+					else {
+						display_name = col
+					}
 
-			$.ajax({
-						url: '/getPage',
-						type: 'GET',
-						data: 'subject=' + subject[0],
-						success: (topic_description_table) => {
-							technology_info_display_cb(topic_description_table, subject[0])
-						}
-		
-					});
-			
-			});	 
+					var li = '<li><a class="a1" data-toggle="tab" href="#' + col + '" id=' + col + '_tab>' + display_name + '</a></li-->'
+					$("#tech_tabs ul").append(li);
+				
+					get_technology_topics();
+
+				});
+			}
+		});
+		*/
 
 });
 
