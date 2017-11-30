@@ -18,37 +18,32 @@ function edit_cb()
 function save_topic_cb(add_result, description_box_id) {
 	
 	console.log('add_result: ' + add_result)
-	if(add_result == "added") {
-	}
-	else {
 
-		var tmp_description_box_id = description_box_id.split('_');
+	var tmp_description_box_id = description_box_id.split('_');
 	
-		description_box_id = ""
-		tmp_description_box_id.forEach(function(elem, index) {
-			if(index != tmp_description_box_id.length - 1) {
-				if(index == 0) {
-					description_box_id = tmp_description_box_id[0]
-				}
-				else {
-					description_box_id = description_box_id + "_" + tmp_description_box_id[index]
-				}
+	description_box_id = ""
+	tmp_description_box_id.forEach(function(elem, index) {
+		if(index != tmp_description_box_id.length - 1) {
+			if(index == 0) {
+				description_box_id = tmp_description_box_id[0]
 			}
-		});
+			else {
+				description_box_id = description_box_id + "_" + tmp_description_box_id[index]
+			}
+		}
+	});
 
-		description_box_id = description_box_id + "_text"
-		console.log(description_box_id)
-	
-		$("#" + description_box_id).prop('readonly', true)
+	description_box_id = description_box_id + "_text"
+	console.log(description_box_id)
 
-	}
+	$("#" + description_box_id).prop('readonly', true)
 
 }
 
-function add_new_topic_cb(add_result, description_box_id) {
+function create_new_topic_cb(add_result, description_box_id) {
 	
 	console.log('add_result: ' + add_result)
-	if(add_result == "added") {
+	if(add_result == "created") {
 		
 		var topic = $("#add_topic_content").val();
 		var tmptopic = topic;
@@ -118,6 +113,7 @@ function add_new_topic_cb(add_result, description_box_id) {
 		topic_column += '>Edit/Save</button>'
 		
 		topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='
+		//topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
 		topic_column += '\''
 		var delete_id = tmptopic + "_delete"
 		topic_column += delete_id
@@ -236,9 +232,9 @@ function add_cb()
 
 	var overwrite = "true"
 	var technology = $("#tech_hid").val()
-	$.post('/add_topic',
-			'data={"overwrite" : ' + '"' + overwrite + '"' + ',"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}',
-			add_new_topic_cb
+	$.post('/create_topic',
+			'data={"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}',
+			create_new_topic_cb
 			);
 }
 
@@ -298,11 +294,12 @@ function show_cb()
 	var technology = $("#tech_hid").val()
 	
 	//var data=encodeURI('data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + encodeURIComponent(technology) + '}')
-	var data='data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}'
+	//var data='data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}'
+	var data='&topic=' + encodeURIComponent(selected_topic) + '&technology=' + encodeURIComponent(technology)
 	console.log(data)
 	
 	$.ajax({
-		url: '/description',
+		url: '/read_description',
 		type: 'GET',
 		data: data,
 		success: (result) => {
@@ -348,9 +345,11 @@ function del_cb()
 	var selected_topic = getTopicName($(this).attr("id"));
 	selected_topic = selected_topic.replace(/_/g, " ")
 	
-	var data=encodeURI('data={"topic": ' + '"' + encodeURIComponent(selected_topic) + '"' + '}')
+	//var data=encodeURI('data={"topic": ' + '"' + encodeURIComponent(selected_topic) + '"' + '}')
+	var technology = $("#tech_hid").val()
+	var data='&topic=' + encodeURIComponent(selected_topic) + '&technology=' + encodeURIComponent(technology)
 	$.ajax({
-		url: '/delete',
+		url: '/delete_topic',
 		type: 'DELETE',
 		data: data,
 		success: () => {
@@ -401,9 +400,8 @@ function save_description(selected_topic)
 	console.log(description);
 	
 	var technology = $("#tech_hid").val()
-	$.post('/add_topic',
-			//'data={"overwrite" : "true", "topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + '}',
-			'data={"overwrite" : "true", "topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}',
+	$.post('/update_description',
+			'data={"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}',
 			(save_result) => {
 				save_topic_cb(save_result, description_id)
 			}
@@ -560,6 +558,7 @@ function technology_info_display_cb(topic_description_table, subject) {
 		topic_column += '>Edit/Save</button>'
 		
 		topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='
+		//topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
 		topic_column += '\''
 		var delete_id = tmptopic + "_delete"
 		topic_column += delete_id
@@ -657,16 +656,16 @@ function get_technology_topics()
 		
 			console.log(event.target.id);
 
-			var subject = event.target.id;
-			subject = subject.split('_');
-			console.log(subject[0]);
+			var technology = event.target.id;
+			technology = technology.split('_');
+			console.log(technology[0]);
 
 			$.ajax({
-						url: '/getPage',
+						url: '/list_topics',
 						type: 'GET',
-						data: 'subject=' + subject[0],
+						data: '&technology=' + technology[0],
 						success: (topic_description_table) => {
-							technology_info_display_cb(topic_description_table, subject[0])
+							technology_info_display_cb(topic_description_table, technology[0])
 						}
 		
 					});

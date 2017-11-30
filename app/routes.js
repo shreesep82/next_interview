@@ -36,7 +36,7 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
-function render_landing_page(req, res) {
+	function render_landing_page(req, res) {
         MongoClient.connect(dburl, function(err, db) {
             if(err) { throw err;  }
 
@@ -139,13 +139,15 @@ function render_landing_page(req, res) {
 
 
 	// for getting topic's description search mongo's db database
-	app.get('/description', (request, response) => {
+	app.get('/read_description', (request, response) => {
     	response.set({'Content-Type' : 'text/html'})
 
 	    console.log('get description')
-    	var jobj = JSON.parse(request.query.data);
-	    var topic = decodeURIComponent(jobj.topic);
-	    var technology = decodeURIComponent(jobj.technology);
+    	//var jobj = JSON.parse(request.query.data);
+	    //var topic = decodeURIComponent(jobj.topic);
+	    var topic = decodeURIComponent(request.query.topic);
+	    //var technology = decodeURIComponent(jobj.technology);
+	    var technology = decodeURIComponent(request.query.technology);
 	    console.log(technology)
 
 	    //console.log('topic: ' + topic)
@@ -164,21 +166,21 @@ function render_landing_page(req, res) {
 	// for getting topic's description search mongo's db database
 	// search specifically in collection whose name is given by topic param
 	// of GET request
-	app.get('/getPage', (request, response) => {
+	app.get('/list_topics', (request, response) => {
     	// set http header content type
 	    response.set({'Content-Type' : 'text/html'})
 
     	var jsonObj;
 	    var topics_represent_file; // html content (which forms table of topics at client side) to be sent to client
-    	var subject = request.query.subject; // database collection name
+    	var technology = request.query.technology; // database collection name
 	    var leave_function; // used for closure
 
     	// connect to mongo database with name 'db'
 	    MongoClient.connect(dburl, function(err, db) {
     	    if(err) { throw err;  }
-	        var collection = db.collection(subject);
+	        var collection = db.collection(technology);
 
-        	db.listCollections({name: subject})
+        	db.listCollections({name: technology})
             	        .next(function(err, collection_info) {
                 	if(!collection_info)
 	                {
@@ -187,8 +189,7 @@ function render_landing_page(req, res) {
 	         	    }
     	    });
 
-        	//db.collection(subject).find({}, { _id: false, topic: true, description: true }).toArray(function(err, result) {
-        	db.collection(subject).find({}, { _id: false, topic: true }).toArray(function(err, result) {
+        	db.collection(technology).find({}, { _id: false, topic: true }).toArray(function(err, result) {
 
             	if(leave_function)
 	            {
@@ -196,13 +197,7 @@ function render_landing_page(req, res) {
         	        return;
             	}
 
-	            //response.sendFile(__dirname + '/mongo.html')
-
-    	        //fs = require('fs')
-        	    //topics_represent_file = fs.readFileSync('topics_represent.html', "utf8");
-
             	response.setHeader('Content-Type', 'application/json');
-            	//response.send({ file: topics_represent_file, rows: result});
             	response.send({ rows: result });
 
         	});
@@ -214,56 +209,47 @@ function render_landing_page(req, res) {
 	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
-	app.delete('/delete', (request, response) => {
+	app.delete('/delete_topic', (request, response) => {
     	response.set({'Content-Type' : 'text/html'})
 
-	    console.log(request.body.data)
-    	var jobj = JSON.parse(request.body.data)
-	    console.log('selected: ' + jobj.topic)
+    	//var jobj = JSON.parse(request.body.data)
+	    //console.log('selected: ' + jobj.topic)
+
+		var topic = request.body.topic
+		var technology = request.body.technology
+
+	    console.log(topic)
+	    console.log(technology)
 
     	MongoClient.connect(dburl, function(err, db) {
         	if(err) { throw err;  }
-	        var collection = db.collection('cplusplus');
+	        var collection = db.collection(technology);
     	    //var product = { topic: jobj.topic,  description: jobj.description };
 
-			var topic = decodeURIComponent(jobj.topic);
+			//var topic = decodeURIComponent(jobj.topic);
         	console.log('topic: ' + topic);
-	        db.collection("cplusplus").find({}, { _id: false, topic: true }).toArray(function(err, result) {
+			try {
+				collection.remove({topic: topic}, function(err, obj) {
+					if (err) {
+						console.log('remove error: ' + err)
+						return;
+					}
 
-    	        if (err) throw err;
+					console.log('deletion succeeded');
+					response.end('deleted');
+				});
+			}
+			catch(excep) {
+				console.log('remove: ' + excep)
+			}
 
-        	    //console.log('find result: ' + JSON.stringify(result));
-
-	            result.forEach(function(table) {
-    	            var tableName = table.topic;
-        	        console.log(tableName);
-            	    if(tableName == topic) {
-                	    console.log('will delete ' + tableName);
-							try {
-    	                		db.collection('cplusplus').remove({"topic" : tableName}, function(err, obj) {
-			                        if (err) {
-										console.log('deleteOne error: ' + err)
-										return;
-									}
-
-			                	    console.log('deletion succeeded');
-    	            				response.end('deleted');
-
-								});
-							}
-							catch(excep) {
-								console.log('deleteOne: ' + excep)
-							}
-    	            }
-        	    });
-
-
-        	});
 
     	});
 	});
 
-	app.post('/add_topic', (request, response) => {
+
+	// create a new topic with its description
+	app.post('/create_topic', (request, response) => {
     	response.set({'Content-Type' : 'text/html'})
 
 	    console.log(request.body.data)
@@ -271,78 +257,39 @@ function render_landing_page(req, res) {
 
 	    MongoClient.connect(dburl, function(err, db) {
     	    if(err) { throw err;  }
-	        var product = { topic: jobj.topic,  description: jobj.description };
-    	    var overwrite = jobj.overwrite;
+	        var entry = { topic: jobj.topic,  description: jobj.description };
 			var technology = jobj.technology
         	var collection = db.collection(technology);
 
-	        console.log('topic: ' + jobj.topic);
-    	    db.collection(technology).find({}, { _id: true, topic: true, description: true }).toArray(function(err, result) {
+			collection.insert(entry, function(err, result) {
+				if(err) {
+					throw err;
+				}
 
-        	    if (err) throw err;
+				response.end('created')
+			});
+		});
 
-            	console.log('find result: ' + JSON.stringify(result));
+	});
 
-	            var recordFound = false;
-    	        var idRecordFound = '';
-        	    result.forEach(function(table) {
-            	    var tableName = table.topic;
-                	//console.log(tableName);
-	                console.log('table id: ' + table._id + ' table topic: ' + table.topic + ' jobj.topic: ' + jobj.topic);
-    	            if(tableName == jobj.topic) {
-        	            /*
-            	        db.collection("cplusplus").deleteOne({"topic" : tableName}, function(err, obj) {
-                	        if (err) throw err;
-                    	}
-	                    */
 
-    	                recordFound = true;
-        	            idRecordFound = table._id;
-            	        return false;
-            	    }
-                	else if(table.topic === undefined) {
-                    	/*
-	                    console.log('deleting : ' + table._id);
-    	                db.collection("cplusplus").deleteOne({"_id" : table._id}, function(err, obj) {
-        	                if (err) throw err;
-            	        });
-                	    */
-	                }
-    	        });
+	// update topic's description
+	app.post('/update_description', (request, response) => {
+    	response.set({'Content-Type' : 'text/html'})
 
-        	    if(recordFound == true) {
-            	    if(overwrite == "true")
-                	{
-						try {
-	                    	console.log('overwriting');
-	    	                console.log('idRecordFound : ' + idRecordFound + ' topic: ' + jobj.topic + ' description: ' + jobj.description);
-    	    	            if(idRecordFound == '')
-        		    	        return false;
-                		    var objOverwrite = {_id:idRecordFound, topic:jobj.topic, description:jobj.description};
-                    		console.log('creating record');
-	                    	//collection.save({_id:idRecordFound}, objOverwrite);
-	    	                collection.update({'_id':idRecordFound},{$set:{topic:jobj.topic, description:jobj.description}},{upsert:true})
-						}
-						catch(excep) {
-							console.log(excep)
-						}
-            	    	response.end('overwritten')
-        	        }
-            	    else
-                	{
-	                    response.end('exists');
-    	            }
-        	    }
-            	else {
-	                	collection.insert(product, function(err, result) {
-    	                if(err) { throw err; }
-        	        });
+	    console.log(request.body.data)
+    	var jobj = JSON.parse(request.body.data)
 
-            	    response.end('added')
-	            }
-    	    });
+	    MongoClient.connect(dburl, function(err, db) {
+    	    if(err) { throw err;  }
+			var technology = jobj.technology
+        	var collection = db.collection(technology);
+			var description = jobj.description
 
-	    });
+			collection.update({topic: jobj.topic}, {topic:jobj.topic, description:jobj.description }, () => {
+				response.end('overwritten')
+			});
+		});
 
 	});
 
