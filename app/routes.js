@@ -45,20 +45,40 @@ module.exports = function(app, passport) {
                 // collInfos is an array of collection info objects that look like:
                 // { name: 'test', options: {} }
 
-                var collections_jobj = {}
+                var technology_collections_jobj = {}
                 var coll_key = 'collections'
-                collections_jobj[coll_key] = []
+                technology_collections_jobj[coll_key] = []
                 collInfos.forEach(function(col) {
                     //console.log(col.name);
-                    collections_jobj[coll_key].push(col.name)
+                    technology_collections_jobj[coll_key].push(col.name)
                 });
 
                 //console.log(JSON.stringify(collections_jobj))
                 db.close();
 
+				// data sent while rendering landing page is different for admin and 
+				// non admin users
+
+				var editsaveDisabled;
+				var deleteDisabled;
+				var topic_description_tableDisabled;
+				if(req.user.local.email == 'admin@gmail.com') {
+					editsaveDisabled = true
+					deleteDisabled = true
+					topic_description_tableDisabled = true
+				}
+				else {
+					editsaveDisabled = false
+					deleteDisabled = false
+					topic_description_tableDisabled = false
+				}
+
 		        res.render('landingpage.ejs', {
-        		    user : req.user, // get the user out of session and pass to template
-					collection : collections_jobj
+        		    user : req.user.local.email, // get the user out of session and pass to template
+					technology_collection : technology_collections_jobj,
+					editsaveDisabled : editsaveDisabled,
+					deleteDisabled : deleteDisabled,
+					topic_description_tableDisabled : topic_description_tableDisabled
         		});
             });
 		});

@@ -1,4 +1,4 @@
-en
+
 
 function reset_cb()
 {			   
@@ -112,8 +112,8 @@ function create_new_topic_cb(add_result, description_box_id) {
 		topic_column += '\''
 		topic_column += '>Edit/Save</button>'
 		
-		topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='
-		//topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
+		//topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='
+		topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
 		topic_column += '\''
 		var delete_id = tmptopic + "_delete"
 		topic_column += delete_id
@@ -444,7 +444,7 @@ function edit_save_cb()
 	$("#" + description_id).prop('readonly', false)
 }
 
-function technology_info_display_cb(topic_description_table, subject) {
+function technology_info_display_cb(topic_description_table, subject, dataJobj) {
 							
 	if(topic_description_table == "no_collection")
 	{
@@ -457,22 +457,27 @@ function technology_info_display_cb(topic_description_table, subject) {
 	// topic_description_table.file indicates html content to be loaded in subject_topic <div>
 	var subject_topic = '<div id=add_topic>'
 	subject_topic += '<input type=hidden value=hid id=tech_hid>'
-	subject_topic += '		<table class="table-bordered table-condensed" style="background-color: #696969">'
-	subject_topic += '			<tr><td>'
-	subject_topic += '				<table>'
-	subject_topic += '					<tr class="spaceUnder1" ><td class="a_topic" align="center"><font size="4">Add new topics here'
-	subject_topic += '					<tr class="spaceUnder1"><td>'
-	subject_topic += '							<input type=text class="form-control col-lg-3" size=40 id=add_topic_content placeholder="Enter topic here">'
-	subject_topic += '						<tr><td>'
-	subject_topic += '							<textarea class="form-control textarea_nodrag" rows=14 cols=80 id=add_topic_description placeholder="Write topic description here"></textarea></table>'
-	subject_topic += '			</td></tr>'
-	subject_topic += '			<tr><td align="right">'
-	subject_topic += '				<button class="btn btn-primary" id=add_topic_but>Add</button>'
-	subject_topic += '				<button class="btn btn-primary" id=reset_topic_but>Reset</button>'
-	subject_topic += '			</td></tr>'
-	subject_topic += '		</table>'
+	
+	if(dataJobj.topic_description_table == 'true') {
+		subject_topic += '		<table class="table-bordered table-condensed" style="background-color: #696969">'
+		subject_topic += '			<tr><td>'
+		subject_topic += '				<table>'
+		subject_topic += '					<tr class="spaceUnder1" ><td class="a_topic" align="center"><font size="4">Add new topics here'
+		subject_topic += '					<tr class="spaceUnder1"><td>'
+		subject_topic += '							<input type=text class="form-control col-lg-3" size=40 id=add_topic_content placeholder="Enter topic here">'
+		subject_topic += '						<tr><td>'
+		subject_topic += '							<textarea class="form-control textarea_nodrag" rows=14 cols=80 id=add_topic_description placeholder="Write topic description here"></textarea></table>'
+		subject_topic += '			</td></tr>'
+		subject_topic += '			<tr><td align="right">'
+		subject_topic += '				<button class="btn btn-primary" id=add_topic_but>Add</button>'
+		subject_topic += '				<button class="btn btn-primary" id=reset_topic_but>Reset</button>'
+		subject_topic += '			</td></tr>'
+		subject_topic += '		</table>'
+	}
+	
 	subject_topic += '</div>'
 	subject_topic += '<table id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
+	
 	
 	$("#subject_topic").html(subject_topic)
 	
@@ -549,21 +554,24 @@ function technology_info_display_cb(topic_description_table, subject) {
 		topic_column += '\''
 		topic_column += '>Hide</button>'
 		
+		if(dataJobj.editsave == 'true') {
+			topic_column += '				<button type="button" class="btn btn-outline-primary btn-transparent" id='
+			topic_column += '\''
+			var edit_save_id = tmptopic + "_editsave"
+			topic_column += edit_save_id
+			topic_column += '\''
+			topic_column += '>Edit/Save</button>'
+		}
+
 		
-		topic_column += '				<button type="button" class="btn btn-outline-primary btn-transparent" id='
-		topic_column += '\''
-		var edit_save_id = tmptopic + "_editsave"
-		topic_column += edit_save_id
-		topic_column += '\''
-		topic_column += '>Edit/Save</button>'
-		
-		topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='
-		//topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
-		topic_column += '\''
-		var delete_id = tmptopic + "_delete"
-		topic_column += delete_id
-		topic_column += '\''
-		topic_column += '>Delete</button>'
+		if(dataJobj.delete == 'true') {
+			topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='		
+			topic_column += '\''
+			var delete_id = tmptopic + "_delete"
+			topic_column += delete_id
+			topic_column += '\''
+			topic_column += '>Delete</button>'
+		}
 		topic_column += '</div>'
 		
 		
@@ -614,17 +622,21 @@ function technology_info_display_cb(topic_description_table, subject) {
 			console.log(hide);
 			$("#" + hide).on('click', hide_cb);
 
-			var edit_save = row.topic;
-			edit_save = edit_save.replace(/ /g,'_');
-			edit_save = edit_save + "_editsave"
-			console.log(edit_save);
-			$("#" + edit_save).on('click', edit_save_cb);
+			if(dataJobj.editsave == 'true') {
+				var edit_save = row.topic;
+				edit_save = edit_save.replace(/ /g,'_');
+				edit_save = edit_save + "_editsave"
+				console.log(edit_save);
+				$("#" + edit_save).on('click', edit_save_cb);
+			}
 			
-			var del = row.topic;
-			del = del.replace(/ /g,'_');
-			del = del + "_delete"
-			console.log(del);
-			$("#" + del).on('click', del_cb);
+			if(dataJobj.delete == 'true') {
+				var del = row.topic;
+				del = del.replace(/ /g,'_');
+				del = del + "_delete"
+				console.log(del);
+				$("#" + del).on('click', del_cb);
+			}
 			
 			
 		}
@@ -647,12 +659,15 @@ function technology_info_display_cb(topic_description_table, subject) {
 						
 }
 
-function get_technology_topics()
+function get_technology_topics(dataJobj)
 {
 		// callbacks for click events for buttons Add, Show, Edit, Reset, and Delete have to be loaded
 		// once we click on tab buttons because Add, Show, Edit, Reset, and Delete buttons are dynamically
 		// loaded
-		$("#cplusplus_tab,#linux_tab,#dockers_tab,#nodejs_tab,#nosql_tab,#rest_tab,#rabbitmq_tab,#aws_tab").on('click', (event) => {
+		var tabs = dataJobj.tabs
+		console.log('tabs: ' + tabs)
+		
+		$(tabs).on('click', (event) => {
 		
 			console.log(event.target.id);
 
@@ -665,7 +680,7 @@ function get_technology_topics()
 						type: 'GET',
 						data: '&technology=' + technology[0],
 						success: (topic_description_table) => {
-							technology_info_display_cb(topic_description_table, technology[0])
+							technology_info_display_cb(topic_description_table, technology[0], dataJobj)
 						}
 		
 					});

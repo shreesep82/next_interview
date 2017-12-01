@@ -151,6 +151,8 @@
 	<br>
 
 	<div id=tech_tabs>
+	<input type=hidden id=temp_var_hid>
+	
 	<ul class="nav nav-pills">
 		<!--li><a class="a1" data-toggle="tab" href="#cplusplus" id=cplusplus_tab>C++</a></li>
 	    <li><a class="a1" data-toggle="tab" href="#linux" id=linux_tab>Linux</a></li>
@@ -162,17 +164,19 @@
 	    <li><a class="a1" data-toggle="tab" href="#aws" id=aws_tab>AWS</a></li-->
 		
 		
-		<% collection.collections.forEach(function(col)  {%>
+		<% technology_collection.collections.forEach(function(technology)  {%>
 			<% var display_name %>
-			<% var href = "#" + col %>
-			<% var id = col + "_tab" %>
-			<% if(col == 'cplusplus') { %>
+			<% var href = "#" + technology %>
+			<% var id = technology + "_tab" %>
+			<% if(technology == 'cplusplus') { %>
 				<%	display_name = 'C++' %>
 			<% } else { %>
-				<% display_name = col %>
+				<% display_name = technology %>
 			<% } %>
 			<li><a class="a1" data-toggle="tab" href=<%= href %> id=<%= id %> ><%= display_name %></a></li>
 		<% }) %>
+		
+
 		
 	</ul>
 	</div>
@@ -210,7 +214,22 @@
 
 $(document).ready(function() {
 		console.log('hello')
-		get_technology_topics();
+		
+		var tabs = ''
+		var tech_collection = '<%= technology_collection.collections %>'
+		tech_collection = tech_collection.split(',')
+		
+		tech_collection.forEach(function(technology) {
+			if(tabs != '') {
+				tabs += ','
+			}
+			//console.log(technology)
+			tabs += '#' + technology + '_tab'
+		})
+
+		var dataJobj = { 'user' : '<%= user %>', 'editsave' : '<%= editsaveDisabled %>', 'delete' : '<%= deleteDisabled %>', 'topic_description_table' : '<%= topic_description_tableDisabled %>', 'tabs' : tabs }
+
+		get_technology_topics(dataJobj);
 		/*
 		$.ajax({
 			url: '/tech_collections',
