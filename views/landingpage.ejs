@@ -58,6 +58,14 @@
 			  
 		}
 		
+		.a2 {
+			  font-family: 'Josefin';
+		     font-size: 18px;
+		     text-shadow: 2px 2px 2px #aaa;
+			 color: c0c0f0
+			  
+		}
+		
 		.a_topic {
 			  font-family: 'Anivers';
 		     font-size: 16px;
@@ -134,57 +142,50 @@
 		.logo1 {
 		     font-family: 'Josefin', slab;
 		     font-size: 24px;
-			 font-color: FFD700
+			 font-color: 000000
 		     text-shadow: 2px 2px 2px #aaa;
 			 color: #93DC69
 		}
 		
+	
+		
 	</style>
   
 <body style="background-color:#1F1F1F">
-		
+	
+
 		
 <div class="container">
+
 	
 	<% include landingpage_header %>
 	
-	<br>
 
-	<div id=tech_tabs>
-	<input type=hidden id=temp_var_hid>
+	<div id=div_home>
+	<div id=tech_tabs style="padding-left:0px;padding-bottom:0px;padding-top:0px;">
+		<input type=hidden id=temp_var_hid>
 	
-	<ul class="nav nav-pills">
-		<!--li><a class="a1" data-toggle="tab" href="#cplusplus" id=cplusplus_tab>C++</a></li>
-	    <li><a class="a1" data-toggle="tab" href="#linux" id=linux_tab>Linux</a></li>
-	    <li><a class="a1"data-toggle="tab" href="#dockers" id=dockers_tab>Dockers</a></li>
-	    <li><a class="a1" data-toggle="tab" href="#nodejs" id=nodejs_tab>Nodejs</a></li>
-		<li><a class="a1" data-toggle="tab" href="#nosql" id=nosql_tab>NoSql DB</a></li>
-	    <li><a class="a1" data-toggle="tab" href="#rest" id=rest_tab>Rest Service</a></li>
-	    <li><a class="a1" data-toggle="tab" href="#rabbitmq" id=rabbitmq_tab>RabbitMQ</a></li>
-	    <li><a class="a1" data-toggle="tab" href="#aws" id=aws_tab>AWS</a></li-->
-		
-		
-		<% technology_collection.collections.forEach(function(technology)  {%>
-			<% var display_name %>
-			<% var href = "#" + technology %>
-			<% var id = technology + "_tab" %>
-			<% if(technology == 'cplusplus') { %>
-				<%	display_name = 'C++' %>
-			<% } else { %>
-				<% display_name = technology %>
-			<% } %>
-			<li><a class="a1" data-toggle="tab" href=<%= href %> id=<%= id %> ><%= display_name %></a></li>
-		<% }) %>
-		
-
-		
-	</ul>
+		<div style="padding-left:0px;padding-bottom:10px;padding-top:0px;">
+			<ul class="nav nav-pills" >
+				<% technology_collection.collections.forEach(function(technology)  {%>
+				<% var display_name %>
+				<% var href = "#" + technology %>
+				<% var id = technology + "_tab" %>
+				<% if(technology == 'cplusplus') { %>
+					<%	display_name = 'C++' %>
+				<% } else { %>
+					<% display_name = technology %>
+				<% } %>
+				<li><a class="a1" data-toggle="tab" href=<%= href %> id=<%= id %> ><%= display_name %></a></li>
+				<% }) %>
+			</ul>
+		</div>
 	</div>
 
 	<br>
 	
-    <p  id="subject_topic" class="tab-pane fade in active">
-		<table width=70%>
+    <p id="subject_topic" class="tab-pane fade in active">
+		<!--table width=70%>
 			<tr>
 				<td>
 					<font class=topics_des>
@@ -198,12 +199,33 @@
 						<p>
 							Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
 						</p>
+						<p>
+								How do humans make decisions? In everyday life, emotion is often the circuit-breaking factor in pulling the trigger on a complex or overwhelming decision.  But for experts making complex decisions that have long term consequences, it can’t be pure impulse.  High performers typically use the circuit breaker of “instinct”, “gut feel” or other emotions only once their expert, unconscious mind has absorbed all the facts required to make a decision.
+
+Today there are dozens of messaging technologies, countless ESBs, and nearly 100 iPaaS vendors in market.   Naturally, this leads to questions about how to choose the right messaging technology for your needs - particularly for those already invested in a particular choice.  Do we switch wholesale?  Just use the right tool for the right job? Have we correctly framed the job at hand for the business need? Given that, what is the right tool for me?  Worse, an exhaustive market analysis might never finish, but due diligence is critical given the average lifespan of integration code.
+
+This post endeavors give the unconscious, expert mind some even handed treatment to consider, starting with the most modern, popular choices today: RabbitMQ and Apache Kafka.  Each has it’s own origin story, design intent, uses cases where it shines, integration capabilities and developer experience. Origins are revealing about the overall design intent for any piece of software, and make good starting point.
+
+RabbitMQ is a “traditional” message broker that implements variety of messaging protocols. It was one of the first open source message brokers to achieve a reasonable level of features, client libraries, dev tools, and quality documentation. RabbitMQ was originally developed to implement AMQP, an open wire protocol for messaging with powerful routing features. While Java has messaging standards like JMS, it’s not helpful for non-Java applications that need distributed messaging which is severely limiting to any integration scenario, microservice or monolithic. With the advent of AMQP, cross-language flexibility became real for open source message brokers.
+
+Apache Kafka is developed in Scala and started out at LinkedIn as a way to connect different internal systems. At the time, LinkedIn was moving to a more distributed architecture and needed to reimagine capabilities like data integration and realtime stream processing, breaking away from previously monolithic approaches to these problems. Kafka is well adopted today within the Apache Software Foundation ecosystem of products and is particularly useful in event-driven architecture. 
+							</p>
 					</font>
 				</td>
 			</tr>
-		</table>
+		</table-->
 	</p>
+	</div>
+	
 
+	<div id=div_about style="display:none;" class=topics_des>		
+		It takes three things to market a brand successfully: strong branding, a consistent message, and a way with words. Well written copy helps to project a professional image and strengthen your reputation and, by using the same tone and repeating key phrases and wording across all your marketing materials, can increase brand recognition offline and improve your search engine optimisation (SEO) online. 
+		Quality content is the number one driver of your search engine rankings. Well thought out copy can increase traffic to your website and social media accounts, build trust, generate new leads, and help you develop a closer relationship with your customers. Clumsily done, however, and it’s one of the fastest ways to turn off your audience.
+	</div>
+
+	<div id=div_contact style="display:none;" class=topics_des>		
+		The Contacts Provider is a powerful and flexible Android component that manages the device's central repository of data about people. The Contacts Provider is the source of data you see in the device's contacts application, and you can also access its data in your own application and transfer data between the device and online services. The provider accommodates a wide range of data sources and tries to manage as much data as possible for each person, with the result that its organization is complex. Because of this, the provider's API includes an extensive set of contract classes and interfaces that facilitate both data retrieval and modification.
+	</div>
 
 </body>
 </html>
@@ -230,35 +252,42 @@ $(document).ready(function() {
 		var dataJobj = { 'user' : '<%= user %>', 'editsave' : '<%= editsaveDisabled %>', 'delete' : '<%= deleteDisabled %>', 'topic_description_table' : '<%= topic_description_tableDisabled %>', 'tabs' : tabs }
 
 		get_technology_topics(dataJobj);
-		/*
-		$.ajax({
-			url: '/tech_collections',
-			type: 'GET',
-			data: '',
-			success: (collection) => {
-				//document.write('<li><a class="a1" data-toggle="tab" href="#aws" id=aws_tab>' + JSON.stringify(collection) + '</a></li>')
-				var col_array = collection.collections;
-				col_array.forEach(function(col) {
-					console.log(col)
-					var display_name
 
-					if(col == 'cplusplus') {
-						display_name = 'C++'
-					}
-					else {
-						display_name = col
-					}
+		$("#home,#about,#contact").on('click', (event) => {
+			var item = event.target.id;
+			console.log('item: ' + item)
 
-					var li = '<li><a class="a1" data-toggle="tab" href="#' + col + '" id=' + col + '_tab>' + display_name + '</a></li-->'
-					$("#tech_tabs ul").append(li);
-				
-					get_technology_topics();
-
-				});
+			$('#ul_bar li').each(function(i) {
+				var id = $(this).attr('id'); // This is your rel value
+				console.log(id)
+				if("li_" + item == id) {
+					$("#" + id).addClass('active')
+				}
+				else {
+					$("#" + id).removeClass('active')
+				}
+			})
+			
+			$('#ul_bar li a').each(function(i) {
+				var id = $(this).attr('id'); // This is your rel value
+				console.log(id)
+				if(item == id) {
+					console.log('hiding: ' + "#div_" + item)
+					$("#div_" + item).show()
+				}
+				else {
+					console.log('showing: ' + "#div_" + item)
+					$("#div_" + id).hide()
+				}
+			})
+			
+			if(item == 'home') {
+				$("#subject_topic").text('')
 			}
+			
 		});
-		*/
-
+	
+		
 });
 
 </script>

@@ -281,13 +281,18 @@ module.exports = function(app, passport) {
 			var technology = jobj.technology
         	var collection = db.collection(technology);
 
-			collection.insert(entry, function(err, result) {
-				if(err) {
-					throw err;
-				}
+			collection.findOne({'topic': jobj.topic}, function(err, item) {
+				
+				if(item == null) {
+					collection.insert(entry, function(err, result) {
+						if(err) {
+							throw err;
+						}
 
-				response.end('created')
-			});
+						response.end('created')
+					});
+				}
+    		})
 		});
 
 	});
