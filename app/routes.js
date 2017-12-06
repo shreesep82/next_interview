@@ -160,7 +160,7 @@ module.exports = function(app, passport) {
 
 	// for getting topic's description search mongo's db database
 	app.get('/read_description', (request, response) => {
-    	response.set({'Content-Type' : 'text/html'})
+    	response.set({'Content-Type' : 'text/json'})
 
 	    console.log('get description')
     	//var jobj = JSON.parse(request.query.data);
@@ -177,7 +177,7 @@ module.exports = function(app, passport) {
 
 		collection.findOne({'topic': topic}, function(err, item) {
 			//console.log(item.description)
-            response.end(item.description);
+            response.json({description : [item.description]});
     	})
 
     	});

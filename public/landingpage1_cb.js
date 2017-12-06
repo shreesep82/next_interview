@@ -242,11 +242,12 @@ function add_cb()
 
 function show_description_cb(result, description_box_id) {
 
-	result = result.replace(/\<br>/g, "\r\n");
-	console.log(result)
+	// result.description is an array of 1 element
+	result.description[0] = result.description[0].replace(/\<br>/g, "\r\n");
+	console.log(result.description[0])
 	
 	console.log("#" + description_box_id)
-	$("#" + description_box_id).html(result);
+	$("#" + description_box_id).html(result.description[0]);
 	
 }
 
