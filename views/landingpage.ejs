@@ -2,6 +2,8 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
+			
+	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -11,6 +13,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="landingpage1_cb.js"></script>
+	<script type="text/javascript" src="nicEdit-latest.js"></script>
 	
 	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -31,6 +34,8 @@
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	 
 	
 </head>
 
@@ -151,6 +156,9 @@
 		
 	</style>
   
+
+		
+		
 <body style="background-color:#1F1F1F">
 	
 
@@ -231,11 +239,17 @@ Apache Kafka is developed in Scala and started out at LinkedIn as a way to conne
 </html>
 
 
+	
 <script>
 	
 
+          
+         
+	
+	
 $(document).ready(function() {
 		console.log('hello')
+		bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
 		
 		var tabs = ''
 		var tech_collection = '<%= technology_collection.collections %>'
@@ -291,5 +305,18 @@ $(document).ready(function() {
 });
 
 </script>
+
+
+
+<!--script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js">
+	
+            
+          </script-->
+	
+	 <!--script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js">
+            //<![CDATA[
+            bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+            //]]>
+          </script-->
 
  

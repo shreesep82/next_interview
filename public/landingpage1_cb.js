@@ -1,5 +1,8 @@
 
 
+	
+
+
 function reset_cb()
 {			   
 	console.log('reset');
@@ -270,7 +273,8 @@ function get_selected_topic() {
 */
 
 function show_cb()
-{	
+{
+	//nicEditors.TextAreaWithId()
 	var selected_topic = getTopicName($(this).attr("id"))
 	// getTopicName gives value with underscores. Replace that with empty space now
 	selected_topic = selected_topic.replace(/_/g, " ")
@@ -477,7 +481,7 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 	}
 	
 	subject_topic += '</div>'
-	subject_topic += '<table id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
+	subject_topic += '<table width=75%  id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
 	
 	
 	$("#subject_topic").html(subject_topic)
@@ -541,7 +545,7 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		topic_column += '>'
 		
 		topic_column += '	<td>'
-		topic_column += '		<table>'
+		topic_column += '		<table  width=100%>'
 		topic_column += '			<tr class="spaceUnder1">'
 		topic_column += '				<td align="right">'
 		//topic_column += '					<button class="button" >Edit / Save</button><br><br>'
@@ -582,13 +586,19 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		topic_column += '				<td>'
 		
 		var text_tmptopic = tmptopic + "_text"
-		topic_column += '					<textarea class="form-control textarea_nodrag" rows=18 cols=120 readonly id='
+		topic_column += '					<textarea name="area2" class="form-control textarea_nodrag" style="width: 900%; height: 350%" readonly id='
 		topic_column += 					'\''
 		topic_column += 					text_tmptopic
 		topic_column += 					'\''
 		topic_column += 					'>'
 		topic_column += '						description'
 		topic_column += '					</textarea>'
+		
+		//topic_column += '<br>'
+		
+		//topic_column += '<textarea name="area2" style="width: 100%;">'
+        //topic_column += '   Some Initial Content was in this textarea'
+		//topic_column += '</textarea><br>'
 
 		topic_column += '					'
 		topic_column += '				</td>'
@@ -606,8 +616,12 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		console.log(topic_column)
 		//$('#techlist  tr:last').after(topic_column);
 		$('#techlist').append('<tr><td>' + topic_column + '</tr></td>');
+		//nicEditors.TextAreaWithId(text_tmptopic)
+		//nicEditors.TextAreaWithId()
+		
 	});
 	
+		
 						
 	topic_description_table.rows.forEach(function(row) {
 		try {
@@ -649,6 +663,11 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 
 	$("#add_topic_but").on('click', add_cb);
 	$("#reset_topic_but").on('click', reset_cb);
+		
+		//bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+		//nicEditors.TextAreaWithId()
+		nicEditors.allTextAreas()
+		
 		
 	// now that we have a new html content from server,
 	// let's add some event handlers corresponding to that content

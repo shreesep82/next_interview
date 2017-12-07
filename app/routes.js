@@ -9,7 +9,9 @@ module.exports = function(app, passport) {
 	        //res.render('landingpage.ejs', { user: req.user }); // load the landing page
 		}
 		else {
+	        //res.render('index.ejs', { message: req.flash('loginMessage') }); // load the index.ejs file
 	        res.render('index.ejs', { message: req.flash('loginMessage') }); // load the index.ejs file
+
 		}
     });
 
