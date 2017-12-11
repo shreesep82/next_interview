@@ -18,37 +18,14 @@ function edit_cb()
 }
 */
 
-function save_topic_cb(add_result, description_box_id) {
-	
-	console.log('add_result: ' + add_result)
 
-	var tmp_description_box_id = description_box_id.split('_');
-	
-	description_box_id = ""
-	tmp_description_box_id.forEach(function(elem, index) {
-		if(index != tmp_description_box_id.length - 1) {
-			if(index == 0) {
-				description_box_id = tmp_description_box_id[0]
-			}
-			else {
-				description_box_id = description_box_id + "_" + tmp_description_box_id[index]
-			}
-		}
-	});
-
-	description_box_id = description_box_id + "_text"
-	console.log(description_box_id)
-
-	$("#" + description_box_id).prop('readonly', true)
-
-}
 
 function create_new_topic_cb(add_result, description_box_id) {
 	
 	console.log('add_result: ' + add_result)
 	if(add_result == "created") {
 		
-		var topic = $("#add_topic_content").val();
+		var topic = $("#add_topic_content").html();
 		var tmptopic = topic;
 		//console.log('t: ' + t);
 		tmptopic = tmptopic.replace(/ /g,'_');
@@ -115,8 +92,8 @@ function create_new_topic_cb(add_result, description_box_id) {
 		topic_column += '\''
 		topic_column += '>Edit/Save</button>'
 		
-		//topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='
-		topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
+		topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='
+		//topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
 		topic_column += '\''
 		var delete_id = tmptopic + "_delete"
 		topic_column += delete_id
@@ -130,14 +107,51 @@ function create_new_topic_cb(add_result, description_box_id) {
 		topic_column += '			<tr>'
 		topic_column += '				<td>'
 		
-		var text_tmptopic = tmptopic + "_text"
-		topic_column += '					<textarea class="form-control textarea_nodrag" rows=18 cols=120 readonly id='
-		topic_column += 					'\''
-		topic_column += 					text_tmptopic
-		topic_column += 					'\''
-		topic_column += 					'>'
-		topic_column += '						description'
-		topic_column += '					</textarea>'
+		//var text_tmptopic = tmptopic + "_text"
+		//topic_column += '					<textarea name="area2" class="form-control textarea_nodrag" style="width: 900%; height: 350%" readonly id='
+		//topic_column += 					'\''
+		//topic_column += 					text_tmptopic
+		//topic_column += 					'\''
+		//topic_column += 					'>'
+		//topic_column += '						description'
+		//topic_column += '					</textarea>'
+		
+		var div_tmptopic = tmptopic + "_div"
+		var instance_tmptopic = tmptopic + "_instance"
+		
+		topic_column += '<script>'
+		topic_column += 'myNicEditor.setPanel("'
+		topic_column += div_tmptopic
+		topic_column += '");'
+		topic_column += '</script>'
+		
+		topic_column += '<script>'
+		topic_column += 'myNicEditor.addInstance("'
+		topic_column += instance_tmptopic
+		topic_column += '");'
+        topic_column += '</script>'
+		
+		topic_column += '<div id='
+		topic_column += '\''
+		topic_column += div_tmptopic
+		topic_column += '\''
+		topic_column += ' style="width:900px; height:5%; border: 2px solid #c0c0c0; ">'
+		topic_column += '</div>'
+		
+		
+		topic_column += '<div class="container" contenteditable="false" id='
+		topic_column += '\''
+		topic_column += instance_tmptopic
+		topic_column += '\''
+		topic_column += ' style="width: 900px; overflow-y: scroll; overflow-x:hidden; height:450px; font-size: 16px; background-color: #c0c0c0; padding: 3px; border: 4px solid #c0c0c0; ">'
+		topic_column += '</div>'
+		
+		
+		//topic_column += '<br>'
+		
+		//topic_column += '<textarea name="area2" style="width: 100%;">'
+        //topic_column += '   Some Initial Content was in this textarea'
+		//topic_column += '</textarea><br>'
 
 		topic_column += '					'
 		topic_column += '				</td>'
@@ -210,13 +224,13 @@ function create_new_topic_cb(add_result, description_box_id) {
 function add_cb()
 {
 	// topic and description should not be empty
-	if($("#add_topic_content").val() == "" || $("#add_topic_description").val() == "")
+	if($("#add_topic_content").html() == "" || $("#add_topic_description").html() == "")
 	{
 		return;
 	}
 
-	var tmp_topic = $("#add_topic_content").val();
-	var tmp_description = $("#add_topic_description").val();
+	var tmp_topic = $("#add_topic_content").html();
+	var tmp_description = $("#add_topic_description").html();
 
 	if((tmp_topic.indexOf('\'') > -1))
 	{
@@ -228,7 +242,8 @@ function add_cb()
 
 	topic = topic.replace(/(?:\r\n|\r|\n)/g, '<br>');
 	description = description.replace(/(?:\r\n|\r|\n)/g, '<br>');
-	description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+	//description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+	description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:\/\\\|\}\{\[\]`~]*/g, '');
 
 	//console.log('topic: ' + topic);
 	//console.log(description);
@@ -243,15 +258,18 @@ function add_cb()
 
 
 
-function show_description_cb(result, description_box_id) {
+function show_description_cb(result, description_box_id, prog_id) {
 
 	// result.description is an array of 1 element
-	result.description[0] = result.description[0].replace(/\<br>/g, "\r\n");
+	//result.description[0] = result.description[0].replace(/\<br>/g, "&lt;br&gt;<br>");
+	//result.description[0] = result.description[0].replace(/\</g, "&lt;");
+	//result.description[0] = result.description[0].replace(/\>/g, "&gt;");
+	
 	console.log(result.description[0])
 	
 	console.log("#" + description_box_id)
 	$("#" + description_box_id).html(result.description[0]);
-	
+	$("#" + prog_id).html(result.description[1]);
 }
 
 /*
@@ -272,29 +290,37 @@ function get_selected_topic() {
 }
 */
 
-function show_cb()
+function show_cb(event)
 {
 	//nicEditors.TextAreaWithId()
 	var selected_topic = getTopicName($(this).attr("id"))
 	// getTopicName gives value with underscores. Replace that with empty space now
 	selected_topic = selected_topic.replace(/_/g, " ")
 	
-	console.log(selected_topic)
+	//console.log(selected_topic)
 		
 	var description_tr_id = getTopicName($(this).attr("id")) + "_tr"
-	console.log(description_tr_id)
+	//console.log(description_tr_id)
 	$('#' + description_tr_id).show()
 	
-	var description_box_id = getTopicName($(this).attr("id")) + "_text"
-	$("#" + description_box_id).prop('readonly', true)
+	var description_box_id = getTopicName($(this).attr("id")) + "_instance"
+	var prog_id = getTopicName($(this).attr("id")) + "_progcode"
+	//$("#" + description_box_id).prop('readonly', true)
+	var dataJobj = event.data
+	if(dataJobj.editsave == 'true') {
+		$("#" + description_box_id).attr('contenteditable', 'true')
+		$("#" + prog_id).attr('contenteditable', 'true')
+	}
+	else {
+		$("#" + description_box_id).attr('contenteditable', 'false')
+		//$("#" + prog_id).attr('contenteditable', 'false')
+	}
 	
-    
-
-	var description_box_id = getTopicName($(this).attr("id")) + "_text"
-	console.log(description_box_id)
+	//console.log(description_box_id)
 	
 	//$('#' + description_box_id).scrollTop($('#' + description_box_id)[0].scrollHeight);
 	$('#' + description_box_id).scrollTop(0);
+	$('#' + prog_id).scrollTop(0);
 	
 	var technology = $("#tech_hid").val()
 	
@@ -308,7 +334,7 @@ function show_cb()
 		type: 'GET',
 		data: data,
 		success: (result) => {
-			show_description_cb(result, description_box_id)
+			show_description_cb(result, description_box_id, prog_id)
 		}
 	});
 
@@ -376,18 +402,67 @@ function hide_cb()
 	$('#' + tr_id).hide()
 }
 
-function save_description(selected_topic)
-{	
-	description_id = getTopicName(selected_topic) + "_text"
+function save_topic_cb(add_result, description_box_id, prog_id) {
+	
+	console.log('add_result: ' + add_result)
+
+	var tmp_description_box_id = description_box_id.split('_');
+	
+	description_box_id = ""
+	tmp_description_box_id.forEach(function(elem, index) {
+		if(index != tmp_description_box_id.length - 1) {
+			if(index == 0) {
+				description_box_id = tmp_description_box_id[0]
+			}
+			else {
+				description_box_id = description_box_id + "_" + tmp_description_box_id[index]
+			}
+		}
+	});
+
+	description_box_id = description_box_id + "_instance"
+	console.log(description_box_id)
+
+	var tmp_prog_id = prog_id.split('_');
+	
+	prog_id = ""
+	tmp_prog_id.forEach(function(elem, index) {
+		if(index != tmp_prog_id.length - 1) {
+			if(index == 0) {
+				prog_id = tmp_prog_id[0]
+			}
+			else {
+				prog_id = prog_id + "_" + tmp_prog_id[index]
+			}
+		}
+	});
+	prog_id = prog_id + "_progcode"
+	
+	console.log(prog_id)
+	
+
+	//$("#" + description_box_id).prop('readonly', true)
+	$("#" + description_box_id).attr('contenteditable', 'true')
+	$("#" + prog_id).attr('contenteditable', 'true')
+
+}
+
+function save_description()
+{
+	selected_topic = $(this).attr("id")
+	description_id = getTopicName(selected_topic) + "_instance"
+	prog_id = getTopicName(selected_topic) + "_progcode"
 	console.log(description_id)
 	
-	var description = $("#" + description_id).val()
+	var description = $("#" + description_id).html()
+	var program = $("#" + prog_id).html()
 	console.log('description: ' + description)
 	
 	var tmp_topic = getTopicName(selected_topic);
 	tmp_topic = tmp_topic.replace(/_/g, " ")
 	
 	var tmp_description = description
+	var tmp_prog = program
 
 	if((tmp_topic.indexOf('\'') > -1))
 	{
@@ -396,19 +471,27 @@ function save_description(selected_topic)
 
 	var topic = tmp_topic.replace(/"/g, '\\"');
 	description = tmp_description.replace(/"/g, '\\"');
+	program = tmp_prog.replace(/"/g, '\\"');
 
 	topic = topic.replace(/(?:\r\n|\r|\n)/g, '<br>');
 	description = description.replace(/(?:\r\n|\r|\n)/g, '<br>');
-	description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+	//description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+	description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:\/\\\|\}\{\[\]`~]*/g, '');
+	
+	program = program.replace(/(?:\r\n|\r|\n)/g, '<br>');
+	//description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+	program = program.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:\/\\\|\}\{\[\]`~]*/g, '');
+	
 	
 	console.log(topic)
 	console.log(description);
+	console.log(program);
 	
 	var technology = $("#tech_hid").val()
 	$.post('/update_description',
-			'data={"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}',
+			'data={"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + ', "program" : ' + '"' + encodeURIComponent(program) + '"' + '}',
 			(save_result) => {
-				save_topic_cb(save_result, description_id)
+				save_topic_cb(save_result, description_id, prog_id)
 			}
 		  );
 
@@ -433,20 +516,28 @@ function getTopicName(selected_topic) {
 	return id;
 }
 
+function display_program_output(prog_output, prog_output_field)
+{
+	$("#" + prog_output_field).html(prog_output)
+}
+
 function edit_save_cb()
 {
-	var description_id = getTopicName($(this).attr("id")) + "_text"
+	var description_id = getTopicName($(this).attr("id")) + "_instance"
+	var program_id = getTopicName($(this).attr("id")) + "_progcode"
 	//description_id = description_id + "_text"
 	console.log(description_id)
 
-	console.log($("#" + description_id).prop('readonly'))
+	//console.log($("#" + description_id).prop('readonly'))
 	
-	if(! $("#" + description_id).prop('readonly')) {
-		console.log('not readonly. Can save now')
-		save_description($(this).attr("id"), description_id)
+	if($("#" + description_id).attr('contenteditable') == 'true') {
+		console.log('Editable. Can save now')
+		save_description($(this).attr("id"))
 	}
 	
-	$("#" + description_id).prop('readonly', false)
+	$("#" + description_id).attr('contenteditable', true)
+	$("#" + program_id).attr('contenteditable', true)
+	console.log($("#" + program_id).text())
 }
 
 function technology_info_display_cb(topic_description_table, subject, dataJobj) {
@@ -462,8 +553,10 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 	// topic_description_table.file indicates html content to be loaded in subject_topic <div>
 	var subject_topic = '<div id=add_topic>'
 	subject_topic += '<input type=hidden value=hid id=tech_hid>'
+	subject_topic += '<input type=hidden value=hid id=tmp_hid>'
 	
 	if(dataJobj.topic_description_table == 'true') {
+		/*
 		subject_topic += '		<table class="table-bordered table-condensed" style="background-color: #696969">'
 		subject_topic += '			<tr><td>'
 		subject_topic += '				<table>'
@@ -478,16 +571,69 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		subject_topic += '				<button class="btn btn-primary" id=reset_topic_but>Reset</button>'
 		subject_topic += '			</td></tr>'
 		subject_topic += '		</table>'
+		*/
+		
+		subject_topic += '<script>'
+		subject_topic += 'myNicEditor.setPanel("'
+		subject_topic += 'add_topic_control'
+		subject_topic += '");'
+		subject_topic += '</script>'
+		
+		subject_topic += '<script>'
+		subject_topic += 'myNicEditor.addInstance("'
+		subject_topic += 'add_topic_content'
+		subject_topic += '");'
+        subject_topic += '</script>'
+		
+		subject_topic += '<script>'
+		subject_topic += 'myNicEditor.addInstance("'
+		subject_topic += 'add_topic_description'
+		subject_topic += '");'
+        subject_topic += '</script>'
+		
+		subject_topic += '		<table class="table-bordered table-condensed" style="background-color: #696969">'
+		
+		subject_topic += '			<tr><td colspan=2>'
+		subject_topic += '<div id='
+		subject_topic += '\''
+		subject_topic += 'add_topic_control'
+		subject_topic += '\''
+		subject_topic += ' style="width:900px; height:5%; background-color: #000000; border: 2px solid #c0c0c0; ">'
+		subject_topic += '</div>'
+		subject_topic += '</td></tr>'
+		
+		subject_topic += '			<tr><td colspan=2>'
+		subject_topic += '<div class="container div1" contenteditable="true" id='
+		subject_topic += '\''
+		subject_topic += 'add_topic_content'
+		subject_topic += '\''
+		subject_topic += ' data-placeholder="Write topic here"   style="width: 900px; background-color: #000000; overflow-y: hidden; overflow-x:hidden; height:30px; font-size: 16px; background-color: #c0c0c0; padding: 3px; border: 4px solid #c0c0c0; ">'
+		subject_topic += '</div>'
+		subject_topic += '</td></tr>'
+		
+		subject_topic += '			<tr><td colspan=2>'
+		subject_topic += '<div class="container div1" contenteditable="true" id='
+		subject_topic += '\''
+		subject_topic += 'add_topic_description'
+		subject_topic += '\''
+		subject_topic += ' data-placeholder="Write description here"   style="width: 900px; background-color: #000000; overflow-y: scroll; overflow-x:hidden; height:400px; font-size: 16px; background-color: #c0c0c0; padding: 3px; border: 4px solid #c0c0c0; ">'
+		subject_topic += '</div>'
+		subject_topic += '</td></tr>'
+		
+		subject_topic += '			<tr><td align="right">'
+		subject_topic += '				<button class="btn btn-primary" id=add_topic_but>Add</button>'
+		subject_topic += '				<button class="btn btn-primary" id=reset_topic_but>Reset</button>'
+		subject_topic += '			</td></tr>'
 	}
 	
 	subject_topic += '</div>'
-	subject_topic += '<table width=75%  id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
+	subject_topic += '<table   id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
 	
 	
 	$("#subject_topic").html(subject_topic)
 	
 	$("#tech_hid").val(subject)
-	console.log($("#tech_hid").val())
+	//console.log($("#tech_hid").val())
 						
 	// below variable indicates the description of selected topic
 	// to be loaded into 'show' textarea upon clicking of 'show Description' button
@@ -495,7 +641,7 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 	var firstEntryDescription = '';
 	var firstEntryTopic = '';
 	//data = $.parseJSON(data);
-	console.log(topic_description_table.rows)
+	//console.log(topic_description_table.rows)
 	topic_description_table.rows.forEach(function(row) {
 		var topic = row.topic;
 		//var description = row.description;
@@ -545,7 +691,7 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		topic_column += '>'
 		
 		topic_column += '	<td>'
-		topic_column += '		<table  width=100%>'
+		topic_column += '		<table style="width:900px;">'
 		topic_column += '			<tr class="spaceUnder1">'
 		topic_column += '				<td align="right">'
 		//topic_column += '					<button class="button" >Edit / Save</button><br><br>'
@@ -565,12 +711,13 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 			var edit_save_id = tmptopic + "_editsave"
 			topic_column += edit_save_id
 			topic_column += '\''
-			topic_column += '>Edit/Save</button>'
+			topic_column += '>Save</button>'
 		}
 
 		
 		if(dataJobj.delete == 'true') {
-			topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='		
+			//topic_column += '				<button type="button"  class="btn btn-outline-primary btn-transparent" id='
+			topic_column += '				<button type="button" disabled class="btn btn-outline-primary btn-transparent" id='		
 			topic_column += '\''
 			var delete_id = tmptopic + "_delete"
 			topic_column += delete_id
@@ -585,14 +732,181 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		topic_column += '			<tr>'
 		topic_column += '				<td>'
 		
-		var text_tmptopic = tmptopic + "_text"
-		topic_column += '					<textarea name="area2" class="form-control textarea_nodrag" style="width: 900%; height: 350%" readonly id='
-		topic_column += 					'\''
-		topic_column += 					text_tmptopic
-		topic_column += 					'\''
-		topic_column += 					'>'
-		topic_column += '						description'
-		topic_column += '					</textarea>'
+		//var text_tmptopic = tmptopic + "_text"
+		//topic_column += '					<textarea name="area2" class="form-control textarea_nodrag" style="width: 900%; height: 350%" readonly id='
+		//topic_column += 					'\''
+		//topic_column += 					text_tmptopic
+		//topic_column += 					'\''
+		//topic_column += 					'>'
+		//topic_column += '						description'
+		//topic_column += '					</textarea>'
+		
+		var div_tmptopic = tmptopic + "_div"
+		var instance_tmptopic = tmptopic + "_instance"
+		var des_div_tmptopic = tmptopic + "_des_div"
+		var prog_div_tmptopic = tmptopic + "_prog_div"
+		
+		topic_column += '<script>'
+		topic_column += 'myNicEditor.setPanel("'
+		topic_column += div_tmptopic
+		topic_column += '");'
+		topic_column += '</script>'
+		
+		topic_column += '<script>'
+		topic_column += 'myNicEditor.addInstance("'
+		topic_column += instance_tmptopic
+		topic_column += '");'
+        topic_column += '</script>'
+		
+		var ul_tmptopic = tmptopic + "_ul"
+		var des_li_tmptopic = tmptopic + "_desli"
+		var prog_li_tmptopic = tmptopic + "_progli"
+		//topic_column += '<div>'
+		topic_column += '<table class="table-bordered">'
+		topic_column += '<tr><td>'
+		topic_column += '	<ul class="nav nav-pills nav-justified" id='
+		topic_column += '\''
+		topic_column += ul_tmptopic
+		topic_column += '\''
+		topic_column += '>'
+		topic_column += '		<li class="a1 active" data-toggle="tab" id='
+		topic_column += '\''
+		topic_column += des_li_tmptopic
+		topic_column += '\''
+		topic_column += '><a href="">Description</a></li>'
+		
+		topic_column += '		<li class="a1" data-toggle="tab" id='
+		topic_column += '\''
+		topic_column += prog_li_tmptopic
+		topic_column += '\''
+		topic_column += '><a href="">Program</a></li>'
+		topic_column += '	</ul>'
+
+		
+
+		
+		topic_column += '<tr><td>'
+		
+		topic_column += '<div style="display:;" id='
+		topic_column += '\''
+		topic_column += des_div_tmptopic
+		topic_column += '\''
+		topic_column += '>'
+		
+		
+		topic_column += '		<table class="table-condensed" style="background-color:  #151705 ; border: 0px solid #000000;">'
+		if(dataJobj.editsave == 'true') {
+			topic_column += '			<tr><td>'
+			topic_column += '<div id='
+			topic_column += '\''
+			topic_column += div_tmptopic
+			topic_column += '\''
+			topic_column += ' style="width:900px; background-color:  #151705 ; height:5%; border: 0px solid #c0c0c0; ">'
+			topic_column += '</div>'
+			topic_column += '			</td></tr>'
+		}
+
+		topic_column += '			<tr><td>'		
+		topic_column += '<div class="container" contenteditable="true" id='
+		topic_column += '\''
+		topic_column += instance_tmptopic
+		topic_column += '\''
+		topic_column += '  style="width: 900px; background-color:  #151705 ; overflow-y: scroll; overflow-x:hidden; height:550px; font-size: 16px;  padding: 0px; border: 0px solid #c0c0c0; ">'
+		topic_column += '</div>'
+		topic_column += '			</td></tr>'
+		topic_column += '	</table>'
+		topic_column += '</div>'
+		
+		topic_column += '<div style="display:none;" id='
+		topic_column += '\''
+		topic_column += prog_div_tmptopic
+		topic_column += '\''
+		topic_column += '>'
+		
+		var prog_code_control = tmptopic + "_progcodecontrol"
+		var prog_code = tmptopic + "_progcode"
+
+		
+		
+		topic_column += '<script>'
+		topic_column += 'myNicEditor.setPanel("'
+		topic_column += prog_code_control
+		topic_column += '");'
+		topic_column += '</script>'
+		
+		topic_column += '<script>'
+		topic_column += 'myNicEditor.addInstance("'
+		topic_column += prog_code
+		topic_column += '");'
+        topic_column += '</script>'
+		
+		topic_column += '		<table class="table-condensed" style="background-color:  #151705 ; border: 0px solid #000000;">'
+		if(dataJobj.editsave == 'true') {
+			topic_column += '			<tr><td>'
+			topic_column += '<div id='
+			topic_column += '\''
+			topic_column += prog_code_control
+			topic_column += '\''
+			topic_column += ' style="width:900px; background-color:  #151705 ; height:5%; border: 0px solid #c0c0c0; ">'
+			topic_column += '</div>'
+			topic_column += '			</td></tr>'
+		}
+		
+		topic_column += '			<tr><td>'
+		topic_column += '<table>'
+		topic_column += '<tr><td>'
+		topic_column += '<div class="container" contenteditable="true" id='
+		topic_column += '\''
+		topic_column += prog_code
+		topic_column += '\''
+		topic_column += '  style="width: 900px; background-color:  #151705 ; overflow-y: scroll; overflow-x:hidden; height:700px; font-size: 16px;  padding: 0px; border: 0px solid #c0c0c0; ">'
+		topic_column += '</div>'
+		topic_column += '</td></tr>'
+		
+		var prog_code_table = tmptopic + "_progcodetable"
+		var prog_input = tmptopic + "_proginput"
+		var prog_output = tmptopic + "_progoutput"
+		var prog_send = tmptopic + "_progsend"
+		
+		
+		topic_column += '<tr><td id='
+		topic_column += '\''
+		topic_column += prog_code_table
+		topic_column += '\''
+		topic_column += '>'
+		topic_column += '<tr><td>'
+		topic_column += '<table class="" width=98% height=300% class="">'
+		topic_column += '<tr class="spaceUnder1"><td><br><textarea style="border-color: #c0c0c0;color:#fff; height: 60px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
+		topic_column += '\''
+		topic_column += prog_input
+		topic_column += '\''
+		topic_column += ' ></textarea>'
+		topic_column += '</tr></td>'
+		topic_column += '<tr class="spaceUnder1"><td><br><textarea style="border-color: #c0c0c0;color:#fff; height: 200px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
+		topic_column += '\''
+		topic_column += prog_output
+		topic_column += '\''
+		topic_column += ' ></textarea>'
+		topic_column += '</tr></td>'
+		topic_column += '<tr><td align=right>'
+		topic_column += '<button class="btn btn-primary" id='
+		topic_column += '\''
+		topic_column += prog_send
+		topic_column += '\''
+		topic_column += '>Run Program</button>'
+		topic_column += '</td></tr>'
+		topic_column += '</table>'
+		topic_column += '</td></tr>'
+		topic_column += '</table>'
+		
+		
+		
+		topic_column += '			</td></tr>'
+		topic_column += '	</table>'
+		topic_column += '</div>'
+		
+		topic_column += '</table>'
+		
 		
 		//topic_column += '<br>'
 		
@@ -613,10 +927,92 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		topic_column += '</tr>'
 	
 	
-		console.log(topic_column)
+		//console.log(topic_column)
 		//$('#techlist  tr:last').after(topic_column);
 		$('#techlist').append('<tr><td>' + topic_column + '</tr></td>');
 		//nicEditors.TextAreaWithId(text_tmptopic)
+		
+		if(dataJobj.editsave != 'true') {
+			$('#' + instance_tmptopic).attr('contenteditable', 'false');
+		}
+		
+		$('#' + instance_tmptopic).css('background-color', '#0e0f02 '); 
+		
+		if(dataJobj.editsave != 'true') {
+			//$('#' + prog_code).attr('contenteditable', 'false');
+		}
+		
+		$('#' + prog_code).css('background-color', '#0e0f02 '); 
+		
+		
+		$("#" + des_li_tmptopic).on('click', function() {
+			$("#" + des_div_tmptopic).css('display', '')
+			$("#" + prog_div_tmptopic).css('display', 'none')
+		})
+		
+		$("#" + prog_li_tmptopic).on('click', function() {
+			$("#" + des_div_tmptopic).css('display', 'none')
+			$("#" + prog_div_tmptopic).css('display', '')
+		})
+		
+		/*
+		$("#" + prog_code).keypress(function (e) {
+			if (e.keyCode == 13) {
+				console.log('You pressed enter!');
+				var content = $(this).html()
+				console.log(content)
+			}
+		});
+		*/
+
+		$("#" + prog_send).on('click', function() {
+			
+			var prog_content = $("#" + prog_code).html()
+			console.log('prog_html: ' + prog_content)
+
+			prog_content = prog_content.replace(/\0x0D/g, '\\\n\\\n')
+			prog_content = prog_content.replace(/<br>/g, "%3Cbr%3E")
+			prog_content = prog_content.replace(/"/g, "%22")
+			
+			$("#tmp_hid").html(prog_content)
+			prog_content = $("#tmp_hid").text()
+			console.log('prog_content: ' + prog_content)
+
+			var prog_in = $("#" + prog_input).html()
+			console.log('prog_in: ' + prog_in)
+
+			prog_in = prog_in.replace(/<br>/g, "%3Cbr%3E")
+			prog_in = prog_in.replace(/"/g, "%22")
+			
+			$("#tmp_hid").html(prog_in)
+			prog_in = $("#tmp_hid").text()
+			console.log('prog_in: ' + prog_in)
+			
+			$.post('/run_program',
+			'data={"prog_input" : ' + '"' + encodeURIComponent(prog_in) + '"' + ', "program" : ' + '"' + encodeURIComponent(prog_content) + '"' + '}',
+				(prog_result) => {
+					display_program_output(prog_result, prog_output)
+				}
+			);
+			
+			
+			/*
+			$.ajax({
+				type: "POST",
+				url: "/run_program",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				data: "{program: '" + encodeURIComponent(prog_content) + "'}",
+				success: function(prog_result) {
+				    display_program_output(prog_result, prog_output)
+				}
+    
+			});
+			*/
+			
+			
+		})
+		
 		//nicEditors.TextAreaWithId()
 		
 	});
@@ -629,7 +1025,7 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 			anchor = anchor.replace(/ /g,'_');
 			anchor = anchor + "_anchor"
 			console.log(anchor);
-			$("#" + anchor).on('click', show_cb);
+			$("#" + anchor).bind('click', dataJobj, show_cb);
 
 			var hide = row.topic;
 			hide = hide.replace(/ /g,'_');
@@ -642,7 +1038,9 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 				edit_save = edit_save.replace(/ /g,'_');
 				edit_save = edit_save + "_editsave"
 				console.log(edit_save);
-				$("#" + edit_save).on('click', edit_save_cb);
+				//$("#" + edit_save).on('click', edit_save_cb);
+				$("#" + edit_save).on('click', save_description);
+				
 			}
 			
 			if(dataJobj.delete == 'true') {
@@ -666,7 +1064,7 @@ function technology_info_display_cb(topic_description_table, subject, dataJobj) 
 		
 		//bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
 		//nicEditors.TextAreaWithId()
-		nicEditors.allTextAreas()
+		//nicEditors.allTextAreas()
 		
 		
 	// now that we have a new html content from server,
@@ -685,15 +1083,15 @@ function get_technology_topics(dataJobj)
 		// once we click on tab buttons because Add, Show, Edit, Reset, and Delete buttons are dynamically
 		// loaded
 		var tabs = dataJobj.tabs
-		console.log('tabs: ' + tabs)
+		//console.log('tabs: ' + tabs)
 		
 		$(tabs).on('click', (event) => {
 		
-			console.log(event.target.id);
+			//console.log(event.target.id);
 
 			var technology = event.target.id;
 			technology = technology.split('_');
-			console.log(technology[0]);
+			//console.log(technology[0]);
 
 			$.ajax({
 						url: '/list_topics',

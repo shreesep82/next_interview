@@ -179,10 +179,65 @@ module.exports = function(app, passport) {
 
 		collection.findOne({'topic': topic}, function(err, item) {
 			//console.log(item.description)
-            response.json({description : [item.description]});
+            response.json({description : [item.description, item.program]});
     	})
 
     	});
+	});
+
+
+	app.post('/run_program', (request, response) => {
+    	response.set({'Content-Type' : 'text/html'})
+		var jobj = JSON.parse(request.body.data)
+		var prog = decodeURIComponent(jobj.program)
+		prog = prog.replace(/<br>/g, "\n")
+		prog = prog.replace('\240', '')
+		console.log(prog);
+
+		var prog_input = decodeURIComponent(jobj.prog_input)
+		prog_input = prog_input.replace(/<br>/g, "\n")
+		prog_input = prog_input.replace('\240', '')
+		console.log(prog_input);
+
+		var fs = require('fs');
+		fs.writeFileSync("/tmp/test.cpp", prog);
+
+    	console.log("The file was saved!");
+
+		var cp = require('child_process');
+
+		var command = 'g++';
+		var args = ['/tmp/test.cpp', '-o', '/tmp/test'];
+
+		var childProcess = cp.spawnSync(command, args, {
+    		cwd: process.cwd(),
+    		env: process.env,
+    		stdio: 'pipe',
+			input: prog_input,
+    		encoding: 'utf-8'
+		});
+
+		if(childProcess.status) {
+			response.send(childProcess.stderr);
+		}
+		else {
+			var command = '/tmp/test';
+			var args = [''];
+
+			var childProcess = cp.spawnSync(command, args, {
+    			cwd: process.cwd(),
+    			env: process.env,
+	    		stdio: 'pipe',
+    			encoding: 'utf-8'
+			});
+
+			if(!childProcess.status) {
+				response.send(childProcess.stdout);
+			}
+			else {
+        		response.send('Some error occured');
+			}
+		}
 	});
 
 	// for getting topic's description search mongo's db database
@@ -312,8 +367,9 @@ module.exports = function(app, passport) {
 			var technology = jobj.technology
         	var collection = db.collection(technology);
 			var description = jobj.description
+			var program = jobj.program
 
-			collection.update({topic: jobj.topic}, {topic:jobj.topic, description:jobj.description }, () => {
+			collection.update({topic: jobj.topic}, {topic:jobj.topic, description:jobj.description, program:jobj.program }, () => {
 				response.end('overwritten')
 			});
 		});

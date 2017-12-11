@@ -111,6 +111,10 @@
 			resize: none;
 		}
 		
+			tr.spaceTop>td {
+			padding-top: 8em;
+		}
+		
 		.btn-transparent {
 			background: transparent;
 		    color: #c0c0c0;
@@ -152,7 +156,9 @@
 			 color: #93DC69
 		}
 		
-	
+	div1:empty:before {
+  content:attr(data-placeholder);
+}
 		
 	</style>
   
@@ -244,7 +250,9 @@ Apache Kafka is developed in Scala and started out at LinkedIn as a way to conne
 	
 
           
-         
+
+				var myNicEditor = new nicEditor();
+    
 	
 	
 $(document).ready(function() {
@@ -301,6 +309,8 @@ $(document).ready(function() {
 			
 		});
 	
+		
+
 		
 });
 
