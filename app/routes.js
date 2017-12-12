@@ -197,7 +197,6 @@ module.exports = function(app, passport) {
 		var prog_input = decodeURIComponent(jobj.prog_input)
 		prog_input = prog_input.replace(/<br>/g, "\n")
 		prog_input = prog_input.replace('\240', '')
-		console.log(prog_input);
 
 		var fs = require('fs');
 		fs.writeFileSync("/tmp/test.cpp", prog);
@@ -213,7 +212,6 @@ module.exports = function(app, passport) {
     		cwd: process.cwd(),
     		env: process.env,
     		stdio: 'pipe',
-			input: prog_input,
     		encoding: 'utf-8'
 		});
 
@@ -224,10 +222,13 @@ module.exports = function(app, passport) {
 			var command = '/tmp/test';
 			var args = [''];
 
+		var input = prog_input
+		console.log('prog_input: ' + prog_input);
 			var childProcess = cp.spawnSync(command, args, {
     			cwd: process.cwd(),
     			env: process.env,
 	    		stdio: 'pipe',
+				input: input,
     			encoding: 'utf-8'
 			});
 
