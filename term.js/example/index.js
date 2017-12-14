@@ -1,3 +1,5 @@
+
+
 #!/usr/bin/env node
 
 /**
@@ -34,6 +36,8 @@ var buff = []
   , socket
   , term;
 
+function open_terminal() {
+
 term = pty.fork(process.env.SHELL || 'sh', [], {
   name: require('fs').existsSync('/usr/share/terminfo/x/xterm-256color')
     ? 'xterm-256color'
@@ -54,6 +58,7 @@ console.log(''
   + 'Created shell with pty master/slave'
   + ' pair (master: %d, pid: %d)',
   term.fd, term.pid);
+}
 
 /**
  * App & Server
@@ -76,12 +81,14 @@ app.use(function(req, res, next) {
   next();
 });
 
+/*
 app.use(express.basicAuth(function(user, pass, next) {
   if (user !== 'foo' || pass !== 'bar') {
     return next(true);
   }
   return next(null, user);
 }));
+*/
 
 app.use(express.static(__dirname));
 app.use(terminal.middleware());
@@ -101,7 +108,7 @@ if (!~process.argv.indexOf('-n')) {
   });
 }
 
-server.listen(8081);
+server.listen(8080);
 
 /**
  * Sockets
@@ -112,16 +119,19 @@ io = io.listen(server, {
 });
 
 io.sockets.on('connection', function(sock) {
+        open_terminal()
   socket = sock;
 
+        var sock_data = ''
   socket.on('data', function(data) {
     if (stream) stream.write('IN: ' + data + '\n-\n');
-    //console.log(JSON.stringify(data));
+    //console.log('data: ' + JSON.stringify(data));
     term.write(data);
   });
 
   socket.on('disconnect', function() {
     socket = null;
+          console.log('exit')
   });
 
   while (buff.length) {

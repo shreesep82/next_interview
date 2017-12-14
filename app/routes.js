@@ -63,16 +63,16 @@ module.exports = function(app, passport) {
 
 				var editsaveDisabled;
 				var deleteDisabled;
-				var topic_description_tableDisabled;
+				var add_topic_tableDisabled;
 				if(req.user.local.email == 'admin@gmail.com') {
 					editsaveDisabled = true
 					deleteDisabled = true
-					topic_description_tableDisabled = true
+					add_topic_tableDisabled = true
 				}
 				else {
 					editsaveDisabled = false
 					deleteDisabled = false
-					topic_description_tableDisabled = false
+					add_topic_tableDisabled = false
 				}
 
 		        res.render('landingpage.ejs', {
@@ -80,7 +80,7 @@ module.exports = function(app, passport) {
 					technology_collection : technology_collections_jobj,
 					editsaveDisabled : editsaveDisabled,
 					deleteDisabled : deleteDisabled,
-					topic_description_tableDisabled : topic_description_tableDisabled
+					add_topic_tableDisabled : add_topic_tableDisabled
         		});
             });
 		});
@@ -276,7 +276,7 @@ module.exports = function(app, passport) {
             	}
 
             	response.setHeader('Content-Type', 'application/json');
-            	response.send({ rows: result });
+            	response.send({ list : result });
 
         	});
     	});
