@@ -552,7 +552,7 @@ function edit_save_cb()
 
 function technology_info_display_cb(topic_list, subject, dataJobj) {
 							
-	var subject_topic = '<div id=add_topic>'
+	var subject_topic = ''//<div id=add_topic class=container>'
 	subject_topic += '<input type=hidden value=hid id=tech_hid>'
 	subject_topic += '<input type=hidden value=hid id=tmp_hid>'
 	
@@ -566,9 +566,9 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 
 	}
 	
-	subject_topic += '</div>'
+	//subject_topic += '</div>'
 	    
-    subject_topic += '<table   id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
+    subject_topic += '<table class="col-lg-12 col-sm-10" style="width:; background-color:;" id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
 
 	$("#subject_topic").html(subject_topic)
 	
@@ -578,6 +578,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 	var firstEntryDescription = '';
 	var firstEntryTopic = '';
 
+	
 	topic_list.list.forEach(function(list_item) {
 		var topic = list_item.topic;
 
@@ -598,6 +599,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		
 		topic_entry += create_hide_save_delete_buttons(tmptopic, dataJobj)
 
+		
 		var des_div_tmptopic = tmptopic + "_des_div"
 		var prog_div_tmptopic = tmptopic + "_prog_div"
 		var prog_code_control = tmptopic + "_progcodecontrol"
@@ -614,6 +616,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		
 		topic_entry += create_description_program_headers(tmptopic)
 
+		
 		var div_tmptopic = tmptopic + "_div"
 		var instance_tmptopic = tmptopic + "_instance"
 		
@@ -621,11 +624,14 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 			topic_entry += topic_edit_panel(tmptopic)
 		}
 		
+		
 		topic_entry += description_panel(tmptopic)
 		
 		topic_entry += add_description_program_content(dataJobj, tmptopic)
 	
+	
 		$('#techlist').append('<tr><td>' + topic_entry + '</tr></td>');
+		
 		
 		if(dataJobj.editsave != 'true') {
 			$('#' + instance_tmptopic).attr('contenteditable', 'false');
@@ -682,8 +688,11 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 
 			
 		})
+		
+		
 
 	});
+	
 				
 	topic_list.list.forEach(function(list_item) {
 		try {

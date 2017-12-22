@@ -4,10 +4,10 @@
 	
 			
 	
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -165,7 +165,6 @@
 }
 		
 	</style>
-  
 
 		
 		
@@ -175,15 +174,13 @@
 		
 <div class="container">
 
-	
+			<div class="row" >
 	<% include landingpage_header %>
 	
 
-	<div class=container id=div_home>
-	<div class=container id=tech_tabs style="padding-left:0px;padding-bottom:0px;padding-top:0px;">
-		<input type=hidden id=temp_var_hid>
 	
-		<div id=row style="padding-left:0px;padding-bottom:10px;padding-top:0px;">
+		<div class="col-12" id=row style="padding-left:0px;padding-bottom:0px;padding-top:60px;">
+			<input type=hidden id=temp_var_hid>
 			<ul class="nav nav-pills" >
 				<% technology_collection.collections.forEach(function(technology)  {%>
 				<% var display_name %>
@@ -198,25 +195,39 @@
 				<% }) %>
 			</ul>
 
+	</div>
+	</div>
+</div>
 
 	<br>
 	
-    <p id="subject_topic" style="width:1000px" class="tab-pane fade in active">
+	<div class="container" >
+		<div class="row" >
+			<!--div class="col-lg-4"-->
+    <div id="subject_topic"  class="col-lg-10 col-xs-12 tab-pane fade in active" style="background-color:;">
 
-				</p>
-	</div>
-			</div>
-	</div>
-	
-
-	<div id=div_about style="display:none;" class=topics_des>		
-		It takes three things to market a brand successfully: strong branding, a consistent message, and a way with words. Well written copy helps to project a professional image and strengthen your reputation and, by using the same tone and repeating key phrases and wording across all your marketing materials, can increase brand recognition offline and improve your search engine optimisation (SEO) online. 
+				</div>
+				<!--/div-->
+				<!--div class="col-lg-12" style="background-color:#c0c0f0;"-->
+					
+						<div class="col-lg-9 topics_des" id=div_about style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+							It takes three things to market a brand successfully: strong branding, a consistent message, and a way with words. Well written copy helps to project a professional image and strengthen your reputation and, by using the same tone and repeating key phrases and wording across all your marketing materials, can increase brand recognition offline and improve your search engine optimisation (SEO) online. 
 		Quality content is the number one driver of your search engine rankings. Well thought out copy can increase traffic to your website and social media accounts, build trust, generate new leads, and help you develop a closer relationship with your customers. Clumsily done, however, and it’s one of the fastest ways to turn off your audience.
 	</div>
 
-	<div id=div_contact style="display:none;" class=topics_des>		
+	<div class="col-lg-9 topics_des" id=div_contact style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
 		The Contacts Provider is a powerful and flexible Android component that manages the device's central repository of data about people. The Contacts Provider is the source of data you see in the device's contacts application, and you can also access its data in your own application and transfer data between the device and online services. The provider accommodates a wide range of data sources and tries to manage as much data as possible for each person, with the result that its organization is complex. Because of this, the provider's API includes an extensive set of contract classes and interfaces that facilitate both data retrieval and modification.
 	</div>
+					
+				</div>
+				</div>
+	</div>
+				
+
+
+	
+
+
 
 
 
@@ -285,7 +296,11 @@ $(document).ready(function() {
 			})
 			
 			if(item == 'home') {
+				$("#row").show()
 				$("#subject_topic").text('')
+			}
+			else {
+				$("#row").hide()
 			}
 			
 		});

@@ -1,66 +1,123 @@
 
-<nav id="myNavbar" class=" navbar-default navbar-inverse navbar-fixed-top" style="background-color:  #565e0e  ;" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="container-fluid">
+<!--nav id="myNavbar" class="navbar navbar-toggleable-lg navbar navbar-inverse navbar-fixed-top" style="background-color:  #565e0e  ;" role="navigation">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
         <div class="navbar-header" >
          
             <a class="navbar-brand" href="#"><font  class=logo1>&nbsp;&#9805;&nbsp;</font></a>
 		
 			
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
 
 
 			
-			
-            <!--ul class="nav navbar-nav" -->
+
 				<ul class="nav navbar-nav" id=ul_bar>
                 <li class=active id=li_home><a target="" href="#" id=home>Home</a></li>
                 <li id=li_about><a target="" href="#" id=about>About</a></li>
                 <li id=li_contact><a target="" href="#" id=contact>Contact</a></li>
-            </ul>
+				
+				<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+		</ul>		
+            
 			
 			
-	
-							
+	<ul class="nav navbar-nav nav-right" id=ul_bar>
+			<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user %> <span class="caret"></span></a>
+          <ul class="dropdown-menu ">
+            <li><a href="#">Settings</a></li>
+
+            <li role="separator" class="divider"></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+	</ul>
+			
+			
 						
 			
-			<div class="dropdown" align=right style="padding-left:0px;padding-bottom:0px;padding-top:5px;">
-				    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><%= user %>
-				    <span class="caret"></span></button>
-				    <ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#">Settings</a></li>       
-						<!--li class="divider"></li-->
-						<li><a href="/logout">Logout</a></li>
-					</ul>
-				</div>	
+	
 		</div>
+
+</nav-->
+
+
+<nav id="myNavbar" class="navbar navbar-toggleable-lg navbar  navbar-fixed-top" style="background-color:  #565e0e  ;" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" style="color:ffffff; background-color:  #565e0e  ;">
+ <div class="navbar-header">
+	<a class="navbar-brand" href="#"><font  class=logo1>&nbsp;&#9805;&nbsp;</font></a>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
     </div>
+    <div class="navbar-collapse collapse">
+      <!--ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Link</a></li>
+        <li><a href="#">More</a></li>
+        <li><a href="#">Options</a></li>
+      </ul-->
+	  
+	  
+	  	<ul class="nav navbar-nav" id=ul_bar>
+                <li class=active id=li_home><a target="" href="#" id=home>Home</a></li>
+                <li id=li_about><a target="" href="#" id=about>About</a></li>
+                <li id=li_contact><a target="" href="#" id=contact>Contact</a></li>
+				
+				<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Controls <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Add user</a></li>
+            <li><a href="#">Add technology</a></li>
+            <li><a href="#">Check messages</a></li>
+
+          </ul>
+        </li>
+		</ul>
+	  
+	  <ul class="nav navbar-nav nav-right" id=ul_bar>
+			<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user %> <span class="caret"></span></a>
+          <ul class="dropdown-menu ">
+            <li><a href="#">Settings</a></li>
+
+            <li role="separator" class="divider"></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+	</ul>
+	  
+    </div>
+</div>
 </nav>
 
-<div class="jumbotron" style="background-color:#1F1F1F;padding-left:0px;padding-bottom:0px;padding-top:25px;" class=techs-div>
+
+<!--div class="jumbotron" style="background-color:#1F1F1F;padding-left:0px;padding-bottom:0px;padding-top:25px;" class=techs-div>
     <div  >
-	<table class="" width=90%>
+	<table class="col-lg-10" >
 
 		<tr class="" >
-			<td width=75%>
+			<td >
 	
-				<table class="" width=120%>
-					<!--tr>
-						<td>
-							<h1 id=techr style="font-size:42px;padding-left:0px;padding-bottom:0px;padding-top:5px"><font color="#c0c0c0">Tech Reference for next interview</font></h1>
-						</td>
-						<td>
-						<table class="table-bordered" width=100%>
-						<td bgcolor= #fcffe1  >
-							<font class=logo1>&nbsp;&#9805;&nbsp;</font>
-						</td>
-
-						</tr>
-						</table>
-						</td>
-					</tr-->
+				<table class="" >
+		
 				
 					<tr >
 						<td >
@@ -81,4 +138,16 @@
 		</tr>
 	</table>
 	</div>
+	</div-->
+
+<!--div class=>
+	<div class=row>
+		<div class="col-lg-10">
+			<h5 class="text-warning" style="padding-left:0px;padding-bottom:0px;padding-top:44px;">
+								<i>&nbsp;&nbsp;Attending tens of interviews makes us gain experience. Refer the topics presented here before
+									you head to interviews
+								</i>
+							</h5>	
+		</div>
 	</div>
+</div-->
