@@ -197,6 +197,7 @@ module.exports = function(app, passport) {
 		var prog_input = decodeURIComponent(jobj.prog_input)
 		prog_input = prog_input.replace(/<br>/g, "\n")
 		prog_input = prog_input.replace('\240', '')
+		prog_input = prog_input.replace('\302', '')
 
 		var fs = require('fs');
 		fs.writeFileSync("/tmp/test.cpp", prog);

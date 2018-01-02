@@ -124,7 +124,7 @@ function create_topic_link(topic)
 	topic_entry += '><td>'
 		
 	var a_tmptopic = tmptopic + "_anchor"
-	topic_entry += '<a class="a_topic" id='
+	topic_entry += '<a class="a4" id='
 	topic_entry += '\''
 	topic_entry += a_tmptopic
 	topic_entry += '\''
@@ -229,24 +229,35 @@ function create_description_program_headers(tmptopic)
     
 	topic_entry += '<table class="col-lg-12 col-xs-12 table-bordered" style="width:;">'
 	topic_entry += '<tr><td>'
-	topic_entry += '	<ul class="nav nav-pills nav-justified" id='
+    
+    /*
+     topic_entry += '<ul class="nav nav-tabs">'
+    topic_entry += '<li class="active"><a data-toggle="tab" href="#home">Home</a></li>'
+    topic_entry += '<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>'
+
+  topic_entry += '</ul>'
+    */
+    
+    
+	topic_entry += '	<ul class="nav nav-tabs nav-pills" id='
 	topic_entry += '\''
 	topic_entry += ul_tmptopic
 	topic_entry += '\''
 	topic_entry += '>'
-	topic_entry += '		<li class="a1 active" data-toggle="tab" id='
+	topic_entry += '		<li class="a3 active" data-toggle="tab" id='
 	topic_entry += '\''
 	topic_entry += des_li_tmptopic
 	topic_entry += '\''
 	topic_entry += '><a href="">Description</a></li>'
 		
-	topic_entry += '		<li class="a1" data-toggle="tab" id='
+	topic_entry += '		<li class="a3" data-toggle="tab" id='
 	topic_entry += '\''
 	topic_entry += prog_li_tmptopic
 	topic_entry += '\''
 	topic_entry += '><a href="">Program</a></li>'
 	topic_entry += '	</ul>'
 
+    
 	topic_entry += '<tr><td>'
 		
 	topic_entry += '<div style="display:;" id='

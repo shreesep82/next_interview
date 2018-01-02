@@ -365,6 +365,7 @@ function del_cb()
 	
 	var id = $(this).attr("id")
 	
+	
 	bootbox.confirm({
         message: "Are you sure you want to delete this topic",
         buttons: {
@@ -396,6 +397,10 @@ function del_cb()
 			}
         }
     });
+    /*
+	bootbox.confirm("Are you sure?", function(result) {
+  Example.show("Confirm result: "+result);
+}); */
 
 }
 
@@ -629,9 +634,9 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		
 		topic_entry += add_description_program_content(dataJobj, tmptopic)
 	
-	
+	console.log('before appending: ' + topic_entry)
 		$('#techlist').append('<tr><td>' + topic_entry + '</tr></td>');
-		
+		console.log('after appending')
 		
 		if(dataJobj.editsave != 'true') {
 			$('#' + instance_tmptopic).attr('contenteditable', 'false');
