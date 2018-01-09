@@ -573,7 +573,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 	
 	//subject_topic += '</div>'
 	    
-    subject_topic += '<table class="col-lg-12 col-sm-10" style="width:; background-color:;" id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
+    subject_topic += '<table class="col-lg-12 col-xs-12 col-sm-12" style="width:; background-color:;" id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
 
 	$("#subject_topic").html(subject_topic)
 	

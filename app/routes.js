@@ -187,17 +187,22 @@ module.exports = function(app, passport) {
 
 
 	app.post('/run_program', (request, response) => {
+
+		var encoding = require("encoding");
+
     	response.set({'Content-Type' : 'text/html'})
+		console.log(request.body.data)
 		var jobj = JSON.parse(request.body.data)
 		var prog = decodeURIComponent(jobj.program)
 		prog = prog.replace(/<br>/g, "\n")
-		prog = prog.replace('\240', '')
-		console.log(prog);
+		prog = encoding.convert(prog, 'ASCII', 'UTF-8');
+		console.log(prog.toString());
 
 		var prog_input = decodeURIComponent(jobj.prog_input)
 		prog_input = prog_input.replace(/<br>/g, "\n")
-		prog_input = prog_input.replace('\240', '')
-		prog_input = prog_input.replace('\302', '')
+		prog_input = prog_input.replace(/<br>/g, "\n")
+		prog_input = encoding.convert(prog_input, 'ASCII', 'UTF-8');
+		console.log(prog_input.toString());
 
 		var fs = require('fs');
 		fs.writeFileSync("/tmp/test.cpp", prog);
@@ -207,7 +212,7 @@ module.exports = function(app, passport) {
 		var cp = require('child_process');
 
 		var command = 'g++';
-		var args = ['/tmp/test.cpp', '-o', '/tmp/test'];
+		var args = ['/tmp/test.cpp', '-o', '/tmp/test', '-std=c++11', '-lpthread' ];
 
 		var childProcess = cp.spawnSync(command, args, {
     		cwd: process.cwd(),

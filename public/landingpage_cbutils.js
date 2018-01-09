@@ -1,102 +1,102 @@
 
 function add_topic_setpanel_addinstance()
 {
-    var subject_topic = ''
+    var div_home = ''
     
-    subject_topic += '<script>'
-	subject_topic += 'myNicEditor.setPanel("'
-	subject_topic += 'add_topic_control'
-	subject_topic += '");'
-	subject_topic += '</script>'
+    div_home += '<script>'
+	div_home += 'myNicEditor.setPanel("'
+	div_home += 'add_topic_control'
+	div_home += '");'
+	div_home += '</script>'
 
-	subject_topic += '<script>'
-	subject_topic += 'myNicEditor.addInstance("'
-	subject_topic += 'add_topic_description'
-	subject_topic += '");'
-    subject_topic += '</script>'
+	div_home += '<script>'
+	div_home += 'myNicEditor.addInstance("'
+	div_home += 'add_topic_description'
+	div_home += '");'
+    div_home += '</script>'
     
-    return subject_topic;
+    return div_home;
 }
 
 function add_topic_panel()
 {
-    var subject_topic = ''
+    var div_home = ''
 
-    //subject_topic += '<div class="col-lg-10" style="">'
+    //div_home += '<div class="col-lg-10" style="">'
 
-    //subject_topic += '<div class="row" >'
-    //subject_topic += '<div class="col-lg-12 col-sm-12" >'
+    //div_home += '<div class="row" >'
+    //div_home += '<div class="col-lg-12 col-sm-12" >'
     
-    subject_topic += '		<table class="col-lg-10 col-xs-12 table-bordered table-condensed" style="width:; background-color:#1F1F1F">'
+    div_home += '		<table class="col-lg-10 col-xs-12 table-bordered table-condensed" style="width:; background-color:#1F1F1F">'
 
-	subject_topic += '			<tr><td>'
-	subject_topic += '<div style="background-color: ;" class="a_topic"><center>Admin adds new topics here</center></div>'
-	subject_topic += '</td></tr>'
+	div_home += '			<tr><td>'
+	div_home += '<div style="background-color: ;" class="a_topic"><center>Admin adds new topics here</center></div>'
+	div_home += '</td></tr>'
     
-	subject_topic += '			<tr><td>'
-	subject_topic += '<input type=text class="form-control" id=add_topic_content placeholder="Enter topic here">'
-	subject_topic += '</td></tr>'
+	div_home += '			<tr><td>'
+	div_home += '<input type=text class="form-control" id=add_topic_content placeholder="Enter topic here">'
+	div_home += '</td></tr>'
 
 
     
-	subject_topic += '			<tr><td>'
+	div_home += '			<tr><td>'
 
-	subject_topic += '<div  id='
-	subject_topic += '\''
-	subject_topic += 'add_topic_control'
-	subject_topic += '\''
-	subject_topic += '  ">'
-	subject_topic += '</div>'
+	div_home += '<div  id='
+	div_home += '\''
+	div_home += 'add_topic_control'
+	div_home += '\''
+	div_home += '  ">'
+	div_home += '</div>'
 
-	subject_topic += '</td></tr>'
+	div_home += '</td></tr>'
 				
-	subject_topic += '			<tr><td>'
+	div_home += '			<tr><td>'
 
-    subject_topic += '<div contenteditable="true" id='
-	subject_topic += '\''
-	subject_topic += 'add_topic_description'
-	subject_topic += '\''
-	subject_topic += '  style="overflow-y:scroll; overflow-x:hidden; height:350px; color:#ffffff">'
-	subject_topic += '</div>'
+    div_home += '<div contenteditable="true" id='
+	div_home += '\''
+	div_home += 'add_topic_description'
+	div_home += '\''
+	div_home += '  style="overflow-y:scroll; overflow-x:hidden; height:350px; color:#ffffff">'
+	div_home += '</div>'
 
-	subject_topic += '</td></tr>'
+	div_home += '</td></tr>'
 		
-	subject_topic += '			<tr><td align="right">'
+	div_home += '			<tr><td align="right">'
 
-	subject_topic += '				<button class="btn btn-primary" id=add_topic_but>Add</button>'
-	subject_topic += '				<button class="btn btn-primary" id=reset_topic_but>Reset</button>'
+	div_home += '				<button class="btn btn-primary" id=add_topic_but>Add</button>'
+	div_home += '				<button class="btn btn-primary" id=reset_topic_but>Reset</button>'
 
-    subject_topic += '</td></tr>'
-    subject_topic += '</table>'
+    div_home += '</td></tr>'
+    div_home += '</table>'
 
-    //subject_topic += '			</div>'
-    //subject_topic += '			</div>'
-    //subject_topic += '			</div>'
+    //div_home += '			</div>'
+    //div_home += '			</div>'
+    //div_home += '			</div>'
     
     
     /*
-    subject_topic += '<table class="table-bordered"><tr><td><div class="col-lg-12">'
-	subject_topic += '<input type=text class="form-control" id=add_topic_content placeholder="Enter topic here">'
-    subject_topic += '</div>'
+    div_home += '<table class="table-bordered"><tr><td><div class="col-lg-12">'
+	div_home += '<input type=text class="form-control" id=add_topic_content placeholder="Enter topic here">'
+    div_home += '</div>'
     
-	subject_topic += '<div class="col-lg-12" id='
-	subject_topic += '\''
-	subject_topic += 'add_topic_control'
-	subject_topic += '\''
-	subject_topic += '  ">'
-	subject_topic += '</div>'
+	div_home += '<div class="col-lg-12" id='
+	div_home += '\''
+	div_home += 'add_topic_control'
+	div_home += '\''
+	div_home += '  ">'
+	div_home += '</div>'
     
-        subject_topic += '<div class="col-lg-10" contenteditable="true" id='
-	subject_topic += '\''
-	subject_topic += 'add_topic_description'
-	subject_topic += '\''
-	subject_topic += '  style="overflow-y:scroll; overflow-x:hidden; height:350px; color:#ffffff">'
-	subject_topic += '</div></table>'
+        div_home += '<div class="col-lg-10" contenteditable="true" id='
+	div_home += '\''
+	div_home += 'add_topic_description'
+	div_home += '\''
+	div_home += '  style="overflow-y:scroll; overflow-x:hidden; height:350px; color:#ffffff">'
+	div_home += '</div></table>'
 	*/
 
 
     
-    return subject_topic;
+    return div_home;
 }
 
 function create_topic_link(topic)
@@ -116,7 +116,7 @@ function create_topic_link(topic)
 	topic_entry += '><td>'
 		
 	var anchor_tr_id = tmptopic + "_anchortr"
-	topic_entry += '<table class="col-lg-12 col-xs-12" style="width:;border-style:;">'
+	topic_entry += '<table class="col-lg-12 col-xs-12 col-md-12" style="width:;border-style:;">'
 	topic_entry += '	<tr style="width:;" id='
 	topic_entry += '\''
 	topic_entry +=	anchor_tr_id
@@ -141,7 +141,7 @@ function create_topic_link(topic)
 	topic_entry += '>'
 		
 	topic_entry += '	<td>'
-	topic_entry += '		<table class="col-lg-12 col-xs-12" style="width:; border-style:;">'
+	topic_entry += '		<table class="col-lg-12 col-xs-12 col-md-12" style="width:; border-style:;">'
 	topic_entry += '			<tr class="spaceUnder1" style="width:;">'
 	topic_entry += '				<td align="right">'
     

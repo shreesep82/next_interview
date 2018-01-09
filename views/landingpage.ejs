@@ -77,7 +77,9 @@
 	
 	<script type="text/javascript" src="nicEdit-latest.js"></script>
 	
-	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
+	 <!--link rel="stylesheet" href="bootstrap.min.css"-->
+	 <link rel="stylesheet" href="bootstrap.css">
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
@@ -311,6 +313,18 @@
 		<div class="a6 col-lg-9 " id=div_user style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
 		User settings appear here
 	</div>
+
+		<div class="a6 col-lg-9 " id=div_add_admin_user style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+		Admin creates new admin user here
+	</div>
+		
+		<div class="a6 col-lg-9 " id=div_manipulate_technology style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+		Add remove technology happens here
+	</div>
+
+		<div class="a6 col-lg-9 " id=div_check_messages style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+		Admin checks for user messages here
+	</div>
 					
 				</div>
 				</div>
@@ -365,7 +379,7 @@ $(document).ready(function() {
 
 		get_technology_topics(dataJobj);
 
-		$("#home,#about,#contact,#admin_controls,#user").on('click', (event) => {
+		$("#home,#about,#contact,#user,#add_admin_user,#manipulate_technology,#check_messages").on('click', (event) => {
 			var item = event.target.id;
 			console.log('item: ' + item)
 
