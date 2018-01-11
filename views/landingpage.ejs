@@ -268,11 +268,12 @@
 	
 		<div class="col-12" id=row style="padding-left:0px;padding-bottom:0px;padding-top:60px;">
 			<input type=hidden id=temp_var_hid>
-			<ul class="nav nav-pills" >
+			<ul class="nav nav-pills" id=technology_col>
 				<% technology_collection.collections.forEach(function(technology)  {%>
 				<% var display_name %>
 				<% var href = "#" + technology %>
-				<% var id = technology + "_tab" %>
+				<!--% var id = technology + "_tab" %-->
+				<% var id = technology %>
 				<% if(technology == 'cplusplus') { %>
 					<%	display_name = 'C++' %>
 				<% } else { %>
@@ -318,8 +319,20 @@
 		Admin creates new admin user here
 	</div>
 		
-		<div class="a6 col-lg-9 " id=div_manipulate_technology style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
-		Add remove technology happens here
+		<div class="container a6 col-lg-9 " id=div_manipulate_technology style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+		<!--Add remove technology happens here-->
+		<div class=row>
+		<table class="a5" style="border-spacing: 5px; border-collapse: separate;">
+			<tr>
+				<td>
+					<input type=text class="form-control" id=create_collection_name placeholder="Enter collection name">
+				</td>
+				<td align=right>
+					<button class="btn btn-primary" id=create_collection>Create Collection</button>
+				</td>
+			</tr>
+		</table>
+		</div>
 	</div>
 
 		<div class="a6 col-lg-9 " id=div_check_messages style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
@@ -372,7 +385,8 @@ $(document).ready(function() {
 				tabs += ','
 			}
 			//console.log(technology)
-			tabs += '#' + technology + '_tab'
+			//tabs += '#' + technology + '_tab'
+			tabs += '#' + technology
 		})
 
 		var dataJobj = { 'user' : '<%= user %>', 'editsave' : '<%= editsaveDisabled %>', 'delete' : '<%= deleteDisabled %>', 'add_topic_table' : '<%= add_topic_tableDisabled %>', 'tabs' : tabs }
@@ -427,22 +441,40 @@ $(document).ready(function() {
     }
   });
 
+	$("#create_collection").on('click', () => {
+
+		if($("#create_collection_name").val() == '') {
+			return;
+		}
+		
+		var col_name = $("#create_collection_name").val();
+		data = '&col_name=' + encodeURIComponent(col_name);
+
+		console.log(data)
+		$.ajax({
+			url: '/create_collection',
+			type: 'GET',
+			data: data,
+			success: (result) => {
+				console.log('create collection result: ' + result.created[0])
+				if(result.created[0]) {
+					$("#technology_col").append('<li><a class="a5" data-toggle="tab" href="' + '#' + col_name + '" id="' + col_name + '">' + col_name + '</a></li>');
+					//var tab = '#' + col_name + '_tab'
+					var tab = '#' + col_name
+					console.log('tab: ' + tab + ' tabs: ' + tabs);
+					$(tab).bind('click', dataJobj, technology_click_handler);
+					
+				}
+			}
+	});	
+	})
 		
 });
+
+
 
 </script>
 
 
-
-<!--script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js">
-	
-            
-          </script-->
-	
-	 <!--script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js">
-            //<![CDATA[
-            bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
-            //]]>
-          </script-->
 
  

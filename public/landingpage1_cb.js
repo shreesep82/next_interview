@@ -745,6 +745,28 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 						
 }
 
+function technology_click_handler(event)
+{		
+	//console.log(event.target.id);
+
+	var dataJobj = event.data;
+	var technology = event.target.id;
+	//technology = technology.split('_');
+	console.log('tech: ' + technology);
+
+	$.ajax({
+				url: '/list_topics',
+				type: 'GET',
+				data: '&technology=' + technology,
+				success: (topic_list) => {
+					console.log(topic_list)
+					technology_info_display_cb(topic_list, technology, dataJobj)
+				}
+	
+			});
+			
+}
+
 function get_technology_topics(dataJobj)
 {
 		// callbacks for click events for buttons Add, Show, Edit, Reset, and Delete have to be loaded
@@ -752,24 +774,6 @@ function get_technology_topics(dataJobj)
 		// loaded
 		var tabs = dataJobj.tabs
 		//console.log('tabs: ' + tabs)
-		
-		$(tabs).on('click', (event) => {
-		
-			//console.log(event.target.id);
 
-			var technology = event.target.id;
-			technology = technology.split('_');
-			//console.log(technology[0]);
-
-			$.ajax({
-						url: '/list_topics',
-						type: 'GET',
-						data: '&technology=' + technology[0],
-						success: (topic_list) => {
-							technology_info_display_cb(topic_list, technology[0], dataJobj)
-						}
-		
-					});
-			
-		});
+		$(tabs).bind('click', dataJobj, technology_click_handler);
 }

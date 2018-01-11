@@ -27,7 +27,7 @@ function add_topic_panel()
     //div_home += '<div class="row" >'
     //div_home += '<div class="col-lg-12 col-sm-12" >'
     
-    div_home += '		<table class="col-lg-10 col-xs-12 table-bordered table-condensed" style="width:; background-color:#1F1F1F">'
+    div_home += '		<table class="col-lg-12 col-xs-12 table-bordered table-condensed" style="width:; background-color:#1F1F1F">'
 
 	div_home += '			<tr><td>'
 	div_home += '<div style="background-color: ;" class="a_topic"><center>Admin adds new topics here</center></div>'

@@ -160,7 +160,7 @@ module.exports = function(app, passport) {
 	var dburl = "mongodb://localhost:27017/db";
 
 
-	// for getting topic's description search mongo's db database
+	// for getting topic's description, search mongo's db database
 	app.get('/read_description', (request, response) => {
     	response.set({'Content-Type' : 'text/json'})
 
@@ -172,7 +172,7 @@ module.exports = function(app, passport) {
 	    var technology = decodeURIComponent(request.query.technology);
 	    console.log(technology)
 
-	    //console.log('topic: ' + topic)
+	    console.log('topic: ' + topic)
     	MongoClient.connect(dburl, function(err, db) {
 	    if(err) { throw err;  }
     	var collection = db.collection(technology);
@@ -183,6 +183,47 @@ module.exports = function(app, passport) {
     	})
 
     	});
+	});
+
+	app.get('/create_collection', (request, response) => {
+
+	    var col_name = decodeURIComponent(request.query.col_name);
+		console.log(col_name);
+
+		//return;
+    	MongoClient.connect(dburl, function(err, db) {
+	    	if(err) { throw err;  }
+
+    		db.listCollections({name: col_name}).toArray(function(err, items) {
+      			if(! items.length) {
+					console.log('collection to be created');
+
+
+
+  db.createCollection(col_name, 
+    function(err, results) {
+	//console.log(err)
+	//console.log(results)
+      console.log("Collection created.");
+        		db.close();
+    }
+  );
+
+
+
+
+
+            			response.json({created : [1]});
+				}
+				else {
+					console.log('collection already exists');
+            		response.json({created : [0]});
+				}
+
+			});
+
+    	})
+
 	});
 
 
@@ -257,6 +298,7 @@ module.exports = function(app, passport) {
     	var jsonObj;
 	    var topics_represent_file; // html content (which forms table of topics at client side) to be sent to client
     	var technology = request.query.technology; // database collection name
+		console.log('technology: ' + technology)
 	    var leave_function; // used for closure
 
     	// connect to mongo database with name 'db'
