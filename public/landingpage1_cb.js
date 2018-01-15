@@ -751,7 +751,7 @@ function technology_click_handler(event)
 
 	var dataJobj = event.data;
 	var technology = event.target.id;
-	//technology = technology.split('_');
+	technology = technology.replace(/_/g,' ');
 	console.log('tech: ' + technology);
 
 	$.ajax({

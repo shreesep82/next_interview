@@ -254,7 +254,7 @@ function create_description_program_headers(tmptopic)
 	topic_entry += '\''
 	topic_entry += prog_li_tmptopic
 	topic_entry += '\''
-	topic_entry += '><a href="">Program</a></li>'
+	topic_entry += '><a href="">Program Execution</a></li>'
 	topic_entry += '	</ul>'
 
     
@@ -298,7 +298,7 @@ function description_panel(tmptopic)
 	topic_entry += '\''
 	topic_entry += instance_tmptopic
 	topic_entry += '\''
-	topic_entry += '  style="width:; background-color:  #151705 ; overflow-y:scroll; overflow-x:hidden; height:650px; font-size: 16px;  padding: 0px; border: 0px solid #c0c0c0; ">'
+	topic_entry += '  style="width:; color:#ffffff; background-color:  #151705 ; overflow-y:scroll; overflow-x:hidden; height:650px; font-size: 16px;  padding: 0px; border: 0px solid #c0c0c0; ">'
 	topic_entry += '</div>'
 
 	topic_entry += '			</td></tr>'

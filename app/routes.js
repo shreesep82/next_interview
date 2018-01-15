@@ -190,7 +190,6 @@ module.exports = function(app, passport) {
 	    var col_name = decodeURIComponent(request.query.col_name);
 		console.log(col_name);
 
-		//return;
     	MongoClient.connect(dburl, function(err, db) {
 	    	if(err) { throw err;  }
 
@@ -198,26 +197,46 @@ module.exports = function(app, passport) {
       			if(! items.length) {
 					console.log('collection to be created');
 
+					db.createCollection(col_name, function(err, results) {
+      					console.log("Collection created.");
+        				db.close();
+		    		});
 
-
-  db.createCollection(col_name, 
-    function(err, results) {
-	//console.log(err)
-	//console.log(results)
-      console.log("Collection created.");
-        		db.close();
-    }
-  );
-
-
-
-
-
-            			response.json({created : [1]});
+           			response.json({created : [1]});
 				}
 				else {
 					console.log('collection already exists');
             		response.json({created : [0]});
+				}
+
+			});
+
+    	})
+
+	});
+
+	app.get('/delete_collection', (request, response) => {
+
+	    var col_name = decodeURIComponent(request.query.col_name);
+		console.log(col_name);
+
+    	MongoClient.connect(dburl, function(err, db) {
+	    	if(err) { throw err;  }
+
+    		db.listCollections({name: col_name}).toArray(function(err, items) {
+      			if(items.length) {
+					console.log('collection to be deleted');
+
+					db.collection(col_name).drop(function(err, delOK) {
+    					if (err) throw err;
+    					if (delOK) console.log("Collection deleted");
+					});
+
+           			response.json({deleted : [1]});
+				}
+				else {
+					console.log("collection doesn't exists");
+            		response.json({deleted : [0]});
 				}
 
 			});
