@@ -667,6 +667,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 			var prog_content = $("#" + prog_code).html()
 			console.log('prog_html: ' + prog_content)
 
+			prog_content = prog_content.replace(/<div>/g, "<br>")
 			prog_content = prog_content.replace(/<br>/g, "%3Cbr%3E")
 			prog_content = prog_content.replace(/"/g, "%22")
 			
@@ -678,6 +679,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 			console.log('prog_in: ' + prog_in)
 
 			prog_in = prog_in.replace(/<br>/g, "%3Cbr%3E")
+			prog_in = prog_in.replace(/\n/g, " ")
 			prog_in = prog_in.replace(/"/g, "%22")
 			
 			$("#tmp_hid").html(prog_in)
