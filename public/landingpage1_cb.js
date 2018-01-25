@@ -217,14 +217,133 @@ function add_cb()
 }
 
 
-
+/*
 function show_description_cb(result, description_box_id, prog_id) {
 
-	console.log(result.description[0])
+	//console.log(result.description[0])
 	
-	console.log("#" + description_box_id)
-	$("#" + description_box_id).html(result.description[0]);
-	$("#" + prog_id).html(result.description[1]);
+	//console.log("#" + description_box_id)
+	//$("#" + description_box_id).html(result.description[0]);
+	//$("#" + prog_id).html(result.description[1]);
+	
+	
+}
+*/
+
+function show_description_cb(result, topic) {
+
+	
+	var techlist_div_id = topic + "_techlist_div"
+
+	var div_tmptopic = topic + "_div"
+	var instance_tmptopic = topic + "_instance"
+        
+	var prog_code_control = topic + "_progcodecontrol"
+	var prog_code = topic + "_progcode"
+			
+
+	
+	
+	var content = '<br>'//<div class="container" >'
+	content += '<div class="row" >'
+		content += '<div class="col-lg-12 " style="background-color:#1F1F1F;">'
+            content += '<div class="panel panel-primary">'
+                content += '<div class="panel-heading">'
+                    content += '<h3 class="panel-title">&#9805</h3>'
+                    content += '<span class="pull-right">'
+
+                        content += '<ul class="nav panel-tabs">'
+                            content += '<li class="active"><a href="#tab1" data-toggle="tab">Description</a></li>'
+                            content += '<li><a href="#tab2" data-toggle="tab">Program</a></li>'
+                            content += '<li><a href="#tab3" data-toggle="tab">Hide</a></li>'
+                            content += '<li><a href="#tab4" data-toggle="tab">Save</a></li>'
+							content += '<li><a href="#tab5" data-toggle="tab">Delete</a></li>'
+                        content += '</ul>'
+                    content += '</span>'
+                content += '</div>'
+                //content += '<div class="panel-body" >'
+                    content += '<div class="tab-content" style=" ">'
+
+						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane active" id="tab1">'							
+							content += '<script>'
+							content += 'myNicEditor.setPanel("'
+							content += div_tmptopic
+							content += '");'
+							content += '</script>'
+		
+							content += '<script>'
+							content += 'myNicEditor.addInstance("'
+							content += instance_tmptopic
+							content += '");'
+						    content += '</script>'
+						
+						
+							content += '<div style="" id='
+								content += '\''
+								content += div_tmptopic
+								content += '\''
+								content += ' style="  ">'
+							content += '</div>'
+							
+
+							content += '<div contenteditable="true" style="height:600px; overflow-y:scroll;" id="' + instance_tmptopic + '">'
+								content += result.description[0]
+							content += '</div>'
+						content += '</div>'
+						
+						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane" id="tab2">'
+							
+							content += '<script>'
+							content += 'myNicEditor.setPanel("'
+							content += prog_code_control
+							content += '");'
+							content += '</script>'
+		
+							content += '<script>'
+							content += 'myNicEditor.addInstance("'
+							content += prog_code
+							content += '");'
+						    content += '</script>'
+						
+						
+							content += '<div id='
+								content += '\''
+								content += prog_code_control
+								content += '\''
+								content += ' style=" background-color:  #151705 ;  border: 0px solid #c0c0c0; ">'
+							content += '</div>'							
+
+							content += '<div contenteditable="true" style="height:450px; overflow-y:scroll;" id="' + prog_code + '">'
+								content += result.description[1]
+							content += '</div>'
+							
+							content += '<div contenteditable="true" style="height:75px; overflow-y:scroll;" id="' + prog_code + '">'
+								content += result.description[1]
+							content += '</div>'
+							
+							content += '<div contenteditable="true" style="height:75px; overflow-y:scroll;" id="' + prog_code + '">'
+								content += result.description[1]
+							content += '</div>'
+							
+						content += '</div>'
+						
+                        //content += '<div class="tab-pane" id="tab3">Hide</div>'
+						//content += ' <div class="tab-pane" id="tab4">Save</div>'
+						//content += ' <div class="tab-pane" id="tab5">'
+						//	content += 'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet</div></div>'
+	                    //content += '</div>'
+	                content += '</div>'
+	            content += '</div>'
+	        content += '</div>'
+		content += '</div>'
+	content += '</div>'
+    
+	
+
+
+	
+	$('#' + techlist_div_id).html('')
+	  $('#' + techlist_div_id).append(content)
 }
 
 /*
@@ -296,15 +415,19 @@ function show_cb(event)
 	var selected_topic = getTopicName($(this).attr("id"))
 	// getTopicName gives value with underscores. Replace that with empty space now
 	selected_topic = selected_topic.replace(/_/g, " ")
-	
+	/*	
 	//console.log(selected_topic)
 		
 	var description_tr_id = getTopicName($(this).attr("id")) + "_tr"
+	
+
 	//console.log(description_tr_id)
 	$('#' + description_tr_id).show()
 	
 	var description_box_id = getTopicName($(this).attr("id")) + "_instance"
 	var prog_id = getTopicName($(this).attr("id")) + "_progcode"
+	
+	/*
 	//$("#" + description_box_id).prop('readonly', true)
 	var dataJobj = event.data
 	if(dataJobj.editsave == 'true') {
@@ -321,6 +444,7 @@ function show_cb(event)
 	//$('#' + description_box_id).scrollTop($('#' + description_box_id)[0].scrollHeight);
 	$('#' + description_box_id).scrollTop(0);
 	$('#' + prog_id).scrollTop(0);
+	*/
 	
 	var technology = $("#tech_hid").val()
 	
@@ -334,7 +458,8 @@ function show_cb(event)
 		type: 'GET',
 		data: data,
 		success: (result) => {
-			show_description_cb(result, description_box_id, prog_id)
+			//show_description_cb(result, description_box_id, prog_id)
+			show_description_cb(result, getTopicName($(this).attr("id")))
 		}
 	});
 
@@ -571,10 +696,23 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 
 	}
 	
+	subject_topic += '<br>'
+	//subject_topic += '<div class=col-lg-6 class="backround-color:c0c0c0;">'
+	subject_topic += '<table class="col-lg-6 style="backround-color:c0c0c0;">'
+	subject_topic += '<tr><td>'
+	subject_topic += 'Enter search topic here'
+	subject_topic += '</td></tr>'
+	subject_topic += '<tr><td>'
+	subject_topic += '<input onkeyup="myFunction()" type=text placeholder="Search topics here" class=form-control id=search_topic>'
+	subject_topic += '</td></tr>'
+	subject_topic += '</table>'
 	//subject_topic += '</div>'
-	    
-    subject_topic += '<table class="col-lg-12 col-xs-12 col-sm-12" style="width:; background-color:;" id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
+	
+    //subject_topic += '<table class="col-lg-12 col-xs-12 col-sm-12 " style="width:; background-color:;" id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
+	subject_topic += '<table class="col-lg-12 col-xs-12 col-sm-12 " style="width:; background-color:;" id=techlist></table>'
 
+
+	
 	$("#subject_topic").html(subject_topic)
 	
 	$("#tech_hid").val(subject)
@@ -602,9 +740,9 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		
 		topic_entry += create_topic_link(topic)
 		
-		topic_entry += create_hide_save_delete_buttons(tmptopic, dataJobj)
+		//topic_entry += create_hide_save_delete_buttons(tmptopic, dataJobj)
 
-		
+		/*
 		var des_div_tmptopic = tmptopic + "_des_div"
 		var prog_div_tmptopic = tmptopic + "_prog_div"
 		var prog_code_control = tmptopic + "_progcodecontrol"
@@ -633,11 +771,22 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		topic_entry += description_panel(tmptopic)
 		
 		topic_entry += add_description_program_content(dataJobj, tmptopic)
+		*/
+
+		var tmptopic = topic;
+
+		tmptopic = tmptopic.replace(/ /g,'_');
+		tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
+		tmptopic = tmptopic.replace("'", "\'");
 	
-	console.log('before appending: ' + topic_entry)
-		$('#techlist').append('<tr><td>' + topic_entry + '</tr></td>');
-		console.log('after appending')
+		var td_id = tmptopic + "_td"
+		var techlist_div_id = tmptopic + "_techlist_div"
 		
+		$('#techlist').append('<tr class="spaceUnder2"><td id="' + td_id + '">' + topic_entry + '</tr></td>');
+		$('#' + td_id).append('<br>')
+		$('#' + td_id).append('<div id="' + techlist_div_id + '"></div>')
+		
+		/*
 		if(dataJobj.editsave != 'true') {
 			$('#' + instance_tmptopic).attr('contenteditable', 'false');
 		}
@@ -693,9 +842,8 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 				}
 			);
 
-			
 		})
-		
+			*/		
 		
 
 	});
@@ -709,6 +857,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 			console.log(anchor);
 			$("#" + anchor).bind('click', dataJobj, show_cb);
 
+			/*
 			var hide = list_item.topic;
 			hide = hide.replace(/ /g,'_');
 			hide = hide + "_hide"
@@ -732,6 +881,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 				console.log(del);
 				$("#" + del).on('click', del_cb);
 			}
+			*/
 			
 			
 		}

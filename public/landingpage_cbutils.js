@@ -27,7 +27,7 @@ function add_topic_panel()
     //div_home += '<div class="row" >'
     //div_home += '<div class="col-lg-12 col-sm-12" >'
     
-    div_home += '		<table class="col-lg-12 col-xs-12 table-bordered table-condensed" style="width:; background-color:#1F1F1F">'
+    div_home += '		<table class="col-lg-12 col-xs-12  table-condensed table-bordered" style="width:; background-color:#1F1F1F">'
 
 	div_home += '			<tr><td>'
 	div_home += '<div style="background-color: ;" class="a_topic"><center>Admin adds new topics here</center></div>'
@@ -107,6 +107,62 @@ function create_topic_link(topic)
 	tmptopic = tmptopic.replace(/ /g,'_');
 	tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
 	tmptopic = tmptopic.replace("'", "\'");
+
+    /*
+    var top_tr_id = tmptopic + "_top"
+	topic_entry += '<tr class="spaceUnder" id='
+	topic_entry += '\''
+	topic_entry +=	top_tr_id
+	topic_entry += '\''
+	topic_entry += '><td>'
+	
+    
+	var anchor_tr_id = tmptopic + "_anchortr"
+	topic_entry += '<table class="col-lg-12 col-xs-12 col-md-12 " style="width:;border-style:;">'
+	topic_entry += '	<tr style="width:;" id='
+	topic_entry += '\''
+	topic_entry +=	anchor_tr_id
+	topic_entry += '\''
+	topic_entry += '><td>'
+	*/
+		
+	var a_tmptopic = tmptopic + "_anchor"
+	topic_entry += '<a class="a4" id='
+	topic_entry += '\''
+	topic_entry += a_tmptopic
+	topic_entry += '\''
+	topic_entry += '>'
+	topic_entry += topic;
+	//topic_entry += '</a></td></tr>'
+    topic_entry += '</a>'
+	
+    /*
+	var tr_id = tmptopic + "_tr"
+		
+	topic_entry += '	<tr style="display:none; width:;" id='
+	topic_entry += '\''
+	topic_entry += tr_id
+	topic_entry += '\''
+	topic_entry += '>'
+		
+	topic_entry += '	<td>'
+	topic_entry += '		<table class="col-lg-12 col-xs-12 col-md-12 " style="width:; border-style:;">'
+	topic_entry += '			<tr class="spaceUnder1" style="width:;">'
+	topic_entry += '				<td align="right">'
+    */
+    
+    return topic_entry
+}
+
+/*
+function create_topic_link(topic)
+{
+    var topic_entry = ''
+	var tmptopic = topic;
+
+	tmptopic = tmptopic.replace(/ /g,'_');
+	tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
+	tmptopic = tmptopic.replace("'", "\'");
     
     var top_tr_id = tmptopic + "_top"
 	topic_entry += '<tr class="spaceUnder" id='
@@ -116,7 +172,7 @@ function create_topic_link(topic)
 	topic_entry += '><td>'
 		
 	var anchor_tr_id = tmptopic + "_anchortr"
-	topic_entry += '<table class="col-lg-12 col-xs-12 col-md-12" style="width:;border-style:;">'
+	topic_entry += '<table class="col-lg-12 col-xs-12 col-md-12 " style="width:;border-style:;">'
 	topic_entry += '	<tr style="width:;" id='
 	topic_entry += '\''
 	topic_entry +=	anchor_tr_id
@@ -141,12 +197,13 @@ function create_topic_link(topic)
 	topic_entry += '>'
 		
 	topic_entry += '	<td>'
-	topic_entry += '		<table class="col-lg-12 col-xs-12 col-md-12" style="width:; border-style:;">'
+	topic_entry += '		<table class="col-lg-12 col-xs-12 col-md-12 " style="width:; border-style:;">'
 	topic_entry += '			<tr class="spaceUnder1" style="width:;">'
 	topic_entry += '				<td align="right">'
     
     return topic_entry
 }
+*/
 
 function create_hide_save_delete_buttons(tmptopic, dataJobj)
 {
@@ -266,7 +323,7 @@ function create_description_program_headers(tmptopic)
 	topic_entry += '\''
 	topic_entry += '>'
     
-    topic_entry += '		<table class="col-lg-12 col-xs-12 table-condensed" style="width:; background-color:  #151705 ; border: 0px solid #000000;">'
+    topic_entry += '		<table class="col-lg-12 col-xs-12 table-condensed " style="width:; background-color:  #151705 ; border: 0px solid #000000;">'
     
     return topic_entry
 }
@@ -335,7 +392,7 @@ function add_description_program_content(dataJobj, tmptopic)
 	topic_entry += '");'
     topic_entry += '</script>'
 
-	topic_entry += '		<table class="col-lg-12 col-xs-12 table-condensed" style="width:; background-color:  #151705 ; border: 0px solid #000000;">'
+	topic_entry += '		<table class="col-lg-12 col-xs-12 table-condensed " style="width:; background-color:  #151705 ; border: 0px solid #000000;">'
 	if(dataJobj.editsave == 'true') {
 		
 		topic_entry += '			<tr><td>'
@@ -351,7 +408,7 @@ function add_description_program_content(dataJobj, tmptopic)
 		
 	topic_entry += '			<tr><td>'
 		
-	topic_entry += '<table class="col-lg-12 col-xs-12" style="width:;">'
+	topic_entry += '<table class="col-lg-12 col-xs-12 " style="width:;">'
 	topic_entry += '<tr><td>'
 		
 	topic_entry += '<div class="" contenteditable="true" id='
@@ -374,7 +431,7 @@ function add_description_program_content(dataJobj, tmptopic)
 	topic_entry += '\''
 	topic_entry += '>'
 	topic_entry += '<tr><td>'
-	topic_entry += '<table class="col-lg-12 col-xs-12" class="" style="width:;">'
+	topic_entry += '<table class="col-lg-12 col-xs-12 " class="" style="width:;">'
 	topic_entry += '<tr class="spaceUnder1"><td><br><textarea placeholder="Program input goes here" style="border-color: #c0c0c0;color:#fff; height:100px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
 	topic_entry += '\''
 	topic_entry += prog_input
