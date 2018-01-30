@@ -20,9 +20,10 @@ function edit_cb()
 
 
 
-function create_new_topic_cb(add_result, description_box_id) {
+function create_new_topic_cb(add_result) {
 	
 	console.log('add_result: ' + add_result)
+
 	if(add_result == "created") {
 		
 		var topic = $("#add_topic_content").val();
@@ -42,7 +43,7 @@ function create_new_topic_cb(add_result, description_box_id) {
 			{
 				return false;
 			}
-
+/*	
 			var tmptopic = topic;
 			//console.log('t: ' + t);
 			tmptopic = tmptopic.replace(/ /g,'_');
@@ -50,7 +51,7 @@ function create_new_topic_cb(add_result, description_box_id) {
 			tmptopic = tmptopic.replace("'", "\'");
 
 			var topic_entry = ''
-		
+	
 			topic_entry += create_topic_link(topic)
 			
 			topic_entry += create_hide_save_delete_buttons(tmptopic, dataJobj)
@@ -66,14 +67,15 @@ function create_new_topic_cb(add_result, description_box_id) {
 			var prog_input = tmptopic + "_proginput"
 			var prog_output = tmptopic + "_progoutput"
 			var prog_send = tmptopic + "_progsend"
-		
+
 			topic_entry += add_script_topic_panel_instance(tmptopic)
 			
 			topic_entry += create_description_program_headers(tmptopic)
 
 			var div_tmptopic = tmptopic + "_div"
 			var instance_tmptopic = tmptopic + "_instance"
-		
+
+/*		
 			if(dataJobj.editsave == 'true') {
 				topic_entry += topic_edit_panel(tmptopic)
 			}
@@ -81,9 +83,32 @@ function create_new_topic_cb(add_result, description_box_id) {
 			topic_entry += description_panel(tmptopic)
 			
 			topic_entry += add_description_program_content(dataJobj, tmptopic)
+*/
 	
-			$('#techlist').append('<tr><td>' + topic_entry + '</tr></td>');
+
+
+		var topic_entry = ''
 		
+		topic_entry += create_topic_link(topic)
+	
+		var tmptopic = topic;
+
+		tmptopic = tmptopic.replace(/ /g,'_');
+		tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
+		tmptopic = tmptopic.replace("'", "\'");
+	
+		var tr_id = tmptopic + "_top"
+		console.log(tr_id)
+		var td_id = tmptopic + "_td"
+		var techlist_div_id = tmptopic + "_techlist_div"
+		
+		$('#techlist').append('<tr class="spaceUnder2" id="' + tr_id + '"><td id="' + td_id + '">' + topic_entry + '</tr></td>');
+		$('#' + td_id).append('<br>')
+		$('#' + td_id).append('<div id="' + techlist_div_id + '"></div>')
+	
+/*	
+			$('#techlist').append('<tr><td>' + topic_entry + '</tr></td>');
+
 			if(dataJobj.editsave != 'true') {
 				$('#' + instance_tmptopic).attr('contenteditable', 'false');
 			}
@@ -134,17 +159,20 @@ function create_new_topic_cb(add_result, description_box_id) {
 							display_program_output(prog_result, prog_output)
 						}
 				);
+
 			
 			})
-
+*/
 			//topic_list.list.forEach(function(list_item) {
+
 			try {
+
 				var anchor = topic;
 				anchor = anchor.replace(/ /g,'_');
 				anchor = anchor + "_anchor"
 				console.log(anchor);
 				$("#" + anchor).bind('click', dataJobj, show_cb);
-
+/*
 				var hide = topic;
 				hide = hide.replace(/ /g,'_');
 				hide = hide + "_hide"
@@ -163,11 +191,12 @@ function create_new_topic_cb(add_result, description_box_id) {
 				del = del + "_delete"
 				console.log(del);
 				$("#" + del).on('click', del_cb);
-
+			*/
 			}
 			catch(except) {
 						
 			}
+
 
 	}
 	else {
@@ -230,10 +259,14 @@ function show_description_cb(result, description_box_id, prog_id) {
 }
 */
 
-function show_description_cb(result, topic) {
+function show_description_cb(result, topic, dataJobj) {
 
-	
 	var techlist_div_id = topic + "_techlist_div"
+	var div_tr_id = topic + "_tr"
+	
+	var hide_id = topic + "_hide"
+	var edit_save_id = topic + "_editsave"
+	var delete_id = topic + "_delete"
 
 	var div_tmptopic = topic + "_div"
 	var instance_tmptopic = topic + "_instance"
@@ -241,109 +274,203 @@ function show_description_cb(result, topic) {
 	var prog_code_control = topic + "_progcodecontrol"
 	var prog_code = topic + "_progcode"
 			
+	var prog_input = topic + "_proginput"
+	var prog_output = topic + "_progoutput"
 
+	var prog_send = topic + "_progsend"
+	var topic_description = topic + "_description"
 	
-	
-	var content = '<br>'//<div class="container" >'
-	content += '<div class="row" >'
+	var content = '<br>'
+	content += '<div class="row" id="' + div_tr_id + '">'
 		content += '<div class="col-lg-12 " style="background-color:#1F1F1F;">'
             content += '<div class="panel panel-primary">'
                 content += '<div class="panel-heading">'
                     content += '<h3 class="panel-title">&#9805</h3>'
                     content += '<span class="pull-right">'
 
-                        content += '<ul class="nav panel-tabs">'
-                            content += '<li class="active"><a href="#tab1" data-toggle="tab">Description</a></li>'
-                            content += '<li><a href="#tab2" data-toggle="tab">Program</a></li>'
-                            content += '<li><a href="#tab3" data-toggle="tab">Hide</a></li>'
-                            content += '<li><a href="#tab4" data-toggle="tab">Save</a></li>'
-							content += '<li><a href="#tab5" data-toggle="tab">Delete</a></li>'
+						var ul_tag = topic + "_ul_tag"
+						var program = topic + "_program"
+                        content += '<ul class="nav panel-tabs" id="' + ul_tag + '">'
+                            content += '<li class="active a3"><a href="#' + instance_tmptopic + '" data-toggle="tab">Description</a></li>'
+                            content += '<li class="a3"><a href="#' + program + '" data-toggle="tab">Program</a></li>'
+                            content += '<li class="a3"><a href="#hide" data-toggle="tab" id="' + hide_id + '">Hide</a></li>'
+							if(dataJobj.editsave == 'true') {
+								content += '<li class="a3"><a href="#save" data-toggle="tab" id="' + edit_save_id + '">Save</a></li>'
+								content += '<li class="a3"><a href="#delete" data-toggle="tab" id="' + delete_id + '">Delete</a></li>'
+							}
+                            
                         content += '</ul>'
                     content += '</span>'
                 content += '</div>'
                 //content += '<div class="panel-body" >'
                     content += '<div class="tab-content" style=" ">'
 
-						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane active" id="tab1">'							
-							content += '<script>'
-							content += 'myNicEditor.setPanel("'
-							content += div_tmptopic
-							content += '");'
-							content += '</script>'
-		
-							content += '<script>'
-							content += 'myNicEditor.addInstance("'
-							content += instance_tmptopic
-							content += '");'
-						    content += '</script>'
-						
-						
-							content += '<div style="" id='
-								content += '\''
+							var editable = 'false'
+							if(dataJobj.editsave == 'true') {
+								editable = 'true'
+							}
+					
+						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane active" id="' + instance_tmptopic + '">'
+							//if(dataJobj.editsave == 'true') {
+								content += '<script>'
+								content += 'myNicEditor.setPanel("'
 								content += div_tmptopic
-								content += '\''
-								content += ' style="  ">'
-							content += '</div>'
-							
-
-							content += '<div contenteditable="true" style="height:600px; overflow-y:scroll;" id="' + instance_tmptopic + '">'
-								content += result.description[0]
-							content += '</div>'
-						content += '</div>'
-						
-						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane" id="tab2">'
-							
-							content += '<script>'
-							content += 'myNicEditor.setPanel("'
-							content += prog_code_control
-							content += '");'
-							content += '</script>'
+								content += '");'
+								content += '</script>'
 		
-							content += '<script>'
-							content += 'myNicEditor.addInstance("'
-							content += prog_code
-							content += '");'
-						    content += '</script>'
-						
-						
-							content += '<div id='
-								content += '\''
-								content += prog_code_control
-								content += '\''
-								content += ' style=" background-color:  #151705 ;  border: 0px solid #c0c0c0; ">'
-							content += '</div>'							
+								content += '<script>'
+								content += 'myNicEditor.addInstance("'
+								content += instance_tmptopic
+								content += '");'
+								content += '</script>'
+							
+								content += '<div contenteditable="' + editable + '" style="" id='
+									content += '\''
+									content += div_tmptopic
+									content += '\''
+									content += ' style="  ">'
+								content += '</div>'
+							//}
 
-							content += '<div contenteditable="true" style="height:450px; overflow-y:scroll;" id="' + prog_code + '">'
-								content += result.description[1]
-							content += '</div>'
-							
-							content += '<div contenteditable="true" style="height:75px; overflow-y:scroll;" id="' + prog_code + '">'
-								content += result.description[1]
-							content += '</div>'
-							
-							content += '<div contenteditable="true" style="height:75px; overflow-y:scroll;" id="' + prog_code + '">'
-								content += result.description[1]
-							content += '</div>'
+
+							//if(dataJobj.editsave == 'true') {
+								content += '<div contenteditable="' + editable + '" style="height:680px; overflow-y:scroll;" id="' + topic_description + '">'
+							//}
+							//else {
+							//	content += '<div style="background-color:#130106;">'
+							//}
+									content += result.description[0]
+									
+							//if(dataJobj.editsave == 'true') {
+								content += '</div>'
+							//}
+							//else {
+							//	content += '</div>'
+							//}
 							
 						content += '</div>'
 						
-                        //content += '<div class="tab-pane" id="tab3">Hide</div>'
-						//content += ' <div class="tab-pane" id="tab4">Save</div>'
-						//content += ' <div class="tab-pane" id="tab5">'
-						//	content += 'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet</div></div>'
-	                    //content += '</div>'
+						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane" id="' + program + '">'
+							
+							//if(dataJobj.editsave == 'true') {
+								content += '<script>'
+								content += 'myNicEditor.setPanel("'
+								content += prog_code_control
+								content += '");'
+								content += '</script>'
+		
+								content += '<script>'
+								content += 'myNicEditor.addInstance("'
+								content += prog_code
+								content += '");'
+								content += '</script>'
+							
+								content += '<div contenteditable="' + editable + '" id='
+									content += '\''
+									content += prog_code_control
+									content += '\''
+									content += ' style=" background-color:  #151705 ;  border: 0px solid #c0c0c0; ">'
+								content += '</div>'
+							//}
+
+							//if(dataJobj.editsave == 'true') {
+								content += '<div contenteditable="true" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:500px; overflow-y:scroll;" id="' + prog_code + '">'
+							//}
+							//else {
+							//	content += '<div class="col-lg-12" contenteditable="true" style="overflow-y:scroll;height:500px; background-color:#130106;" id="' + prog_code + '">'
+							//}							
+							
+								content += result.description[1]
+							
+							//if(dataJobj.editsave == 'true') {	
+								content += '</div>'
+							//}
+							//else {
+							//	content += '</div>'
+							//}
+							
+							content += '<div contenteditable="true" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:80px; overflow-y:scroll;" id="' + prog_code + '">'
+								content += '<textarea placeholder="Program input goes here" style="border-color: #c0c0c0;color:#fff; height:100px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
+								content += '\''
+								content += prog_input
+								content += '\''
+								content += ' ></textarea>'
+							content += '</div>'
+							
+							content += '<div style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:100px; overflow-y:scroll;" id="' + prog_code + '">'
+								content += '<textarea placeholder="Program output appears here" readonly style="border-color: #c0c0c0;color:#fff; height:100px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
+								content += '\''
+								content += prog_output
+								content += '\''
+								content += ' ></textarea>'
+							content += '</div>'
+
+							content += '<div align=right style="relative:absolute; right:5px; top:5px; border-style: ridge;border-width: thin;background-color:#1F1F1F;height:50px; overflow-y:scroll;" id="' + prog_code + '">'
+							content += '<button class="btn btn-primary" id='
+							content += '\''
+							content += prog_send
+							content += '\''
+							content += '>Run Program</button>'
+							content += '</div>'
+						
+							//content += '<div class="tab-pane" id="tab3">Hide</div>'
+							//content += ' <div class="tab-pane" id="tab4">Save</div>'
+							//content += ' <div class="tab-pane" id="tab5">'
+							//	content += 'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet</div></div>'
+							//content += '</div>'
 	                content += '</div>'
 	            content += '</div>'
 	        content += '</div>'
 		content += '</div>'
-	content += '</div>'
-    
-	
 
-
-	
+		
 	$('#' + techlist_div_id).html('')
-	  $('#' + techlist_div_id).append(content)
+	$('#' + techlist_div_id).append(content)
+    
+	//console.log('hide_id: ' + hide_id)
+	$("#" + hide_id).on('click', hide_cb);
+
+	if(dataJobj.editsave == 'true') {
+		$("#" + edit_save_id).on('click', save_description);
+	}
+			
+	if(dataJobj.delete == 'true') {
+		$("#" + delete_id).on('click', del_cb);
+	}
+	
+	$("#" + prog_send).on('click', function() {
+			
+		var prog_content = $("#" + prog_code).html()
+		console.log('prog_html: ' + prog_content)
+
+		prog_content = prog_content.replace(/<div>/g, "<br>")
+		prog_content = prog_content.replace(/<br>/g, "%3Cbr%3E")
+		prog_content = prog_content.replace(/"/g, "%22")
+			
+		$("#tmp_hid").html(prog_content)
+		prog_content = $("#tmp_hid").text()
+		console.log('prog_content: ' + prog_content)
+
+		var prog_in = $("#" + prog_input).val()
+		console.log('prog_in: ' + prog_in)
+
+		prog_in = prog_in.replace(/<br>/g, "%3Cbr%3E")
+		prog_in = prog_in.replace(/\n/g, " ")
+		prog_in = prog_in.replace(/"/g, "%22")
+			
+		$("#tmp_hid").html(prog_in)
+		prog_in = $("#tmp_hid").text()
+		console.log('prog_in: ' + prog_in)
+			
+		$.post('/run_program',
+		'data={"prog_input" : ' + '"' + encodeURIComponent(prog_in) + '"' + ', "program" : ' + '"' + encodeURIComponent(prog_content) + '"' + '}',
+			(prog_result) => {
+				display_program_output(prog_result, prog_output)
+			}
+		);
+
+		})
+	
 }
 
 /*
@@ -445,21 +572,38 @@ function show_cb(event)
 	$('#' + description_box_id).scrollTop(0);
 	$('#' + prog_id).scrollTop(0);
 	*/
+
+	var topic = getTopicName($(this).attr("id"))
+	var techlist_div_id = topic + "_techlist_div"
+	var content = $('#' + techlist_div_id).html()
+	//$('#' + techlist_div_id).show()
+	//console.log('content: ' + content)
+	//console.log('techlist_div_id: ' + techlist_div_id)
+	if(content != '') {
+		console.log('show and return')
+		$('#' + techlist_div_id).show()
+		var ul_tag = topic + "_ul_tag"
+		var instance_tmptopic = topic + "_instance"
+		var topic_description = topic + "_description"
+		$('#' + ul_tag + ' a[href="#' + instance_tmptopic + '"]').tab('show');
+		return
+	}
 	
+	var dataJobj = event.data
 	var technology = $("#tech_hid").val()
 	
 	//var data=encodeURI('data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + encodeURIComponent(technology) + '}')
 	//var data='data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}'
 	var data='&topic=' + encodeURIComponent(selected_topic) + '&technology=' + encodeURIComponent(technology)
 	console.log(data)
-	
+
 	$.ajax({
 		url: '/read_description',
 		type: 'GET',
 		data: data,
 		success: (result) => {
 			//show_description_cb(result, description_box_id, prog_id)
-			show_description_cb(result, getTopicName($(this).attr("id")))
+			show_description_cb(result, getTopicName($(this).attr("id")), dataJobj)
 		}
 	});
 
@@ -532,13 +676,14 @@ function del_cb()
 
 function hide_cb()
 {
+	//console.log('hide_cb hit')
 	var topic_name = getTopicName($(this).attr("id"))
-	var description_box_id = topic_name + "_text"
-	$("#" + description_box_id).prop("readonly", true)
+	//var description_box_id = topic_name + "_text"
+	//$("#" + description_box_id).prop("readonly", true)
 	
-	var tr_id = topic_name + "_tr" 
-	console.log(tr_id)
-	$('#' + tr_id).hide()
+	var techlist_div_id = topic_name + "_techlist_div"
+	console.log('techlist_div_id: ' + techlist_div_id)
+	$('#' + techlist_div_id).hide()
 }
 
 function save_topic_cb(add_result, description_box_id, prog_id) {
@@ -588,8 +733,9 @@ function save_topic_cb(add_result, description_box_id, prog_id) {
 
 function save_description()
 {
+	
 	selected_topic = $(this).attr("id")
-	description_id = getTopicName(selected_topic) + "_instance"
+	description_id = getTopicName(selected_topic) + "_description"
 	prog_id = getTopicName(selected_topic) + "_progcode"
 	console.log(description_id)
 	
@@ -607,7 +753,8 @@ function save_description()
 	{
 		return;
 	}
-
+	
+	
 	var topic = tmp_topic.replace(/"/g, '\\"');
 	description = tmp_description.replace(/"/g, '\\"');
 	program = tmp_prog.replace(/"/g, '\\"');
@@ -622,17 +769,19 @@ function save_description()
 	program = program.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:\/\\\|\}\{\[\]`~]*/g, '');
 	
 	
-	console.log(topic)
-	console.log(description);
-	console.log(program);
+	//console.log(topic)
+	//console.log(description);
+	//console.log(program);
 	
 	var technology = $("#tech_hid").val()
+	///*
 	$.post('/update_description',
 			'data={"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + ', "program" : ' + '"' + encodeURIComponent(program) + '"' + '}',
 			(save_result) => {
 				save_topic_cb(save_result, description_id, prog_id)
 			}
 		  );
+		  //*/
 
 }
 
@@ -699,17 +848,21 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 	subject_topic += '<br>'
 	//subject_topic += '<div class=col-lg-6 class="backround-color:c0c0c0;">'
 	subject_topic += '<table class="col-lg-6 style="backround-color:c0c0c0;">'
-	subject_topic += '<tr><td>'
-	subject_topic += 'Enter search topic here'
+	subject_topic += '<tr><td class=a7><br>'
+	var tech = subject == 'cplusplus' ? 'C++' : subject
+
+	subject_topic += 'Search ' + tech + ' topics here'
+	subject_topic += '<div id='
 	subject_topic += '</td></tr>'
 	subject_topic += '<tr><td>'
 	subject_topic += '<input onkeyup="myFunction()" type=text placeholder="Search topics here" class=form-control id=search_topic>'
-	subject_topic += '</td></tr>'
+	subject_topic += '<br></td></tr>'
 	subject_topic += '</table>'
+
 	//subject_topic += '</div>'
 	
     //subject_topic += '<table class="col-lg-12 col-xs-12 col-sm-12 " style="width:; background-color:;" id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
-	subject_topic += '<table class="col-lg-12 col-xs-12 col-sm-12 " style="width:; background-color:;" id=techlist></table>'
+	subject_topic += '<br><table class="col-lg-12 col-xs-12 col-sm-12 " style="width:; background-color:;" id=techlist></table>'
 
 
 	
@@ -729,13 +882,13 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		{
 			return false;
 		}
-
+/*
 		var tmptopic = topic;
 		//console.log('t: ' + t);
 		tmptopic = tmptopic.replace(/ /g,'_');
 		tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
 		tmptopic = tmptopic.replace("'", "\'");
-
+*/
 		var topic_entry = ''
 		
 		topic_entry += create_topic_link(topic)
@@ -779,10 +932,12 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
 		tmptopic = tmptopic.replace("'", "\'");
 	
+		var tr_id = tmptopic + "_top"
+		console.log(tr_id)
 		var td_id = tmptopic + "_td"
 		var techlist_div_id = tmptopic + "_techlist_div"
 		
-		$('#techlist').append('<tr class="spaceUnder2"><td id="' + td_id + '">' + topic_entry + '</tr></td>');
+		$('#techlist').append('<tr class="spaceUnder2" id="' + tr_id + '"><td id="' + td_id + '">' + topic_entry + '</tr></td>');
 		$('#' + td_id).append('<br>')
 		$('#' + td_id).append('<div id="' + techlist_div_id + '"></div>')
 		
@@ -809,8 +964,9 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 			$("#" + des_div_tmptopic).css('display', 'none')
 			$("#" + prog_div_tmptopic).css('display', '')
 		})
-		
+				
 
+					var prog_send = tmptopic + "_progsend"
 		$("#" + prog_send).on('click', function() {
 			
 			var prog_content = $("#" + prog_code).html()
@@ -843,7 +999,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 			);
 
 		})
-			*/		
+	*/
 		
 
 	});
