@@ -281,6 +281,9 @@ function show_description_cb(result, topic, dataJobj) {
 	var topic_description = topic + "_description"
 	
 	var content = '<br>'
+	
+	if(dataJobj.editsave == 'true') {
+	
 	content += '<div class="row" id="' + div_tr_id + '">'
 		content += '<div class="col-lg-12 " style="background-color:#1F1F1F;">'
             content += '<div class="panel panel-primary">'
@@ -422,8 +425,35 @@ function show_description_cb(result, topic, dataJobj) {
 	            content += '</div>'
 	        content += '</div>'
 		content += '</div>'
+	}
+	else {
+	
+	
+content += '<div class="container col-lg-12" style="border-style: ridge;background-color:#c0c0c0;">'
+ 
+  content += '<ul class="nav nav-tabs nav-pills">'
+    content += '<li class="active"><a data-toggle="tab" href="#' + instance_tmptopic + '">Description</a></li>'
+    content += '<li><a data-toggle="tab" href="#' + topic_description + '">Run Program</a></li>'
+    
+  content += '</ul>'
 
+  content += '<div class="tab-content col-lg-12" style="border-style:  ridge;background-color:#1F1F1F;">'
+    content += '<div id="' + instance_tmptopic + '" style="height:680px; overflow-y:scroll;" class="tab-pane fade in active">'
+      content += result.description[0]
+	  content += '</div>'
+    content += '<div id="' + topic_description + '" style="height:680px; overflow-y:scroll;" class="tab-pane fade">'
+      content += result.description[1]
+      content += '</div>'
+	  content += '</div>'
+
+content += '</div>'
+
+
+	
+	
+	}
 		
+	
 	$('#' + techlist_div_id).html('')
 	$('#' + techlist_div_id).append(content)
     
