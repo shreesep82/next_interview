@@ -280,179 +280,121 @@ function show_description_cb(result, topic, dataJobj) {
 	var prog_send = topic + "_progsend"
 	var topic_description = topic + "_description"
 	
-	var content = '<br>'
+	var ul_tag = topic + "_ul_tag"
+	var program = topic + "_program"
 	
+	var editable = 'false'
 	if(dataJobj.editsave == 'true') {
-	
-	content += '<div class="row" id="' + div_tr_id + '">'
-		content += '<div class="col-lg-12 " style="background-color:#1F1F1F;">'
-            content += '<div class="panel panel-primary">'
-                content += '<div class="panel-heading">'
-                    content += '<h3 class="panel-title">&#9805</h3>'
-                    content += '<span class="pull-right">'
+		editable = 'true'
+	}
+		
+	var content = '<br>'
+	content += '<div class="row">'
+                    content += '<div class="col-lg-12 " >'
+                        content += '<div class="card" style="background-color:#c0c0c0;">'
+	                        content += '<ul class="nav nav-tabs" role="tablist" id="' + ul_tag + '">'
+                                        content += '<li role="presentation" class="active"><a href="#' + topic_description + '" aria-controls="' + topic_description + '" role="tab" data-toggle="tab">Description</a></li>'
+                                        content += '<li role="presentation"><a href="#' + program + '" aria-controls="' + program + '" role="tab" data-toggle="tab">Run program</a></li>'
+                                        content += '<li role="presentation"><a href="#' + hide_id + '" aria-controls="' + hide_id + '" role="tab" data-toggle="tab" id="' + hide_id + '">Hide</a></li>'
+                                      
+										if(dataJobj.editsave == 'true') {
+											content += '<li role="presentation"><a href="#' + edit_save_id + '" aria-controls="' + edit_save_id + '" role="tab" " data-toggle="tab" id="' + edit_save_id + '">Save</a></li>'
+											content += '<li role="presentation"><a href="##' + delete_id + '" aria-controls="' + delete_id + '" data-toggle="tab" id="' + delete_id + '">Delete</a></li>'
+										}			  
+						  
+                            content += '</ul>'
 
-						var ul_tag = topic + "_ul_tag"
-						var program = topic + "_program"
-                        content += '<ul class="nav panel-tabs" id="' + ul_tag + '">'
-                            content += '<li class="active a3"><a href="#' + instance_tmptopic + '" data-toggle="tab">Description</a></li>'
-                            content += '<li class="a3"><a href="#' + program + '" data-toggle="tab">Program</a></li>'
-                            content += '<li class="a3"><a href="#hide" data-toggle="tab" id="' + hide_id + '">Hide</a></li>'
-							if(dataJobj.editsave == 'true') {
-								content += '<li class="a3"><a href="#save" data-toggle="tab" id="' + edit_save_id + '">Save</a></li>'
-								content += '<li class="a3"><a href="#delete" data-toggle="tab" id="' + delete_id + '">Delete</a></li>'
-							}
-                            
-                        content += '</ul>'
-                    content += '</span>'
-                content += '</div>'
-                //content += '<div class="panel-body" >'
-                    content += '<div class="tab-content" style=" ">'
-
-							var editable = 'false'
-							if(dataJobj.editsave == 'true') {
-								editable = 'true'
-							}
+                             
+                            content += '<div class="tab-content">'
+                                content += '<div role="tabpanel" class="tab-pane active" id="' + topic_description + '">'
 					
-						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane active" id="' + instance_tmptopic + '">'
-							//if(dataJobj.editsave == 'true') {
-								content += '<script>'
-								content += 'myNicEditor.setPanel("'
-								content += div_tmptopic
-								content += '");'
-								content += '</script>'
+												if(dataJobj.editsave == 'true') {		
+													content += '<script>'
+													content += 'myNicEditor.setPanel("'
+													content += div_tmptopic
+													content += '");'
+													content += '</script>'
 		
-								content += '<script>'
-								content += 'myNicEditor.addInstance("'
-								content += instance_tmptopic
-								content += '");'
-								content += '</script>'
+													content += '<script>'
+													content += 'myNicEditor.addInstance("'
+													content += instance_tmptopic
+													content += '");'
+													content += '</script>'
 							
-								content += '<div contenteditable="' + editable + '" style="" id='
-									content += '\''
-									content += div_tmptopic
-									content += '\''
-									content += ' style="  ">'
+													content += '<div contenteditable="true" style="" id='
+													content += '\''
+													content += div_tmptopic
+													content += '\''
+													content += ' style="  ">'
+													content += '</div>'
+												}		
+										
+												content += '<div contenteditable="' + editable + '" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:680px;overflow-y:scroll;" id="' + instance_tmptopic + '">'	
+													content += result.description[0]
+												content += '</div>'
 								content += '</div>'
-							//}
-
-
-							//if(dataJobj.editsave == 'true') {
-								content += '<div contenteditable="' + editable + '" style="height:680px; overflow-y:scroll;" id="' + topic_description + '">'
-							//}
-							//else {
-							//	content += '<div style="background-color:#130106;">'
-							//}
-									content += result.description[0]
-									
-							//if(dataJobj.editsave == 'true') {
-								content += '</div>'
-							//}
-							//else {
-							//	content += '</div>'
-							//}
+										
+										
+                                content += '<div role="tabpanel" class="tab-pane" id="' + program + '">'
+												if(dataJobj.editsave == 'true') {			
+													content += '<script>'
+													content += 'myNicEditor.setPanel("'
+													content += prog_code_control
+													content += '");'
+													content += '</script>'
+		
+													content += '<script>'
+													content += 'myNicEditor.addInstance("'
+													content += prog_code
+													content += '");'
+													content += '</script>'
 							
+													content += '<div contenteditable="true" id='
+													content += '\''
+													content += prog_code_control
+													content += '\''
+													content += ' style=" background-color:  #151705 ;  border: 0px solid #c0c0c0; ">'
+													content += '</div>'
+												}
+												
+												content += '<div contenteditable="true" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:450px; overflow-y:scroll;" id="' + prog_code + '">'
+													content += result.description[1]
+												content += '</div>'
+						
+							
+												content += '<div contenteditable="true" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:80px; overflow-y:scroll;" >'
+													content += '<textarea placeholder="Program input goes here" style="border-color: #c0c0c0;color:#fff; height:100px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
+													content += '\''
+													content += prog_input
+													content += '\''
+													content += ' ></textarea>'
+												content += '</div>'
+							
+												content += '<div contenteditable="false" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:100px; overflow-y:scroll;" >'
+													content += '<textarea placeholder="Program output appears here" readonly style="border-color: #c0c0c0;color:#fff; height:100px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
+													content += '\''
+													content += prog_output
+													content += '\''
+													content += ' ></textarea>'
+												content += '</div>'
+					
+												content += '<div align=right style="padding-top: 5px; padding-right: 5px; border-style: ridge;border-width: thin;background-color:#1F1F1F;height:50px; overflow-y:scroll;" >'
+													content += '<table><tr><td align=right><button class="btn btn-primary" id='
+													content += '\''
+													content += prog_send
+													content += '\''
+													content += '>Run Program</button></td></tr></table>'
+												content += '</div>'
+															
+												content += '</div>'
+															
+															content += '<div role="tabpanel" class="tab-pane" id="' + hide_id + '">'
+								content += '</div>'									
+	                        content += '</div>'
 						content += '</div>'
-						
-						content += ' <div style="border-width: thin;background-color:#1F1F1F; border-style: ridge;border-color: coral;" class="tab-pane" id="' + program + '">'
-							
-							//if(dataJobj.editsave == 'true') {
-								content += '<script>'
-								content += 'myNicEditor.setPanel("'
-								content += prog_code_control
-								content += '");'
-								content += '</script>'
-		
-								content += '<script>'
-								content += 'myNicEditor.addInstance("'
-								content += prog_code
-								content += '");'
-								content += '</script>'
-							
-								content += '<div contenteditable="' + editable + '" id='
-									content += '\''
-									content += prog_code_control
-									content += '\''
-									content += ' style=" background-color:  #151705 ;  border: 0px solid #c0c0c0; ">'
-								content += '</div>'
-							//}
+                    content += '</div>'
+				content += '</div>'
 
-							//if(dataJobj.editsave == 'true') {
-								content += '<div contenteditable="true" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:500px; overflow-y:scroll;" id="' + prog_code + '">'
-							//}
-							//else {
-							//	content += '<div class="col-lg-12" contenteditable="true" style="overflow-y:scroll;height:500px; background-color:#130106;" id="' + prog_code + '">'
-							//}							
-							
-								content += result.description[1]
-							
-							//if(dataJobj.editsave == 'true') {	
-								content += '</div>'
-							//}
-							//else {
-							//	content += '</div>'
-							//}
-							
-							content += '<div contenteditable="true" style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:80px; overflow-y:scroll;" id="' + prog_code + '">'
-								content += '<textarea placeholder="Program input goes here" style="border-color: #c0c0c0;color:#fff; height:100px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
-								content += '\''
-								content += prog_input
-								content += '\''
-								content += ' ></textarea>'
-							content += '</div>'
-							
-							content += '<div style="border-style: ridge;border-width: thin;background-color:#1F1F1F;height:100px; overflow-y:scroll;" id="' + prog_code + '">'
-								content += '<textarea placeholder="Program output appears here" readonly style="border-color: #c0c0c0;color:#fff; height:100px; border-width: 2px; background-color: #130106 ; border: 2px;" class="form-control textarea_nodrag" style="width:" id='
-								content += '\''
-								content += prog_output
-								content += '\''
-								content += ' ></textarea>'
-							content += '</div>'
-
-							content += '<div align=right style="relative:absolute; right:5px; top:5px; border-style: ridge;border-width: thin;background-color:#1F1F1F;height:50px; overflow-y:scroll;" id="' + prog_code + '">'
-							content += '<button class="btn btn-primary" id='
-							content += '\''
-							content += prog_send
-							content += '\''
-							content += '>Run Program</button>'
-							content += '</div>'
-						
-							//content += '<div class="tab-pane" id="tab3">Hide</div>'
-							//content += ' <div class="tab-pane" id="tab4">Save</div>'
-							//content += ' <div class="tab-pane" id="tab5">'
-							//	content += 'Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet</div></div>'
-							//content += '</div>'
-	                content += '</div>'
-	            content += '</div>'
-	        content += '</div>'
-		content += '</div>'
-	}
-	else {
-	
-	
-content += '<div class="container col-lg-12" style="border-style: ridge;background-color:#c0c0c0;">'
- 
-  content += '<ul class="nav nav-tabs nav-pills">'
-    content += '<li class="active"><a data-toggle="tab" href="#' + instance_tmptopic + '">Description</a></li>'
-    content += '<li><a data-toggle="tab" href="#' + topic_description + '">Run Program</a></li>'
-    
-  content += '</ul>'
-
-  content += '<div class="tab-content col-lg-12" style="border-style:  ridge;background-color:#1F1F1F;">'
-    content += '<div id="' + instance_tmptopic + '" style="height:680px; overflow-y:scroll;" class="tab-pane fade in active">'
-      content += result.description[0]
-	  content += '</div>'
-    content += '<div id="' + topic_description + '" style="height:680px; overflow-y:scroll;" class="tab-pane fade">'
-      content += result.description[1]
-      content += '</div>'
-	  content += '</div>'
-
-content += '</div>'
-
-
-	
-	
-	}
-		
 	
 	$('#' + techlist_div_id).html('')
 	$('#' + techlist_div_id).append(content)
@@ -615,7 +557,7 @@ function show_cb(event)
 		var ul_tag = topic + "_ul_tag"
 		var instance_tmptopic = topic + "_instance"
 		var topic_description = topic + "_description"
-		$('#' + ul_tag + ' a[href="#' + instance_tmptopic + '"]').tab('show');
+		$('#' + ul_tag + ' a[href="#' + topic_description + '"]').tab('show');
 		return
 	}
 	
@@ -765,7 +707,7 @@ function save_description()
 {
 	
 	selected_topic = $(this).attr("id")
-	description_id = getTopicName(selected_topic) + "_description"
+	description_id = getTopicName(selected_topic) + "_instance"
 	prog_id = getTopicName(selected_topic) + "_progcode"
 	console.log(description_id)
 	
