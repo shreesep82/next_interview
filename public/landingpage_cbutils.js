@@ -21,11 +21,6 @@ function add_topic_setpanel_addinstance()
 function add_topic_panel()
 {
     var div_home = ''
-
-    //div_home += '<div class="col-lg-10" style="">'
-
-    //div_home += '<div class="row" >'
-    //div_home += '<div class="col-lg-12 col-sm-12" >'
     
     div_home += '		<table class="col-lg-12 col-xs-12  table-condensed table-bordered" style="width:; background-color:#1F1F1F">'
 
@@ -69,33 +64,6 @@ function add_topic_panel()
     div_home += '</td></tr>'
     div_home += '</table>'
 
-    //div_home += '			</div>'
-    //div_home += '			</div>'
-    //div_home += '			</div>'
-    
-    
-    /*
-    div_home += '<table class="table-bordered"><tr><td><div class="col-lg-12">'
-	div_home += '<input type=text class="form-control" id=add_topic_content placeholder="Enter topic here">'
-    div_home += '</div>'
-    
-	div_home += '<div class="col-lg-12" id='
-	div_home += '\''
-	div_home += 'add_topic_control'
-	div_home += '\''
-	div_home += '  ">'
-	div_home += '</div>'
-    
-        div_home += '<div class="col-lg-10" contenteditable="true" id='
-	div_home += '\''
-	div_home += 'add_topic_description'
-	div_home += '\''
-	div_home += '  style="overflow-y:scroll; overflow-x:hidden; height:350px; color:#ffffff">'
-	div_home += '</div></table>'
-	*/
-
-
-    
     return div_home;
 }
 
@@ -108,24 +76,6 @@ function create_topic_link(topic)
 	tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
 	tmptopic = tmptopic.replace("'", "\'");
 
-    /*
-    var top_tr_id = tmptopic + "_top"
-	topic_entry += '<tr class="spaceUnder" id='
-	topic_entry += '\''
-	topic_entry +=	top_tr_id
-	topic_entry += '\''
-	topic_entry += '><td>'
-	
-    
-	var anchor_tr_id = tmptopic + "_anchortr"
-	topic_entry += '<table class="col-lg-12 col-xs-12 col-md-12 " style="width:;border-style:;">'
-	topic_entry += '	<tr style="width:;" id='
-	topic_entry += '\''
-	topic_entry +=	anchor_tr_id
-	topic_entry += '\''
-	topic_entry += '><td>'
-	*/
-		
 	var a_tmptopic = tmptopic + "_anchor"
 	topic_entry += '<a class="a4" id='
 	topic_entry += '\''
@@ -133,23 +83,9 @@ function create_topic_link(topic)
 	topic_entry += '\''
 	topic_entry += '>'
 	topic_entry += topic;
-	//topic_entry += '</a></td></tr>'
+
     topic_entry += '</a>'
-	
-    /*
-	var tr_id = tmptopic + "_tr"
-		
-	topic_entry += '	<tr style="display:none; width:;" id='
-	topic_entry += '\''
-	topic_entry += tr_id
-	topic_entry += '\''
-	topic_entry += '>'
-		
-	topic_entry += '	<td>'
-	topic_entry += '		<table class="col-lg-12 col-xs-12 col-md-12 " style="width:; border-style:;">'
-	topic_entry += '			<tr class="spaceUnder1" style="width:;">'
-	topic_entry += '				<td align="right">'
-    */
+
     
     return topic_entry
 }
@@ -203,7 +139,7 @@ function create_topic_link(topic)
     
     return topic_entry
 }
-*/
+
 
 function create_hide_save_delete_buttons(tmptopic, dataJobj)
 {
@@ -286,16 +222,7 @@ function create_description_program_headers(tmptopic)
     
 	topic_entry += '<table class="col-lg-12 col-xs-12 table-bordered" style="width:;">'
 	topic_entry += '<tr><td>'
-    
-    /*
-     topic_entry += '<ul class="nav nav-tabs">'
-    topic_entry += '<li class="active"><a data-toggle="tab" href="#home">Home</a></li>'
-    topic_entry += '<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>'
 
-  topic_entry += '</ul>'
-    */
-    
-    
 	topic_entry += '	<ul class="nav nav-tabs nav-pills" id='
 	topic_entry += '\''
 	topic_entry += ul_tmptopic
@@ -474,3 +401,5 @@ function add_description_program_content(dataJobj, tmptopic)
     
     return topic_entry
 }
+
+*/

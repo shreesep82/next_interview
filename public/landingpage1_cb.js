@@ -1,24 +1,10 @@
 
-
-	
-
-
 function reset_cb()
 {			   
 	console.log('reset');
 	$("#add_topic_content").val("");
 	$("#add_topic_description").val("");
 }
-
-/*
-function edit_cb()
-{
-	$("#topic").prop('readonly', false)
-	$("#description_box").prop('readonly', false)
-}
-*/
-
-
 
 function create_new_topic_cb(add_result) {
 	
@@ -36,56 +22,11 @@ function create_new_topic_cb(add_result) {
 		dataJobj.editsave = 'true'
 		dataJobj.delete = 'true'
 
-		//topic_list.list.forEach(function(list_item) {
-			//var topic = list_item.topic;
 
-	    	if(topic === undefined)
-			{
-				return false;
-			}
-/*	
-			var tmptopic = topic;
-			//console.log('t: ' + t);
-			tmptopic = tmptopic.replace(/ /g,'_');
-			tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
-			tmptopic = tmptopic.replace("'", "\'");
-
-			var topic_entry = ''
-	
-			topic_entry += create_topic_link(topic)
-			
-			topic_entry += create_hide_save_delete_buttons(tmptopic, dataJobj)
-
-			var des_div_tmptopic = tmptopic + "_des_div"
-			var prog_div_tmptopic = tmptopic + "_prog_div"
-			var prog_code_control = tmptopic + "_progcodecontrol"
-			var prog_code = tmptopic + "_progcode"
-			var des_li_tmptopic = tmptopic + "_desli"
-			var prog_li_tmptopic = tmptopic + "_progli"
-		
-			var prog_code_table = tmptopic + "_progcodetable"
-			var prog_input = tmptopic + "_proginput"
-			var prog_output = tmptopic + "_progoutput"
-			var prog_send = tmptopic + "_progsend"
-
-			topic_entry += add_script_topic_panel_instance(tmptopic)
-			
-			topic_entry += create_description_program_headers(tmptopic)
-
-			var div_tmptopic = tmptopic + "_div"
-			var instance_tmptopic = tmptopic + "_instance"
-
-/*		
-			if(dataJobj.editsave == 'true') {
-				topic_entry += topic_edit_panel(tmptopic)
-			}
-		
-			topic_entry += description_panel(tmptopic)
-			
-			topic_entry += add_description_program_content(dataJobj, tmptopic)
-*/
-	
-
+    	if(topic === undefined)
+		{
+			return false;
+		}
 
 		var topic_entry = ''
 		
@@ -106,98 +47,17 @@ function create_new_topic_cb(add_result) {
 		$('#' + td_id).append('<br>')
 		$('#' + td_id).append('<div id="' + techlist_div_id + '"></div>')
 	
-/*	
-			$('#techlist').append('<tr><td>' + topic_entry + '</tr></td>');
 
-			if(dataJobj.editsave != 'true') {
-				$('#' + instance_tmptopic).attr('contenteditable', 'false');
-			}
-		
-			$('#' + instance_tmptopic).css('background-color', '#0e0f02 '); 
-		
-			if(dataJobj.editsave != 'true') {
-				//$('#' + prog_code).attr('contenteditable', 'false');
-			}
-		
-			$('#' + prog_code).css('background-color', '#0e0f02 '); 
-				
-			$("#" + des_li_tmptopic).on('click', function() {
-				$("#" + des_div_tmptopic).css('display', '')
-				$("#" + prog_div_tmptopic).css('display', 'none')
-			})
-		
-			$("#" + prog_li_tmptopic).on('click', function() {
-				$("#" + des_div_tmptopic).css('display', 'none')
-				$("#" + prog_div_tmptopic).css('display', '')
-			})
-		
-			$("#" + prog_send).on('click', function() {
-			
-				var prog_content = $("#" + prog_code).html()
-				console.log('prog_html: ' + prog_content)
-
-				prog_content = prog_content.replace(/<br>/g, "%3Cbr%3E")
-				prog_content = prog_content.replace(/"/g, "%22")
-			
-				$("#tmp_hid").html(prog_content)
-				prog_content = $("#tmp_hid").text()
-				console.log('prog_content: ' + prog_content)
-
-				var prog_in = $("#" + prog_input).val()
-				console.log('prog_in: ' + prog_in)
-
-				prog_in = prog_in.replace(/<br>/g, "%3Cbr%3E")
-				prog_in = prog_in.replace(/"/g, "%22")
-			
-				$("#tmp_hid").html(prog_in)
-				prog_in = $("#tmp_hid").text()
-				console.log('prog_in: ' + prog_in)
-			
-				$.post('/run_program',
-					'data={"prog_input" : ' + '"' + encodeURIComponent(prog_in) + '"' + ', "program" : ' + '"' + encodeURIComponent(prog_content) + '"' + '}',
-						(prog_result) => {
-							display_program_output(prog_result, prog_output)
-						}
-				);
-
-			
-			})
-*/
-			//topic_list.list.forEach(function(list_item) {
-
-			try {
-
-				var anchor = topic;
-				anchor = anchor.replace(/ /g,'_');
-				anchor = anchor + "_anchor"
-				console.log(anchor);
-				$("#" + anchor).bind('click', dataJobj, show_cb);
-/*
-				var hide = topic;
-				hide = hide.replace(/ /g,'_');
-				hide = hide + "_hide"
-				console.log(hide);
-				$("#" + hide).on('click', hide_cb);
-
-				var edit_save = topic;
-				edit_save = edit_save.replace(/ /g,'_');
-				edit_save = edit_save + "_editsave"
-				console.log(edit_save);
-				//$("#" + edit_save).on('click', edit_save_cb);
-				$("#" + edit_save).on('click', save_description);
-
-				var del = topic;
-				del = del.replace(/ /g,'_');
-				del = del + "_delete"
-				console.log(del);
-				$("#" + del).on('click', del_cb);
-			*/
-			}
-			catch(except) {
+		try {
+			var anchor = topic;
+			anchor = anchor.replace(/ /g,'_');
+			anchor = anchor + "_anchor"
+			console.log(anchor);
+			$("#" + anchor).bind('click', dataJobj, show_cb);
+		}
+		catch(except) {
 						
-			}
-
-
+		}
 	}
 	else {
 
@@ -231,7 +91,6 @@ function add_cb()
 
 	topic = topic.replace(/(?:\r\n|\r|\n)/g, '<br>');
 	description = description.replace(/(?:\r\n|\r|\n)/g, '<br>');
-	//description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
 	description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:\/\\\|\}\{\[\]`~]*/g, '');
 
 	//console.log('topic: ' + topic);
@@ -245,19 +104,6 @@ function add_cb()
 			);
 }
 
-
-/*
-function show_description_cb(result, description_box_id, prog_id) {
-
-	//console.log(result.description[0])
-	
-	//console.log("#" + description_box_id)
-	//$("#" + description_box_id).html(result.description[0]);
-	//$("#" + prog_id).html(result.description[1]);
-	
-	
-}
-*/
 
 function show_description_cb(result, topic, dataJobj) {
 
@@ -445,112 +291,16 @@ function show_description_cb(result, topic, dataJobj) {
 	
 }
 
-/*
-function convert_topic_to_db_format(selected_topic) {
-	selected_topic = selected_topic.replace(/\_/g, ' ')
-	return selected_topic;
-}
-
-function get_selected_topic() {
-	
-	var selected_topic = $("input[name='topicname']:checked").val();
-	
-	console.log(selected_topic)
-	selected_topic = convert_topic_to_db_format(selected_topic)
-	
-	return selected_topic;
-	
-}
-*/
-
-function new_topic_show_cb(event)
-{
-	//nicEditors.TextAreaWithId()
-	var selected_topic = getTopicName($(this).attr("id"))
-	// getTopicName gives value with underscores. Replace that with empty space now
-	selected_topic = selected_topic.replace(/_/g, " ")
-	
-	//console.log(selected_topic)
-		
-	var description_tr_id = getTopicName($(this).attr("id")) + "_tr"
-	//console.log(description_tr_id)
-	$('#' + description_tr_id).show()
-	
-	var description_box_id = getTopicName($(this).attr("id")) + "_instance"
-	var prog_id = getTopicName($(this).attr("id")) + "_progcode"
-	//$("#" + description_box_id).prop('readonly', true)
-	
-	$("#" + description_box_id).attr('contenteditable', 'true')
-	$("#" + prog_id).attr('contenteditable', 'true')
-	
-	//console.log(description_box_id)
-	
-	//$('#' + description_box_id).scrollTop($('#' + description_box_id)[0].scrollHeight);
-	$('#' + description_box_id).scrollTop(0);
-	$('#' + prog_id).scrollTop(0);
-	
-	var technology = $("#tech_hid").val()
-	
-	//var data=encodeURI('data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + encodeURIComponent(technology) + '}')
-	//var data='data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}'
-	var data='&topic=' + encodeURIComponent(selected_topic) + '&technology=' + encodeURIComponent(technology)
-	console.log(data)
-	
-	$.ajax({
-		url: '/read_description',
-		type: 'GET',
-		data: data,
-		success: (result) => {
-			show_description_cb(result, description_box_id, prog_id)
-		}
-	});
-
-
-}
-
 function show_cb(event)
 {
-	//nicEditors.TextAreaWithId()
 	var selected_topic = getTopicName($(this).attr("id"))
 	// getTopicName gives value with underscores. Replace that with empty space now
 	selected_topic = selected_topic.replace(/_/g, " ")
-	/*	
-	//console.log(selected_topic)
-		
-	var description_tr_id = getTopicName($(this).attr("id")) + "_tr"
-	
-
-	//console.log(description_tr_id)
-	$('#' + description_tr_id).show()
-	
-	var description_box_id = getTopicName($(this).attr("id")) + "_instance"
-	var prog_id = getTopicName($(this).attr("id")) + "_progcode"
-	
-	/*
-	//$("#" + description_box_id).prop('readonly', true)
-	var dataJobj = event.data
-	if(dataJobj.editsave == 'true') {
-		$("#" + description_box_id).attr('contenteditable', 'true')
-		$("#" + prog_id).attr('contenteditable', 'true')
-	}
-	else {
-		$("#" + description_box_id).attr('contenteditable', 'false')
-		//$("#" + prog_id).attr('contenteditable', 'false')
-	}
-	
-	//console.log(description_box_id)
-	
-	//$('#' + description_box_id).scrollTop($('#' + description_box_id)[0].scrollHeight);
-	$('#' + description_box_id).scrollTop(0);
-	$('#' + prog_id).scrollTop(0);
-	*/
 
 	var topic = getTopicName($(this).attr("id"))
 	var techlist_div_id = topic + "_techlist_div"
 	var content = $('#' + techlist_div_id).html()
-	//$('#' + techlist_div_id).show()
-	//console.log('content: ' + content)
-	//console.log('techlist_div_id: ' + techlist_div_id)
+
 	if(content != '') {
 		console.log('show and return')
 		$('#' + techlist_div_id).show()
@@ -558,14 +308,13 @@ function show_cb(event)
 		var instance_tmptopic = topic + "_instance"
 		var topic_description = topic + "_description"
 		$('#' + ul_tag + ' a[href="#' + topic_description + '"]').tab('show');
+		$("#" + instance_tmptopic).scrollTop(0)
 		return
 	}
 	
 	var dataJobj = event.data
 	var technology = $("#tech_hid").val()
 	
-	//var data=encodeURI('data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + encodeURIComponent(technology) + '}')
-	//var data='data={"topic" : ' + '"' + encodeURIComponent(selected_topic) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + '}'
 	var data='&topic=' + encodeURIComponent(selected_topic) + '&technology=' + encodeURIComponent(technology)
 	console.log(data)
 
@@ -579,15 +328,8 @@ function show_cb(event)
 		}
 	});
 
-
 }
 
-/*
-function convert_from_db_to_display_format(selected_topic) {
-	selected_topic = selected_topic.replace(" ", "_");
-	return selected_topic; 
-}
-*/
 
 function delete_topic_cb(id) {
 
@@ -638,10 +380,7 @@ function del_cb()
 			}
         }
     });
-    /*
-	bootbox.confirm("Are you sure?", function(result) {
-  Example.show("Confirm result: "+result);
-}); */
+
 
 }
 
@@ -650,11 +389,9 @@ function hide_cb()
 {
 	//console.log('hide_cb hit')
 	var topic_name = getTopicName($(this).attr("id"))
-	//var description_box_id = topic_name + "_text"
-	//$("#" + description_box_id).prop("readonly", true)
 	
 	var techlist_div_id = topic_name + "_techlist_div"
-	console.log('techlist_div_id: ' + techlist_div_id)
+	//console.log('techlist_div_id: ' + techlist_div_id)
 	$('#' + techlist_div_id).hide()
 }
 
@@ -697,7 +434,6 @@ function save_topic_cb(add_result, description_box_id, prog_id) {
 	console.log(prog_id)
 	
 
-	//$("#" + description_box_id).prop('readonly', true)
 	$("#" + description_box_id).attr('contenteditable', 'true')
 	$("#" + prog_id).attr('contenteditable', 'true')
 
@@ -746,14 +482,13 @@ function save_description()
 	//console.log(program);
 	
 	var technology = $("#tech_hid").val()
-	///*
+
 	$.post('/update_description',
 			'data={"topic" : ' + '"' + encodeURIComponent(topic) + '"' + ', "description" : ' + '"' + encodeURIComponent(description) + '"' + ', "technology" : ' + '"' + encodeURIComponent(technology) + '"' + ', "program" : ' + '"' + encodeURIComponent(program) + '"' + '}',
 			(save_result) => {
 				save_topic_cb(save_result, description_id, prog_id)
 			}
 		  );
-		  //*/
 
 }
 
@@ -786,7 +521,7 @@ function edit_save_cb()
 {
 	var description_id = getTopicName($(this).attr("id")) + "_instance"
 	var program_id = getTopicName($(this).attr("id")) + "_progcode"
-	//description_id = description_id + "_text"
+
 	console.log(description_id)
 
 	//console.log($("#" + description_id).prop('readonly'))
@@ -803,7 +538,7 @@ function edit_save_cb()
 
 function technology_info_display_cb(topic_list, subject, dataJobj) {
 							
-	var subject_topic = ''//<div id=add_topic class=container>'
+	var subject_topic = ''
 	subject_topic += '<input type=hidden value=hid id=tech_hid>'
 	subject_topic += '<input type=hidden value=hid id=tmp_hid>'
 	
@@ -818,7 +553,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 	}
 	
 	subject_topic += '<br>'
-	//subject_topic += '<div class=col-lg-6 class="backround-color:c0c0c0;">'
+
 	subject_topic += '<table class="col-lg-6 style="backround-color:c0c0c0;">'
 	subject_topic += '<tr><td class=a7><br>'
 	var tech = subject == 'cplusplus' ? 'C++' : subject
@@ -831,13 +566,9 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 	subject_topic += '<br></td></tr>'
 	subject_topic += '</table>'
 
-	//subject_topic += '</div>'
-	
-    //subject_topic += '<table class="col-lg-12 col-xs-12 col-sm-12 " style="width:; background-color:;" id=techlist><tr class="spaceUnder2"><td></td></tr></table>'
 	subject_topic += '<br><table class="col-lg-12 col-xs-12 col-sm-12 " style="width:; background-color:;" id=techlist></table>'
 
 
-	
 	$("#subject_topic").html(subject_topic)
 	
 	$("#tech_hid").val(subject)
@@ -854,49 +585,10 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		{
 			return false;
 		}
-/*
-		var tmptopic = topic;
-		//console.log('t: ' + t);
-		tmptopic = tmptopic.replace(/ /g,'_');
-		tmptopic = tmptopic.replace(/(?:\r\n|\r|\n)/g, '<br>');
-		tmptopic = tmptopic.replace("'", "\'");
-*/
+
 		var topic_entry = ''
 		
 		topic_entry += create_topic_link(topic)
-		
-		//topic_entry += create_hide_save_delete_buttons(tmptopic, dataJobj)
-
-		/*
-		var des_div_tmptopic = tmptopic + "_des_div"
-		var prog_div_tmptopic = tmptopic + "_prog_div"
-		var prog_code_control = tmptopic + "_progcodecontrol"
-		var prog_code = tmptopic + "_progcode"
-		var des_li_tmptopic = tmptopic + "_desli"
-		var prog_li_tmptopic = tmptopic + "_progli"
-		
-		var prog_code_table = tmptopic + "_progcodetable"
-		var prog_input = tmptopic + "_proginput"
-		var prog_output = tmptopic + "_progoutput"
-		var prog_send = tmptopic + "_progsend"
-		
-		topic_entry += add_script_topic_panel_instance(tmptopic)
-		
-		topic_entry += create_description_program_headers(tmptopic)
-
-		
-		var div_tmptopic = tmptopic + "_div"
-		var instance_tmptopic = tmptopic + "_instance"
-		
-		if(dataJobj.editsave == 'true') {
-			topic_entry += topic_edit_panel(tmptopic)
-		}
-		
-		
-		topic_entry += description_panel(tmptopic)
-		
-		topic_entry += add_description_program_content(dataJobj, tmptopic)
-		*/
 
 		var tmptopic = topic;
 
@@ -912,70 +604,8 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 		$('#techlist').append('<tr class="spaceUnder2" id="' + tr_id + '"><td id="' + td_id + '">' + topic_entry + '</tr></td>');
 		$('#' + td_id).append('<br>')
 		$('#' + td_id).append('<div id="' + techlist_div_id + '"></div>')
-		
-		/*
-		if(dataJobj.editsave != 'true') {
-			$('#' + instance_tmptopic).attr('contenteditable', 'false');
-		}
-		
-		$('#' + instance_tmptopic).css('background-color', '#0e0f02 '); 
-		
-		if(dataJobj.editsave != 'true') {
-			//$('#' + prog_code).attr('contenteditable', 'false');
-		}
-		
-		$('#' + prog_code).css('background-color', '#0e0f02 '); 
-		
-		
-		$("#" + des_li_tmptopic).on('click', function() {
-			$("#" + des_div_tmptopic).css('display', '')
-			$("#" + prog_div_tmptopic).css('display', 'none')
-		})
-		
-		$("#" + prog_li_tmptopic).on('click', function() {
-			$("#" + des_div_tmptopic).css('display', 'none')
-			$("#" + prog_div_tmptopic).css('display', '')
-		})
-				
-
-					var prog_send = tmptopic + "_progsend"
-		$("#" + prog_send).on('click', function() {
-			
-			var prog_content = $("#" + prog_code).html()
-			console.log('prog_html: ' + prog_content)
-
-			prog_content = prog_content.replace(/<div>/g, "<br>")
-			prog_content = prog_content.replace(/<br>/g, "%3Cbr%3E")
-			prog_content = prog_content.replace(/"/g, "%22")
-			
-			$("#tmp_hid").html(prog_content)
-			prog_content = $("#tmp_hid").text()
-			console.log('prog_content: ' + prog_content)
-
-			var prog_in = $("#" + prog_input).val()
-			console.log('prog_in: ' + prog_in)
-
-			prog_in = prog_in.replace(/<br>/g, "%3Cbr%3E")
-			prog_in = prog_in.replace(/\n/g, " ")
-			prog_in = prog_in.replace(/"/g, "%22")
-			
-			$("#tmp_hid").html(prog_in)
-			prog_in = $("#tmp_hid").text()
-			console.log('prog_in: ' + prog_in)
-			
-			$.post('/run_program',
-			'data={"prog_input" : ' + '"' + encodeURIComponent(prog_in) + '"' + ', "program" : ' + '"' + encodeURIComponent(prog_content) + '"' + '}',
-				(prog_result) => {
-					display_program_output(prog_result, prog_output)
-				}
-			);
-
-		})
-	*/
-		
 
 	});
-	
 				
 	topic_list.list.forEach(function(list_item) {
 		try {
@@ -984,34 +614,6 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 			anchor = anchor + "_anchor"
 			console.log(anchor);
 			$("#" + anchor).bind('click', dataJobj, show_cb);
-
-			/*
-			var hide = list_item.topic;
-			hide = hide.replace(/ /g,'_');
-			hide = hide + "_hide"
-			console.log(hide);
-			$("#" + hide).on('click', hide_cb);
-
-			if(dataJobj.editsave == 'true') {
-				var edit_save = list_item.topic;
-				edit_save = edit_save.replace(/ /g,'_');
-				edit_save = edit_save + "_editsave"
-				console.log(edit_save);
-				//$("#" + edit_save).on('click', edit_save_cb);
-				$("#" + edit_save).on('click', save_description);
-				
-			}
-			
-			if(dataJobj.delete == 'true') {
-				var del = list_item.topic;
-				del = del.replace(/ /g,'_');
-				del = del + "_delete"
-				console.log(del);
-				$("#" + del).on('click', del_cb);
-			}
-			*/
-			
-			
 		}
 		catch(except) {
 							
@@ -1020,9 +622,7 @@ function technology_info_display_cb(topic_list, subject, dataJobj) {
 	});
 
 	$("#add_topic_but").on('click', add_cb);
-	$("#reset_topic_but").on('click', reset_cb);
-
-						
+	$("#reset_topic_but").on('click', reset_cb);					
 }
 
 function technology_click_handler(event)

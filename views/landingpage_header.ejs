@@ -2,64 +2,56 @@
 <div class="navbar-fixed-top" >
 
 
-        <nav class="navbar navbar-inverse navbar-static-top">
+	<nav class="navbar navbar-inverse navbar-static-top">
          
             <div class="navbar-header" style="color:ffffff; background-color:  #565e0e  ;">
-			<a class="navbar-brand" href="#"><font  class=logo1>&nbsp;&#9805;&nbsp;</font></a>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              
+		<a class="navbar-brand" href="#"><font  class=logo1>&nbsp;&#9805;&nbsp;</font></a>
+	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		    <span class="sr-only">Toggle navigation</span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		</button>
             </div>
+	    
             <div id="navbar" class="navbar-collapse collapse" style="color:ffffff; background-color:  #565e0e  ;">
-             <ul class="nav navbar-nav" id=ul_bar>
-                <li class=active id=li_home><a class="a3" target="" href="#" id=home>Home</a></li>
-                <li id=li_about><a class="a3" target="" href="#" id=about>About</a></li>
-                <li id=li_contact><a class="a3" target="" href="#" id=contact>Contact</a></li>
+		<ul class="nav navbar-nav" id=ul_bar>
+		   <li class=active id=li_home><a class="a3" target="" href="#" id=home>Home</a></li>
+		   <li id=li_about><a class="a3" target="" href="#" id=about>About</a></li>
+		   <li id=li_contact><a class="a3" target="" href="#" id=contact>Contact</a></li>
 			
 			<% if(editsaveDisabled) { %>
-				
-			
-				
-				<li class="dropdown" id=li_admin_controls>
-          <a href="#" id=admin_controls class="a3 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Controls <span class="caret"></span></a>
-          <ul class="dropdown-menu container-fluid nav">
-            <li><a class="a3" href="#" id=add_admin_user>Add admin user</a></li>
-            <li><a class="a3" href="#" id=manipulate_technology>Manipulate technology</a></li>
-            <li><a class="a3" href="#" id=check_messages>Check messages</a></li>
-
-          </ul>
-        </li>
-				<% } %>
+		
+			<li class="dropdown" id=li_admin_controls>
+				<a href="#" id=admin_controls class="a3 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Controls <span class="caret"></span></a>
+				<ul class="dropdown-menu container-fluid nav">
+					  <li><a class="a3" href="#" id=add_admin_user>Add admin user</a></li>
+					  <li><a class="a3" href="#" id=manipulate_technology>Manipulate technology</a></li>
+					  <li><a class="a3" href="#" id=check_messages>Check messages</a></li>
+				</ul>
+			</li>
+			<% } %>
 		</ul>
 	  
-	  <form class="navbar-form navbar-left" action="">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+		<form class="navbar-form navbar-left" action="">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
 
-	  <ul class="container-fluid nav navbar-nav navbar-right" id=ul_bar>
+		<ul class="container-fluid nav navbar-nav navbar-right" id=ul_bar>
 			<li class="dropdown" id=li_user>
-          <a  id=user href="#" class="a3 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user %> <span class="caret"></span></a>
-          <ul class="dropdown-menu nav-right">
-            <li><a class="a3" href="#">Settings</a></li>
-
-            <li role="separator" class="divider"></li>
-            <li><a class="a3" href="/logout">Logout</a></li>
-          </ul>
-        </li>
-	</ul>
-
+			<a  id=user href="#" class="a3 dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user %> <span class="caret"></span></a>
+			<ul class="dropdown-menu nav-right">
+				<li><a class="a3" href="#">Settings</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a class="a3" href="/logout">Logout</a></li>
+			</ul>
+			</li>
+		</ul>
             </div>
-          </div>
         </nav>
-
-
     </div>
 
 
