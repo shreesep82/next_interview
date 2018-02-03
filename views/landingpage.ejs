@@ -2,22 +2,19 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="landingpage1_cb.js"></script>
-	<script type="text/javascript" src="landingpage_cbutils.js"></script>
+	<script type="text/javascript" src="js/landingpage_cb.js"></script>
+	<script type="text/javascript" src="js/landingpage_cbutils.js"></script>
 	
-	<script type="text/javascript" src="nicEdit-latest.js"></script>
+	<script type="text/javascript" src="js/nicEdit-latest.js"></script>
 	
-	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
-	
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<link rel="stylesheet" href="css/custom_styles.css">
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootbox.min.js"></script>
 		
 	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Faster One' rel='stylesheet'>
@@ -25,226 +22,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Federant' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Marck Script' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Arsenal' rel='stylesheet'>
-		
 
-	<style>
-		#draggable { width: 750px; height: 750px; padding: 0.5em; }
-		textarea { background-color: c0c0f0 }
-		
-		h1 {
-		     font-family: 'Josefin', slab;
-		     font-size: 48px;
-		     text-shadow: 2px 2px 2px #aaa;
-		}
-		
-		h5 {
-		     font-family: 'Josefin', slab;
-		     font-size: 14px;
-		     
-		}
-		
-		.a1 {
-			  font-family: 'Anivers';
-		     font-size: 18px;
-		     text-shadow: 2px 2px 2px #aaa;
-			 color: c0c0f0
-			  
-		}
-		
-		.a2 {
-			  font-family: 'Josefin';
-		     font-size: 18px;
-		     text-shadow: 2px 2px 2px #aaa;
-			 color: c0c0f0  
-		}
-		
-		.a3 {
-			  font-family: 'Sofia';
-		     font-size: 18px;
-			 color: c0c0f0
-		}
-		
-		
-		
-		a:hover {
-			cursor:pointer;
-		}
-		
-		.a4 {
-			font-family: 'Combo';
-		    font-size: 18px;
-			color: 98DDDE
-		}
-			
-		.a5 {
-			font-family: 'Federant';
-		    font-size: 18px;
-			color: D4E852
-		}
-
-		.a6 {
-			font-family: 'Marck Script';
-		    font-size: 18px;
-			color: FEF6D7
-		}
-
-		.a7 {
-			font-family: 'Arsenal';
-		    font-size: 18px;
-			color: FEF6D7
-		}
-		
-		.a_topic {
-			font-family: 'Anivers';
-		    font-size: 16px;
-		    text-shadow: 1px 1px 1px #aaa;
-			color: FFD700  
-		}
-		
-		.login_name {
-			font-family: 'Anivers';
-		    font-size: 16px;
-		    text-shadow: 1px 1px 1px #aaa;
-			color: c0c0c0  
-		}
-		
-		.topics_des {
-			font-family: 'Anivers';
-		    font-size: 16px;
-		    text-shadow: 0px 0px 0px #aaa;
-			color: c0c0c0
-		}
-		
-		tr.spaceUnder>td {
-			padding-bottom: 2em;
-		}
-		
-		tr.spaceUnder1>td {
-			padding-bottom: 0.4em;
-		}
-
-		tr.spaceUnder2>td {
-			padding-bottom: 1.4em;
-		}
-		
-		.textarea_nodrag {
-			resize: none;
-		}
-		
-		tr.spaceTop>td {
-			padding-top: 8em;
-		}
-		
-		.btn-transparent {
-			background: transparent;
-		    color: #c0c0c0;
-		    -webkit-transition: background .2s ease-in-out, border .2s ease-in-out;
-		    -moz-transition: background .2s ease-in-out, border .2s ease-in-out;
-		    -o-transition: background .2s ease-in-out, border .2s ease-in-out;
-			transition: background .2s ease-in-out, border .2s ease-in-out;
-			border: 1px solid #c0c0f0;
-		}
-
-	    .btn-transparent:hover {
-	        color: black;
-	        background-color: c0c0e0;
-		}
-		
-		.login-space {
-			padding-top: 0px;
-			padding-bottom: 60px;
-		}
-		
-		.techs-div {
-			padding-left: 600px;
-		}
-		
-		.logo {
-		     font-family: 'Josefin', slab;
-		     font-size: 24px;
-			 font-color: FFD700
-		     text-shadow: 2px 2px 2px #aaa;
-			 color: #93DC69
-		}
-		
-		.logo1 {
-		     font-family: 'Josefin', slab;
-		     font-size: 24px;
-			 font-color: 000000
-		     text-shadow: 2px 2px 2px #aaa;
-			 color: #D4E852
-		}
-		
-		div1:empty:before {
-			content:attr(data-placeholder);
-		}
-
-		.panel-tabs {
-		    position: relative;
-		    bottom: 30px;
-		    clear:both;
-		    border-bottom: 1px solid transparent;
-		}
-
-		.panel-tabs > li {
-		    float: left;
-		    margin-bottom: -1px;
-		}
-
-		.panel-tabs > li > a {
-		    margin-right: 2px;
-		    margin-top: 4px;
-		    line-height: .85;
-		    border: 1px solid transparent;
-		    border-radius: 4px 4px 0 0;
-		    color: #ffffff;
-		}
-
-		.panel-tabs > li > a:hover {
-		    border-color: transparent;
-		    color: #ffffff;
-		    background-color: transparent;
-		}
-
-		.panel-tabs > li.active > a,
-		.panel-tabs > li.active > a:hover,
-		.panel-tabs > li.active > a:focus {
-		    color: #fff;
-		    cursor: default;
-		    -webkit-border-radius: 2px;
-		    -moz-border-radius: 2px;
-		    border-radius: 2px;
-		    background-color: rgba(255,255,255, .23);
-		    border-bottom-color: transparent;
-		}
-
-
-		input::placeholder {
-			font-family: 'Arsenal';
-			font-size: 18px;
-		}
-
-		textarea::placeholder {
-			font-family: 'Arsenal';
-			font-size: 18px;
-		}
-
-		.nav-tabs { border-bottom: 2px solid #c0c0c0; }
-		.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
-		.nav-tabs > li > a { border: none; color: #666; }
-        .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #000 !important; background: transparent; }
-        .nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
-		.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
-		.tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
-		.tab-pane { padding: 0px 0; }
-		.tab-content{padding:2px}
-
-		.card {background: #FFF none repeat scroll 0% 0%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); margin-bottom: 30px; }
-
-	</style>
-
-		
-		
 <body style="background-color:#1F1F1F">
 	
 
@@ -522,3 +300,4 @@
 
 
  
+
