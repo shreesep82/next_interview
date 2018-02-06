@@ -1,6 +1,6 @@
 
 
-#!/usr/bin/env node
+//#!/usr/bin/env node
 
 /**
  * term.js
@@ -125,13 +125,26 @@ io.sockets.on('connection', function(sock) {
         var sock_data = ''
   socket.on('data', function(data) {
     if (stream) stream.write('IN: ' + data + '\n-\n');
-    //console.log('data: ' + JSON.stringify(data));
+    console.log('data: ' + JSON.stringify(data));
     term.write(data);
+	if(data == '\r')
+	{
+		if(sock_data == 'exit')
+    socket.emit('data', sock_data)
+		sock_data = ''
+		
+	}
+	else if(data == '\u0004')
+    socket.emit('data', 'exit')
+	else
+	sock_data += data
+	
   });
 
   socket.on('disconnect', function() {
     socket = null;
-          console.log('exit')
+    //      console.log('exit')
+    //term.write('exit');
   });
 
   while (buff.length) {

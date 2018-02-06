@@ -67,11 +67,16 @@
 <!--h1>term.js</h1-->
 <script src="/socket.io/socket.io.js"></script>
 
-<div id=term_div>
+<div id=term_div style="background-color:#555;">
 </div>
 
 <script src="term.js"></script>
 <script>
+
+$(window).keyup(function(e){
+      //console.log(e.keyCode)
+
+    }); 
 
 function on_socket_connect()
 {
@@ -84,6 +89,7 @@ function on_socket_connect()
       });
 
       term.on('data', function(data) {
+		//console.log('emite : ' + data)
         socket.emit('data', data);
       });
 
@@ -97,17 +103,12 @@ function on_socket_connect()
 
       socket.on('data', function(data) {
         term.write(data);
+        //console.log('data: ' + data + ' ' + data.length);
 
-              var e = '\r'
-              e += '\n'
-              e += 'exit'
-              e += '\r'
-              e += '\n'
-
-        if(data == e) {
-        term.destroy();
-                $("#col").html('<b>Session over</b>')
+        if(data == 'exit') {
+        	$("#col").html('<b>Session over</b>')
         }
+
       });
 
       socket.on('disconnect', function() {
@@ -115,7 +116,7 @@ function on_socket_connect()
               console.log('destroyed')
       });
 
-        $("#tab").append('<tr><td>kanth</td><td>kanth</td></tr>');
+//        $("#tab").append('<tr><td>kanth</td><td>kanth</td></tr>');
 
 }
 
@@ -123,7 +124,7 @@ function on_socket_connect()
 
 console.log("starts")
 
-$("#term_div").html('<table class="table-bordered" width=100% style="background-color:#0f0f0f;" id=tab><tr><td>a111111</td><td>b1111111</td><tr><td>shree</td><td id=col></td></tr></table>')
+$("#term_div").html('<table id=tab><tr><td id=col></td></tr></table>')
 
 var socket = io.connect();
 socket.on('connect', on_socket_connect);
