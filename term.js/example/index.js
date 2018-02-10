@@ -108,7 +108,7 @@ if (!~process.argv.indexOf('-n')) {
   });
 }
 
-server.listen(8080);
+server.listen(8081);
 
 /**
  * Sockets
@@ -119,35 +119,35 @@ io = io.listen(server, {
 });
 
 io.sockets.on('connection', function(sock) {
-        open_terminal()
-  socket = sock;
+	open_terminal()
+  	socket = sock;
 
-        var sock_data = ''
-  socket.on('data', function(data) {
-    if (stream) stream.write('IN: ' + data + '\n-\n');
-    console.log('data: ' + JSON.stringify(data));
-    term.write(data);
-	if(data == '\r')
-	{
-		if(sock_data == 'exit')
-    socket.emit('data', sock_data)
-		sock_data = ''
-		
-	}
-	else if(data == '\u0004')
-    socket.emit('data', 'exit')
-	else
-	sock_data += data
+    var sock_data = ''
+  	socket.on('data', function(data) {
+    	if (stream) stream.write('IN: ' + data + '\n-\n');
+    	//console.log('data: ' + JSON.stringify(data));
+    	term.write(data);
+		if(data == '\r')
+		{
+			if(sock_data == 'exit')
+	    	socket.emit('data', sock_data)
+			sock_data = ''
+		}
+		else if(data == '\u0004')
+    		socket.emit('data', 'exit')
+		else
+			sock_data += data
 	
-  });
+  	});
 
-  socket.on('disconnect', function() {
-    socket = null;
-    //      console.log('exit')
-    //term.write('exit');
-  });
+  	socket.on('disconnect', function() {
+    	socket = null;
+    	//console.log('exit')
+    	//term.write('exit');
+  	});
 
-  while (buff.length) {
-    socket.emit('data', buff.shift());
-  }
+	console.log(buff)
+  	while (buff.length) {
+    	socket.emit('data', buff.shift());
+  	}
 });
