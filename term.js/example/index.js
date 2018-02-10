@@ -93,6 +93,7 @@ app.use(express.basicAuth(function(user, pass, next) {
 app.use(express.static(__dirname));
 app.use(terminal.middleware());
 
+/*
 if (!~process.argv.indexOf('-n')) {
   server.on('connection', function(socket) {
     var address = socket.remoteAddress;
@@ -107,7 +108,7 @@ if (!~process.argv.indexOf('-n')) {
     }
   });
 }
-
+*/
 server.listen(8081);
 
 /**
