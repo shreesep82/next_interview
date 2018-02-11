@@ -23,6 +23,11 @@
 	<link href='https://fonts.googleapis.com/css?family=Marck Script' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Arsenal' rel='stylesheet'>
 
+	<script src="../term.js/src/term.js"></script>
+	<script src="/socket.io/socket.io.js">
+		
+	</script>
+
 <body style="background-color:#1F1F1F">
 	
 
@@ -109,7 +114,71 @@
 		<div class="a6 col-lg-9 " id=div_check_messages style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
 			Admin checks for user messages here
 		</div>
-					
+
+		<div class="a6 col-lg-9 " id=div_services style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+			You will see Different services here
+		</div>
+		
+		<div class="a6 col-lg-9 " id=div_gnome_terminal style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+
+			<div class="col-lg-12" id=term_div style="background-color:;">
+			</div>
+
+			<script>
+				
+				if(socket == null)
+				{
+					//socket = io.connect('127.0.0.1', {'forceNew': true})
+					socket = io.connect('', {'forceNew': true})
+					$("#term_div").html('<table id=tab class="col-lg-12"><tr><td id=col></td></tr></table>')
+					console.log('new socket')
+				}
+			
+				socket.on('connect', on_socket_connect);
+
+				function on_socket_connect()
+				{
+					  var term = new Terminal({
+						cols: 120,
+						rows: 36,
+						useStyle: true,
+						screenKeys: true,
+						cursorBlink: true
+					  });
+				
+					  term.on('data', function(data) {
+						//console.log('emit : ' + data)
+						socket.emit('data', data);
+					  });
+				
+					  term.on('title', function(title) {
+						document.title = title;
+					  });
+				
+					  term.open(document.getElementById("col"));
+				
+					  term.write('\x1b[31mWelcome to programming terminal. Press ENTER to continue.!\x1b[m\r\n');
+				
+					  socket.on('data', function(data) {
+						term.write(data);
+						//console.log('data: ' + data + ' ' + data.length);
+				
+						if(data == 'exit') {
+							$("#col").html('<b>Session over</b>')
+							socket.disconnect()
+							socket = null
+						}
+				
+					  });
+				
+					  socket.on('disconnect', function() {
+						term.destroy();
+					    console.log('destroyed')
+					  });
+
+				}
+			</script>
+		</div>
 		</div>
 	</div>
 				
@@ -149,7 +218,7 @@
 
 		get_technology_topics(dataJobj);
 
-		$("#home,#about,#contact,#user,#add_admin_user,#manipulate_technology,#check_messages").on('click', (event) => {
+		$("#home,#about,#contact,#user,#add_admin_user,#manipulate_technology,#check_messages,#gnome_terminal").on('click', (event) => {
 			var item = event.target.id;
 			console.log('item: ' + item)
 
@@ -180,6 +249,17 @@
 			if(item == 'home') {
 				$("#row").show()
 				$("#subject_topic").text('')
+			}
+			else if(item == 'gnome_terminal') {
+				$("#subject_topic").text('')
+				$("#row").hide()
+				
+				var arr = document.getElementById('div_gnome_terminal').getElementsByTagName('script')
+				console.log(arr.length)
+				for (var n = 0; n < arr.length; n++)
+				    eval(arr[n].innerHTML)//run script inside div
+				
+
 			}
 			else {
 				$("#subject_topic").text('')
@@ -299,5 +379,7 @@
 
 
 
- 
 
+
+
+ 

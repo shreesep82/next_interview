@@ -1,3 +1,4 @@
+var socket = null;
 
 function reset_cb()
 {			   

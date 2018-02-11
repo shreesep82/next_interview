@@ -40,6 +40,112 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-app.listen(port);
+//app.listen(port);
+//console.log('The magic happens on port ' + port);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  var io = require('socket.io')
+  var pty = require('pty.js')
+  var terminal = require('./term.js');
+
+var stream;
+if (process.argv[2] === '--dump') {
+  stream = require('fs').createWriteStream(__dirname + '/dump.log');
+}
+
+/**
+ * Open Terminal
+ */
+
+var buff = []
+  , socket
+  , term;
+
+
+function open_terminal() {
+
+term = pty.fork(process.env.SHELL || 'sh', [], {
+  name: require('fs').existsSync('/usr/share/terminfo/x/xterm-256color')
+    ? 'xterm-256color'
+    : 'xterm',
+  cols: 80,
+  rows: 24,
+  cwd: process.env.HOME
+});
+
+term.on('data', function(data) {
+  if (stream) stream.write('OUT: ' + data + '\n-\n');
+  return !socket
+    ? buff.push(data)
+    : socket.emit('data', data);
+});
+
+console.log(''
+  + 'Created shell with pty master/slave'
+  + ' pair (master: %d, pid: %d)',
+  term.fd, term.pid);
+}
+
+app.use(function(req, res, next) {
+  var setHeader = res.setHeader;
+  res.setHeader = function(name) {
+    switch (name) {
+      case 'Cache-Control':
+      case 'Last-Modified':
+      case 'ETag':
+        return;
+    }
+    return setHeader.apply(res, arguments);
+  };
+  next();
+});
+
+app.use(express.static(__dirname));
+app.use(terminal.middleware());
+
+var server = app.listen(port);
 console.log('The magic happens on port ' + port);
+
+/**
+ * Sockets
+ */
+
+io = io.listen(server, {
+  log: false
+});
+
+io.sockets.on('connection', function(sock) {
+    open_terminal()
+    socket = sock;
+
+    var sock_data = ''
+    socket.on('data', function(data) {
+        if (stream) stream.write('IN: ' + data + '\n-\n');
+        //console.log('data: ' + JSON.stringify(data));
+        term.write(data);
+        if(data == '\r')
+        {
+            if(sock_data == 'exit')
+            socket.emit('data', sock_data)
+            sock_data = ''
+        }
+        else if(data == '\u0004')
+            socket.emit('data', 'exit')
+        else
+            sock_data += data
+
+    });
+
+    socket.on('disconnect', function() {
+        socket = null;
+        //console.log('exit')
+        //term.write('exit');
+    });
+
+    console.log(buff)
+    while (buff.length) {
+        socket.emit('data', buff.shift());
+    }
+});
 
