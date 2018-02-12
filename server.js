@@ -59,13 +59,13 @@ if (process.argv[2] === '--dump') {
  */
 
 var buff = []
-  , socket
-  , term;
+var socket = {}
+  , term = {};
 
 
-function open_terminal() {
+function open_terminal(socketid) {
 
-term = pty.fork(process.env.SHELL || 'sh', [], {
+term[socketid] = pty.fork(process.env.SHELL || 'sh', [], {
   name: require('fs').existsSync('/usr/share/terminfo/x/xterm-256color')
     ? 'xterm-256color'
     : 'xterm',
@@ -74,17 +74,17 @@ term = pty.fork(process.env.SHELL || 'sh', [], {
   cwd: process.env.HOME
 });
 
-term.on('data', function(data) {
+term[socketid].on('data', function(data) {
   if (stream) stream.write('OUT: ' + data + '\n-\n');
-  return !socket
+  return !socket[socketid]
     ? buff.push(data)
-    : socket.emit('data', data);
+    : socket[socketid].emit('data', data);
 });
 
 console.log(''
   + 'Created shell with pty master/slave'
   + ' pair (master: %d, pid: %d)',
-  term.fd, term.pid);
+  term[socketid].fd, term[socketid].pid);
 }
 
 app.use(function(req, res, next) {
@@ -116,36 +116,39 @@ io = io.listen(server, {
 });
 
 io.sockets.on('connection', function(sock) {
-    open_terminal()
-    socket = sock;
+    open_terminal(sock.id)
+    socket[sock.id] = sock;
 
+	console.log(sock.id)
     var sock_data = ''
-    socket.on('data', function(data) {
+    socket[sock.id].on('data', function(data) {
         if (stream) stream.write('IN: ' + data + '\n-\n');
         //console.log('data: ' + JSON.stringify(data));
-        term.write(data);
+        term[sock.id].write(data);
         if(data == '\r')
         {
             if(sock_data == 'exit')
-            socket.emit('data', sock_data)
+            //socket.emit('data', sock_data)
+            socket[sock.id].emit('data', sock_data)
             sock_data = ''
         }
         else if(data == '\u0004')
-            socket.emit('data', 'exit')
+            //socket.emit('data', 'exit')
+            socket[sock.id].emit('data', 'exit')
         else
             sock_data += data
 
     });
 
-    socket.on('disconnect', function() {
-        socket = null;
+    socket[sock.id].on('disconnect', function() {
+        socket[sock.id] = null;
         //console.log('exit')
         //term.write('exit');
     });
 
     console.log(buff)
     while (buff.length) {
-        socket.emit('data', buff.shift());
+        socket[sock.id].emit('data', buff.shift());
     }
 });
 
