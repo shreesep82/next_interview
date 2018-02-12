@@ -126,15 +126,14 @@
 
 			<script>
 				
-				if(socket == null)
+				if(socket == null && is_terminal_needed == true)
 				{
 					//socket = io.connect('127.0.0.1', {'forceNew': true})
 					socket = io.connect('', {'forceNew': true})
 					$("#term_div").html('<table id=tab class="col-lg-12"><tr><td id=col></td></tr></table>')
 					console.log('new socket')
+					socket.on('connect', on_socket_connect);
 				}
-			
-				socket.on('connect', on_socket_connect);
 
 				function on_socket_connect()
 				{
@@ -253,6 +252,8 @@
 			else if(item == 'gnome_terminal') {
 				$("#subject_topic").text('')
 				$("#row").hide()
+				
+				is_terminal_needed = true
 				
 				var arr = document.getElementById('div_gnome_terminal').getElementsByTagName('script')
 				console.log(arr.length)
