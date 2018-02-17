@@ -59,13 +59,16 @@ if (process.argv[2] === '--dump') {
  */
 
 var buff = []
-var socket = {}
-  , term = {};
+//var socket = {}
+//  , term = {};
 
+require('./vars')
+//var jamie = require('./vars'); 
+//console.info(jamie); //{facebook: null}
 
-function open_terminal(socketid) {
+function open_terminal(user) {
 
-term[socketid] = pty.fork(process.env.SHELL || 'sh', [], {
+term[user] = pty.fork(process.env.SHELL || 'sh', [], {
   name: require('fs').existsSync('/usr/share/terminfo/x/xterm-256color')
     ? 'xterm-256color'
     : 'xterm',
@@ -74,17 +77,17 @@ term[socketid] = pty.fork(process.env.SHELL || 'sh', [], {
   cwd: process.env.HOME
 });
 
-term[socketid].on('data', function(data) {
+term[user].on('data', function(data) {
   if (stream) stream.write('OUT: ' + data + '\n-\n');
-  return !socket[socketid]
+  return !socket[user]
     ? buff.push(data)
-    : socket[socketid].emit('data', data);
+    : socket[user].emit('data', data);
 });
 
 console.log(''
   + 'Created shell with pty master/slave'
   + ' pair (master: %d, pid: %d)',
-  term[socketid].fd, term[socketid].pid);
+  term[user].fd, term[user].pid);
 }
 
 app.use(function(req, res, next) {
@@ -116,37 +119,35 @@ io = io.listen(server, {
 });
 
 io.sockets.on('connection', function(sock) {
-    open_terminal(sock.id)
-    socket[sock.id] = sock;
+	var user = sock.handshake.query.__user__
+    open_terminal(user)
+    socket[user] = sock;
 
-	term[sock.id].write('stty rows 34 cols 110\n');
+	term[user].write('stty rows 34 cols 110\n');
 
 	console.log(sock.id)
     var sock_data = ''
-    socket[sock.id].on('data', function(data) {
+    socket[user].on('data', function(data) {
         if (stream) stream.write('IN: ' + data + '\n-\n');
-        //console.log('data: ' + JSON.stringify(data));
         //console.log('data: ' + data);
 
-        term[sock.id].write(data);
-        if(data == '\r')
-        {
+        term[user].write(data);
+        if(data == '\r') {
             if(sock_data == 'exit')
-            //socket.emit('data', sock_data)
-            socket[sock.id].emit('data', sock_data)
+            socket[user].emit('data', sock_data)
             sock_data = ''
         }
-        else if(data == '\u0004')
-            //socket.emit('data', 'exit')
-            socket[sock.id].emit('data', 'exit')
+        else if(data == '\u0004') {
+            socket[user].emit('data', 'exit')
+		}
         else {
             	sock_data += data
 		}
 
     });
 
-    socket[sock.id].on('disconnect', function() {
-        socket[sock.id] = null;
+    socket[user].on('disconnect', function() {
+        socket[user] = null;
         //console.log('exit')
         //term.write('exit');
     });

@@ -104,6 +104,7 @@ function isLoggedIn(req, res, next) {
         });
     }
 
+	require('../vars')
 
     // process the signup form
     // app.post('/signup', do all our passport stuff here);
@@ -114,7 +115,11 @@ function isLoggedIn(req, res, next) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/landingpage', isLoggedIn, function(req, res) {
-
+		//console.log('user: ' + req.user.local.email)
+		if(term[req.user.local.email] != undefined) {
+			console.log('closing term for ' + req.user.local.email)
+			term[req.user.local.email].write('exit\n');
+		}
         render_landing_page(req, res)
     });
 
@@ -122,6 +127,9 @@ function isLoggedIn(req, res, next) {
     // LOGOUT ==============================
     // =====================================
     app.get('/logout', function(req, res) {
+		//console.log('user: ' + socket[req.user.local.email])
+		term[req.user.local.email].write('exit\n');
+		//console.log('user: ' + socket)
         req.logout();
         res.redirect('/');
     });
