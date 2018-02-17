@@ -22,6 +22,8 @@
 	<link href='https://fonts.googleapis.com/css?family=Federant' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Marck Script' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Arsenal' rel='stylesheet'>
+	<!--link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu Mono" /-->
+	<link href='https://fonts.googleapis.com/css?family=Ubunto Mono' rel='stylesheet'>
 
 	<script src="../term.js/src/term.js"></script>
 	<script src="/socket.io/socket.io.js">
@@ -119,9 +121,9 @@
 			You will see Different services here
 		</div>
 		
-		<div class="a6 col-lg-9 " id=div_gnome_terminal style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
+		<div class="a6" id=div_gnome_terminal style="padding-left:0px;padding-bottom:0px;padding-top:60px;display:none;" class=topics_des>
 
-			<div class="col-lg-12" id=term_div style="background-color:;">
+			<div class="col-lg-10" id=term_div style="overflow-y:auto">
 			</div>
 
 			<script>
@@ -130,7 +132,7 @@
 				{
 					//socket = io.connect('127.0.0.1', {'forceNew': true})
 					socket = io.connect('', {'forceNew': true})
-					$("#term_div").html('<table id=tab class="col-lg-12"><tr><td id=col></td></tr></table>')
+					$("#term_div").html('<table id=tab class=""><tr><td id=col></td></tr></table>')
 					console.log('new socket')
 					socket.on('connect', on_socket_connect);
 				}
@@ -138,15 +140,17 @@
 				function on_socket_connect()
 				{
 					  var term = new Terminal({
-						cols: 120,
-						rows: 36,
+						cols: 110,
+						rows: 34,
 						useStyle: true,
 						screenKeys: true,
 						cursorBlink: true
 					  });
 				
 					  term.on('data', function(data) {
-						//console.log('emit : ' + data)
+						console.log('emit : ' + data)
+						
+						data = data.replace(/.\x08/, '\\b');
 						socket.emit('data', data);
 					  });
 				
@@ -160,7 +164,7 @@
 				
 					  socket.on('data', function(data) {
 						term.write(data);
-						//console.log('data: ' + data + ' ' + data.length);
+						console.log('data: ' + data + ' ' + data.length);
 				
 						if(data == 'exit') {
 							$("#col").html('<b>Session over</b>')

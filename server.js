@@ -119,11 +119,15 @@ io.sockets.on('connection', function(sock) {
     open_terminal(sock.id)
     socket[sock.id] = sock;
 
+	term[sock.id].write('stty rows 34 cols 110\n');
+
 	console.log(sock.id)
     var sock_data = ''
     socket[sock.id].on('data', function(data) {
         if (stream) stream.write('IN: ' + data + '\n-\n');
         //console.log('data: ' + JSON.stringify(data));
+        //console.log('data: ' + data);
+
         term[sock.id].write(data);
         if(data == '\r')
         {
@@ -135,8 +139,9 @@ io.sockets.on('connection', function(sock) {
         else if(data == '\u0004')
             //socket.emit('data', 'exit')
             socket[sock.id].emit('data', 'exit')
-        else
-            sock_data += data
+        else {
+            	sock_data += data
+		}
 
     });
 
@@ -146,9 +151,11 @@ io.sockets.on('connection', function(sock) {
         //term.write('exit');
     });
 
-    console.log(buff)
+/*
+    console.log('buff: ' + buff)
     while (buff.length) {
         socket[sock.id].emit('data', buff.shift());
     }
+*/
 });
 

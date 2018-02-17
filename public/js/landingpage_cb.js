@@ -1,4 +1,5 @@
 var socket = null;
+var is_terminal_needed = false
 
 function reset_cb()
 {			   
