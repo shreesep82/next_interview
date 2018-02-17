@@ -128,7 +128,10 @@ function isLoggedIn(req, res, next) {
     // =====================================
     app.get('/logout', function(req, res) {
 		//console.log('user: ' + socket[req.user.local.email])
-		term[req.user.local.email].write('exit\n');
+		if(term[req.user.local.email] != undefined) {
+			console.log('closing term for ' + req.user.local.email)
+			term[req.user.local.email].write('exit\n');
+		}
 		//console.log('user: ' + socket)
         req.logout();
         res.redirect('/');
